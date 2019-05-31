@@ -14,7 +14,7 @@
   <mp:PhoneIdentity PhoneProductId="ec174c2a-6be8-48f4-be63-4d23e8195ab3" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>SimpleAudioBooksPlayer</DisplayName>
+    <DisplayName>Simple Audio-books Player</DisplayName>
     <PublisherDisplayName>kljzn</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -32,7 +32,7 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="SimpleAudioBooksPlayer.App">
       <uap:VisualElements
-        DisplayName="SimpleAudioBooksPlayer"
+        DisplayName="Simple Audio-books Player"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
         Description="SimpleAudioBooksPlayer"
@@ -45,5 +45,6 @@
 
   <Capabilities>
     <Capability Name="internetClient" />
+    <uap:Capability Name="musicLibrary"/>
   </Capabilities>
 </Package>
