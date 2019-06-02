@@ -16,6 +16,20 @@ namespace SimpleAudioBooksPlayer.DAL.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.2.4-servicing-10062");
 
+            modelBuilder.Entity("SimpleAudioBooksPlayer.DAL.GroupItem", b =>
+                {
+                    b.Property<int>("Index")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("HasCover");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Index");
+
+                    b.ToTable("GroupItems");
+                });
+
             modelBuilder.Entity("SimpleAudioBooksPlayer.DAL.LyricFile", b =>
                 {
                     b.Property<string>("FilePath")
@@ -47,6 +61,8 @@ namespace SimpleAudioBooksPlayer.DAL.Migrations
 
                     b.Property<string>("FileName");
 
+                    b.Property<int?>("Index");
+
                     b.Property<DateTime>("ModifyTime");
 
                     b.Property<string>("ParentFolderName");
@@ -57,7 +73,16 @@ namespace SimpleAudioBooksPlayer.DAL.Migrations
 
                     b.HasKey("FilePath");
 
+                    b.HasIndex("Index");
+
                     b.ToTable("MusicFiles");
+                });
+
+            modelBuilder.Entity("SimpleAudioBooksPlayer.DAL.MusicFile", b =>
+                {
+                    b.HasOne("SimpleAudioBooksPlayer.DAL.GroupItem", "Group")
+                        .WithMany()
+                        .HasForeignKey("Index");
                 });
 #pragma warning restore 612, 618
         }
