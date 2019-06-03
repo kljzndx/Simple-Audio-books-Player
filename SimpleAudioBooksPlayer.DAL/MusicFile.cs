@@ -12,7 +12,6 @@ namespace SimpleAudioBooksPlayer.DAL
 
         public MusicFile(string title, TimeSpan duration, string filePath, DateTime modifyTime, int dbVersion)
         {
-            Title = title;
             Duration = duration;
             FilePath = filePath;
             ModifyTime = modifyTime;
@@ -22,6 +21,7 @@ namespace SimpleAudioBooksPlayer.DAL
             ParentFolderName = filePath.TakeParentFolderName();
             ParentFolderPath = filePath.TakeParentFolderPath();
             Group = new GroupItem(ParentFolderName);
+            Title = String.IsNullOrWhiteSpace(title) ? FileName : title;
         }
 
         [ForeignKey("Index")]
