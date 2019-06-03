@@ -5,9 +5,11 @@ VisualStudioVersion = 16.0.28922.388
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAudioBooksPlayer", "SimpleAudioBooksPlayer\SimpleAudioBooksPlayer.csproj", "{8334C951-FFFA-4E8E-B3E9-D4AAE6D80088}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAudioBooksPlayer.DAL", "SimpleAudioBooksPlayer.DAL\SimpleAudioBooksPlayer.DAL.csproj", "{1411DA69-AEC1-41C4-BD1E-8838897F0974}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleAudioBooksPlayer.DAL", "SimpleAudioBooksPlayer.DAL\SimpleAudioBooksPlayer.DAL.csproj", "{1411DA69-AEC1-41C4-BD1E-8838897F0974}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAudioBooksPlayer.Migrations.Startup", "SimpleAudioBooksPlayer.Migrations.Startup\SimpleAudioBooksPlayer.Migrations.Startup.csproj", "{EE143C1C-0767-4966-A275-D2F40165B9A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleAudioBooksPlayer.Migrations.Startup", "SimpleAudioBooksPlayer.Migrations.Startup\SimpleAudioBooksPlayer.Migrations.Startup.csproj", "{EE143C1C-0767-4966-A275-D2F40165B9A3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAudioBooksPlayer.DAL.Factory", "SimpleAudioBooksPlayer.DAL.Factory\SimpleAudioBooksPlayer.DAL.Factory.csproj", "{C6B6DF71-3303-42D0-B67A-069AFC043C5E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -89,6 +91,26 @@ Global
 		{EE143C1C-0767-4966-A275-D2F40165B9A3}.Release|x64.Build.0 = Release|Any CPU
 		{EE143C1C-0767-4966-A275-D2F40165B9A3}.Release|x86.ActiveCfg = Release|Any CPU
 		{EE143C1C-0767-4966-A275-D2F40165B9A3}.Release|x86.Build.0 = Release|Any CPU
+		{C6B6DF71-3303-42D0-B67A-069AFC043C5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6B6DF71-3303-42D0-B67A-069AFC043C5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6B6DF71-3303-42D0-B67A-069AFC043C5E}.Debug|ARM.ActiveCfg = Debug|ARM
+		{C6B6DF71-3303-42D0-B67A-069AFC043C5E}.Debug|ARM.Build.0 = Debug|ARM
+		{C6B6DF71-3303-42D0-B67A-069AFC043C5E}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{C6B6DF71-3303-42D0-B67A-069AFC043C5E}.Debug|ARM64.Build.0 = Debug|ARM64
+		{C6B6DF71-3303-42D0-B67A-069AFC043C5E}.Debug|x64.ActiveCfg = Debug|x64
+		{C6B6DF71-3303-42D0-B67A-069AFC043C5E}.Debug|x64.Build.0 = Debug|x64
+		{C6B6DF71-3303-42D0-B67A-069AFC043C5E}.Debug|x86.ActiveCfg = Debug|x86
+		{C6B6DF71-3303-42D0-B67A-069AFC043C5E}.Debug|x86.Build.0 = Debug|x86
+		{C6B6DF71-3303-42D0-B67A-069AFC043C5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6B6DF71-3303-42D0-B67A-069AFC043C5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6B6DF71-3303-42D0-B67A-069AFC043C5E}.Release|ARM.ActiveCfg = Release|ARM
+		{C6B6DF71-3303-42D0-B67A-069AFC043C5E}.Release|ARM.Build.0 = Release|ARM
+		{C6B6DF71-3303-42D0-B67A-069AFC043C5E}.Release|ARM64.ActiveCfg = Release|ARM64
+		{C6B6DF71-3303-42D0-B67A-069AFC043C5E}.Release|ARM64.Build.0 = Release|ARM64
+		{C6B6DF71-3303-42D0-B67A-069AFC043C5E}.Release|x64.ActiveCfg = Release|x64
+		{C6B6DF71-3303-42D0-B67A-069AFC043C5E}.Release|x64.Build.0 = Release|x64
+		{C6B6DF71-3303-42D0-B67A-069AFC043C5E}.Release|x86.ActiveCfg = Release|x86
+		{C6B6DF71-3303-42D0-B67A-069AFC043C5E}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
