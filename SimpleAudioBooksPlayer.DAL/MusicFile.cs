@@ -6,6 +6,27 @@ namespace SimpleAudioBooksPlayer.DAL
 {
     public class MusicFile : ILibraryFile
     {
+        public MusicFile()
+        {
+        }
+
+        public MusicFile(string title, TimeSpan duration, string filePath, DateTime modifyTime, int dbVersion)
+        {
+            Title = title;
+            Duration = duration;
+            FilePath = filePath;
+            ModifyTime = modifyTime;
+            DbVersion = dbVersion;
+
+            FileName = filePath.TakeFileName();
+            ParentFolderName = filePath.TakeParentFolderName();
+            ParentFolderPath = filePath.TakeParentFolderPath();
+            Group = new GroupItem(ParentFolderName);
+        }
+
+        [ForeignKey("Index")]
+        public GroupItem Group { get; set; }
+
         public string Title { get; set; }
         public TimeSpan Duration { get; set; }
 
@@ -16,9 +37,6 @@ namespace SimpleAudioBooksPlayer.DAL
 
         public string ParentFolderName { get; set; }
         public string ParentFolderPath { get; set; }
-
-        [ForeignKey("Index")]
-        public GroupItem Group { get; set; }
 
         public int DbVersion { get; set; }
     }
