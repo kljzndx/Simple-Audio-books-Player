@@ -3,9 +3,9 @@ using Windows.Storage;
 
 namespace SimpleAudioBooksPlayer.DAL.Factory
 {
-    public interface IFileFactory
+    public interface IFileFactory<TFile> where TFile: class, ILibraryFile
     {
-        Task<ILibraryFile> CreateByFile(StorageFile file, int dbVersion);
-        Task<ILibraryFile> CreateByPath(string path, int dbVersion);
+        Task<TFile> CreateByFile(StorageFile file, int dbVersion);
+        Task<TFile> CreateByPath(string path, int dbVersion);
     }
 }
