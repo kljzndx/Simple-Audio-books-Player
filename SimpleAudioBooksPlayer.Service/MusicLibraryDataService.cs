@@ -17,7 +17,7 @@ namespace SimpleAudioBooksPlayer.Service
 
         private readonly ContextHelper<FilesContext, TFile> _helper = new ContextHelper<FilesContext, TFile>();
         private List<TFile> _source;
-        private LibraryFileScanner _scanner;
+        private readonly LibraryFileScanner _scanner;
         private readonly TFileFactory _factory = new TFileFactory();
 
         private MusicLibraryDataService(StorageLibrary library, params string[] extensionNames)
