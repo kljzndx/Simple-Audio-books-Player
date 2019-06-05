@@ -42,51 +42,51 @@ namespace SimpleAudioBooksPlayer.Service
             if (_source is null)
                 await GetData();
 
-            await _scanner.ScanByChangeTracker(async trackers =>
-            {
-                List<TFile> needAdd = new List<TFile>(), needUpdate = new List<TFile>(), needRemove = new List<TFile>();
+            //await _scanner.ScanByChangeTracker(async trackers =>
+            //{
+            //    List<TFile> needAdd = new List<TFile>(), needUpdate = new List<TFile>(), needRemove = new List<TFile>();
 
-                foreach (var item in trackers)
-                {
-                    switch (item.ChangeType)
-                    {
-                        case StorageLibraryChangeType.Created:
-                        case StorageLibraryChangeType.MovedIntoLibrary:
-                            if (_source.All(sr => sr.FilePath != item.Path))
-                                needAdd.Add(await _factory.CreateByPath(item.Path, DbVersion));
-                            break;
+            //    foreach (var item in trackers)
+            //    {
+            //        switch (item.ChangeType)
+            //        {
+            //            case StorageLibraryChangeType.Created:
+            //            case StorageLibraryChangeType.MovedIntoLibrary:
+            //                if (_source.All(sr => sr.FilePath != item.Path))
+            //                    needAdd.Add(await _factory.CreateByPath(item.Path, DbVersion));
+            //                break;
 
-                        case StorageLibraryChangeType.Deleted:
-                        case StorageLibraryChangeType.MovedOutOfLibrary:
-                            if (_source.Any(sr => sr.FilePath == item.Path))
-                                needRemove.Add(_source.Find(f => f.FilePath == item.Path));
-                            break;
+            //            case StorageLibraryChangeType.Deleted:
+            //            case StorageLibraryChangeType.MovedOutOfLibrary:
+            //                if (_source.Any(sr => sr.FilePath == item.Path))
+            //                    needRemove.Add(_source.Find(f => f.FilePath == item.Path));
+            //                break;
 
-                        case StorageLibraryChangeType.ContentsChanged:
-                        case StorageLibraryChangeType.ContentsReplaced:
-                            if (_source.Any(sr => sr.FilePath == item.Path))
-                                needUpdate.Add(await _factory.CreateByPath(item.Path, DbVersion));
-                            break;
+            //            case StorageLibraryChangeType.ContentsChanged:
+            //            case StorageLibraryChangeType.ContentsReplaced:
+            //                if (_source.Any(sr => sr.FilePath == item.Path))
+            //                    needUpdate.Add(await _factory.CreateByPath(item.Path, DbVersion));
+            //                break;
 
-                        case StorageLibraryChangeType.MovedOrRenamed:
-                            if (_source.Any(sr => sr.FilePath == item.PreviousPath))
-                                needRemove.Add(_source.Find(f => f.FilePath == item.PreviousPath));
+            //            case StorageLibraryChangeType.MovedOrRenamed:
+            //                if (_source.Any(sr => sr.FilePath == item.PreviousPath))
+            //                    needRemove.Add(_source.Find(f => f.FilePath == item.PreviousPath));
                             
-                            if (_source.All(sr => sr.FilePath != item.Path))
-                                needAdd.Add(await _factory.CreateByPath(item.Path, DbVersion));
-                            break;
-                    }
-                }
+            //                if (_source.All(sr => sr.FilePath != item.Path))
+            //                    needAdd.Add(await _factory.CreateByPath(item.Path, DbVersion));
+            //                break;
+            //        }
+            //    }
 
-                if (needAdd.Any())
-                    await AddRange(needAdd);
+            //    if (needAdd.Any())
+            //        await AddRange(needAdd);
 
-                if (needUpdate.Any())
-                    await UpdateRange(needUpdate);
+            //    if (needUpdate.Any())
+            //        await UpdateRange(needUpdate);
 
-                if (needRemove.Any())
-                    await RemoveRange(needRemove);
-            });
+            //    if (needRemove.Any())
+            //        await RemoveRange(needRemove);
+            //});
 
             var allFilePath = new List<string>();
 
