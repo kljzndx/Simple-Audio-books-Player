@@ -7,7 +7,7 @@ namespace SimpleAudioBooksPlayer.DAL
     {
         public DbSet<MusicFile> MusicFiles { get; set; }
         public DbSet<LyricFile> LyricFiles { get; set; }
-        public DbSet<GroupItem> GroupItems { get; set; }
+        public DbSet<MusicGroup> GroupItems { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

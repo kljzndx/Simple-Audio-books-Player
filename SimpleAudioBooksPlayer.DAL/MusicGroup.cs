@@ -1,21 +1,24 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace SimpleAudioBooksPlayer.DAL
 {
-    public class GroupItem
+    public class MusicGroup
     {
-        public GroupItem()
+        public MusicGroup()
         {
         }
 
-        public GroupItem(string name)
+        public MusicGroup(string name)
         {
             Name = name;
+            CreateTime = DateTime.Now;
         }
 
         [Key]
         public int Index { get; set; }
         public string Name { get; set; }
         public bool HasCover { get; set; }
+        public DateTime CreateTime { get; set; }
     }
 }

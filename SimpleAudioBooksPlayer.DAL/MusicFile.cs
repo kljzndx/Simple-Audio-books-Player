@@ -20,12 +20,12 @@ namespace SimpleAudioBooksPlayer.DAL
             FileName = filePath.TakeFileName();
             ParentFolderName = filePath.TakeParentFolderName();
             ParentFolderPath = filePath.TakeParentFolderPath();
-            Group = new GroupItem(ParentFolderName);
+            Group = new MusicGroup(ParentFolderName);
             Title = String.IsNullOrWhiteSpace(title) ? FileName : title;
         }
 
         [ForeignKey("Index")]
-        public GroupItem Group { get; set; }
+        public MusicGroup Group { get; set; }
 
         public string Title { get; set; }
         public TimeSpan Duration { get; set; }

@@ -14,7 +14,8 @@ namespace SimpleAudioBooksPlayer.DAL.Migrations
                     Index = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(nullable: true),
-                    HasCover = table.Column<bool>(nullable: false)
+                    HasCover = table.Column<bool>(nullable: false),
+                    CreateTime = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -42,13 +43,13 @@ namespace SimpleAudioBooksPlayer.DAL.Migrations
                 columns: table => new
                 {
                     FilePath = table.Column<string>(nullable: false),
+                    Index = table.Column<int>(nullable: true),
                     Title = table.Column<string>(nullable: true),
                     Duration = table.Column<TimeSpan>(nullable: false),
                     FileName = table.Column<string>(nullable: true),
                     ModifyTime = table.Column<DateTime>(nullable: false),
                     ParentFolderName = table.Column<string>(nullable: true),
                     ParentFolderPath = table.Column<string>(nullable: true),
-                    Index = table.Column<int>(nullable: true),
                     DbVersion = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
