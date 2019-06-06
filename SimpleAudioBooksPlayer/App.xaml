@@ -2,6 +2,10 @@
     x:Class="SimpleAudioBooksPlayer.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:SimpleAudioBooksPlayer">
+    xmlns:vm="using:SimpleAudioBooksPlayer.ViewModels">
+
+    <Application.Resources>
+        <vm:ViewModelLocator x:Key="Locator"/>
+    </Application.Resources>
 
 </Application>
