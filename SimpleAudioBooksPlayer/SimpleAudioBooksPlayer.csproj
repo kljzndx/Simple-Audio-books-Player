@@ -120,6 +120,7 @@
     </Compile>
     <Compile Include="ViewModels\DataServer\IDataServer.cs" />
     <Compile Include="ViewModels\DataServer\IFileDataServer.cs" />
+    <Compile Include="ViewModels\DataServer\MusicFileDataServer.cs" />
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>

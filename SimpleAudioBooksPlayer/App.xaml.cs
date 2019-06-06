@@ -8,6 +8,7 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -15,6 +16,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using SimpleAudioBooksPlayer.Service;
+using SimpleAudioBooksPlayer.ViewModels.DataServer;
 
 namespace SimpleAudioBooksPlayer
 {
@@ -23,6 +26,8 @@ namespace SimpleAudioBooksPlayer
     /// </summary>
     sealed partial class App : Application
     {
+        private bool _canRefreshData = true;
+        
         /// <summary>
         /// 初始化单一实例应用程序对象。这是执行的创作代码的第一行，
         /// 已执行，逻辑上等同于 main() 或 WinMain()。
@@ -58,6 +63,7 @@ namespace SimpleAudioBooksPlayer
 
                 // 将框架放在当前窗口中
                 Window.Current.Content = rootFrame;
+                Window.Current.Activated += Window_Activated;
             }
 
             if (e.PrelaunchActivated == false)
@@ -71,6 +77,27 @@ namespace SimpleAudioBooksPlayer
                 }
                 // 确保当前窗口处于活动状态
                 Window.Current.Activate();
+            }
+        }
+
+        private async void Window_Activated(object sender, WindowActivatedEventArgs e)
+        {
+            Window window = sender as Window;
+            if (window is null)
+                return;
+
+            if (_canRefreshData && e.WindowActivationState != CoreWindowActivationState.Deactivated)
+            {
+                _canRefreshData = false;
+
+                await window.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                {
+                    await MusicFileDataServer.Current.Init();
+
+                    await MusicLibraryDataServiceManager.Current.ScanFiles();
+                });
+
+                _canRefreshData = true;
             }
         }
 
