@@ -124,6 +124,7 @@
     <Compile Include="IObservableDataService.cs" />
     <Compile Include="MusicLibraryDataService.cs" />
     <Compile Include="ContextHelper.cs" />
+    <Compile Include="MusicLibraryDataServiceManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\SimpleAudioBooksPlayer.Service.rd.xml" />
   </ItemGroup>
