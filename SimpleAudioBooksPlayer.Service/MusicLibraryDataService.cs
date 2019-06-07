@@ -103,7 +103,7 @@ namespace SimpleAudioBooksPlayer.Service
                     // 添加数据
                     {
                         if (_source.All(f => f.FilePath != file.Path))
-                            needAdd.Add(await _factory.CreateByFile(file, DbVersion));
+                            needAdd.Add(await _factory.CreateByFile(file, DbVersion, null));
                     }
 
                     // 更新数据
@@ -114,7 +114,7 @@ namespace SimpleAudioBooksPlayer.Service
                             oldData.Any(od => od == d)));
 
                         if (isNeed)
-                            needUpdate.Add(await _factory.CreateByFile(file, DbVersion));
+                            needUpdate.Add(await _factory.CreateByFile(file, DbVersion, null));
                     }
                 }
 

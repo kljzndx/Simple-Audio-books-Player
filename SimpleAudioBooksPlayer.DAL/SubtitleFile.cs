@@ -9,8 +9,9 @@ namespace SimpleAudioBooksPlayer.DAL
         {
         }
 
-        public SubtitleFile(string filePath, DateTime modifyTime, int dbVersion)
+        public SubtitleFile(FileGroup group, string filePath, DateTime modifyTime, int dbVersion)
         {
+            Group = group;
             FilePath = filePath;
             ModifyTime = modifyTime;
             DbVersion = dbVersion;

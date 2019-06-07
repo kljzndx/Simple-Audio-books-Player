@@ -10,8 +10,9 @@ namespace SimpleAudioBooksPlayer.DAL
         {
         }
 
-        public MusicFile(string title, TimeSpan duration, string filePath, DateTime modifyTime, int dbVersion)
+        public MusicFile(FileGroup group, string title, TimeSpan duration, string filePath, DateTime modifyTime, int dbVersion)
         {
+            Group = group;
             Duration = duration;
             FilePath = filePath;
             ModifyTime = modifyTime;
