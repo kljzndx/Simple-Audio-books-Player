@@ -129,7 +129,7 @@ namespace SimpleAudioBooksPlayer.Service
             needRemoveFiles.AddRange(_source.Where(src => allFilePath.All(fp => fp != src.FilePath)));
 
             if (needRemoveFiles.Any())
-                await UpdateRange(needRemoveFiles);
+                await RemoveRange(needRemoveFiles);
         }
 
         private async Task AddRange(IEnumerable<TFile> datas)
