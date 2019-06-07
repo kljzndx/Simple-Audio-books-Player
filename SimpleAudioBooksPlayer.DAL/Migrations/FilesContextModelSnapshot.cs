@@ -16,24 +16,22 @@ namespace SimpleAudioBooksPlayer.DAL.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.2.4-servicing-10062");
 
-            modelBuilder.Entity("SimpleAudioBooksPlayer.DAL.LyricFile", b =>
+            modelBuilder.Entity("SimpleAudioBooksPlayer.DAL.FileGroup", b =>
                 {
-                    b.Property<string>("FilePath")
+                    b.Property<int>("Index")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("DbVersion");
+                    b.Property<DateTime>("CreateTime");
 
-                    b.Property<string>("FileName");
+                    b.Property<string>("FolderPath");
 
-                    b.Property<DateTime>("ModifyTime");
+                    b.Property<bool>("HasCover");
 
-                    b.Property<string>("ParentFolderName");
+                    b.Property<string>("Name");
 
-                    b.Property<string>("ParentFolderPath");
+                    b.HasKey("Index");
 
-                    b.HasKey("FilePath");
-
-                    b.ToTable("LyricFiles");
+                    b.ToTable("FileGroups");
                 });
 
             modelBuilder.Entity("SimpleAudioBooksPlayer.DAL.MusicFile", b =>
@@ -64,27 +62,42 @@ namespace SimpleAudioBooksPlayer.DAL.Migrations
                     b.ToTable("MusicFiles");
                 });
 
-            modelBuilder.Entity("SimpleAudioBooksPlayer.DAL.MusicGroup", b =>
+            modelBuilder.Entity("SimpleAudioBooksPlayer.DAL.SubtitleFile", b =>
                 {
-                    b.Property<int>("Index")
+                    b.Property<string>("FilePath")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("CreateTime");
+                    b.Property<int>("DbVersion");
 
-                    b.Property<bool>("HasCover");
+                    b.Property<string>("FileName");
 
-                    b.Property<string>("Name");
+                    b.Property<int?>("GroupIndex");
 
-                    b.HasKey("Index");
+                    b.Property<DateTime>("ModifyTime");
 
-                    b.ToTable("GroupItems");
+                    b.Property<string>("ParentFolderName");
+
+                    b.Property<string>("ParentFolderPath");
+
+                    b.HasKey("FilePath");
+
+                    b.HasIndex("GroupIndex");
+
+                    b.ToTable("SubtitleFiles");
                 });
 
             modelBuilder.Entity("SimpleAudioBooksPlayer.DAL.MusicFile", b =>
                 {
-                    b.HasOne("SimpleAudioBooksPlayer.DAL.MusicGroup", "Group")
+                    b.HasOne("SimpleAudioBooksPlayer.DAL.FileGroup", "Group")
                         .WithMany()
                         .HasForeignKey("Index");
+                });
+
+            modelBuilder.Entity("SimpleAudioBooksPlayer.DAL.SubtitleFile", b =>
+                {
+                    b.HasOne("SimpleAudioBooksPlayer.DAL.FileGroup", "Group")
+                        .WithMany()
+                        .HasForeignKey("GroupIndex");
                 });
 #pragma warning restore 612, 618
         }

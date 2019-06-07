@@ -7,7 +7,8 @@ namespace SimpleAudioBooksPlayer.Models.DTO
     {
         public MusicFileDTO(MusicFile source)
         {
-            Group = new MusicGroupDTO(source.Group);
+            if (source.Group != null)
+                Group = new FileGroupDTO(source.Group);
             Title = source.Title;
             Duration = source.Duration;
             FileName = source.FileName;
@@ -15,7 +16,7 @@ namespace SimpleAudioBooksPlayer.Models.DTO
             ModifyTime = source.ModifyTime;
         }
 
-        public MusicGroupDTO Group { get; set; }
+        public FileGroupDTO Group { get; set; }
 
         public string Title { get; set; }
         public TimeSpan Duration { get; set; }

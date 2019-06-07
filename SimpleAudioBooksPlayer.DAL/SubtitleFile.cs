@@ -3,13 +3,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SimpleAudioBooksPlayer.DAL
 {
-    public class LyricFile : ILibraryFile
+    public class SubtitleFile : ILibraryFile
     {
-        public LyricFile()
+        public SubtitleFile()
         {
         }
 
-        public LyricFile(string filePath, DateTime modifyTime, int dbVersion)
+        public SubtitleFile(string filePath, DateTime modifyTime, int dbVersion)
         {
             FilePath = filePath;
             ModifyTime = modifyTime;
@@ -20,6 +20,7 @@ namespace SimpleAudioBooksPlayer.DAL
             ParentFolderPath = filePath.TakeParentFolderPath();
         }
 
+        public FileGroup Group { get; set; }
         public string FileName { get; set; }
         [Key]
         public string FilePath { get; set; }

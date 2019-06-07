@@ -12,7 +12,7 @@ namespace SimpleAudioBooksPlayer.Service
         public static readonly MusicLibraryDataServiceManager Current;
 
         private MusicLibraryDataService<MusicFile, MusicFileFactory> _musicService;
-        private MusicLibraryDataService<LyricFile, LyricFileFactory> _lyricService;
+        private MusicLibraryDataService<SubtitleFile, SubtitleFileFactory> _lyricService;
 
         static MusicLibraryDataServiceManager()
         {
@@ -28,10 +28,10 @@ namespace SimpleAudioBooksPlayer.Service
             return _musicService;
         }
 
-        public async Task<MusicLibraryDataService<LyricFile, LyricFileFactory>> GetLyricService()
+        public async Task<MusicLibraryDataService<SubtitleFile, SubtitleFileFactory>> GetLyricService()
         {
             if (_lyricService is null)
-                _lyricService = await MusicLibraryDataService<LyricFile, LyricFileFactory>.GetService(LyricExtensionNames);
+                _lyricService = await MusicLibraryDataService<SubtitleFile, SubtitleFileFactory>.GetService(LyricExtensionNames);
 
             return _lyricService;
         }

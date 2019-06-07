@@ -6,8 +6,8 @@ namespace SimpleAudioBooksPlayer.DAL
     public class FilesContext : DbContext
     {
         public DbSet<MusicFile> MusicFiles { get; set; }
-        public DbSet<LyricFile> LyricFiles { get; set; }
-        public DbSet<MusicGroup> GroupItems { get; set; }
+        public DbSet<SubtitleFile> SubtitleFiles { get; set; }
+        public DbSet<FileGroup> FileGroups { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

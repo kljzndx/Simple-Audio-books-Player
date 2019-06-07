@@ -121,7 +121,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="IFileFactory.cs" />
-    <Compile Include="LyricFileFactory.cs" />
+    <Compile Include="SubtitleFileFactory.cs" />
     <Compile Include="MusicFileFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\SimpleAudioBooksPlayer.DAL.Factory.rd.xml" />
