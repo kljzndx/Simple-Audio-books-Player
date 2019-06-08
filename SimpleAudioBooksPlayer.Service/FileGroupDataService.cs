@@ -27,7 +27,7 @@ namespace SimpleAudioBooksPlayer.Service
             if (_source == null)
                 _source = await _helper.ToList();
 
-            return _source;
+            return _source.ToList();
         }
 
         public async Task RenameGroup(int geoupId, string newName)

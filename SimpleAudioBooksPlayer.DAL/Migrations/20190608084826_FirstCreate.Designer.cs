@@ -9,7 +9,7 @@ using SimpleAudioBooksPlayer.DAL;
 namespace SimpleAudioBooksPlayer.DAL.Migrations
 {
     [DbContext(typeof(FilesContext))]
-    [Migration("20190607114920_FirstCreate")]
+    [Migration("20190608084826_FirstCreate")]
     partial class FirstCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -73,7 +73,7 @@ namespace SimpleAudioBooksPlayer.DAL.Migrations
 
                     b.Property<string>("FileName");
 
-                    b.Property<int?>("GroupIndex");
+                    b.Property<int?>("Index");
 
                     b.Property<DateTime>("ModifyTime");
 
@@ -83,7 +83,7 @@ namespace SimpleAudioBooksPlayer.DAL.Migrations
 
                     b.HasKey("FilePath");
 
-                    b.HasIndex("GroupIndex");
+                    b.HasIndex("Index");
 
                     b.ToTable("SubtitleFiles");
                 });
@@ -99,7 +99,7 @@ namespace SimpleAudioBooksPlayer.DAL.Migrations
                 {
                     b.HasOne("SimpleAudioBooksPlayer.DAL.FileGroup", "Group")
                         .WithMany()
-                        .HasForeignKey("GroupIndex");
+                        .HasForeignKey("Index");
                 });
 #pragma warning restore 612, 618
         }

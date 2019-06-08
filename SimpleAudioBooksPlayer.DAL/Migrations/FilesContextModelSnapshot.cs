@@ -71,7 +71,7 @@ namespace SimpleAudioBooksPlayer.DAL.Migrations
 
                     b.Property<string>("FileName");
 
-                    b.Property<int?>("GroupIndex");
+                    b.Property<int?>("Index");
 
                     b.Property<DateTime>("ModifyTime");
 
@@ -81,7 +81,7 @@ namespace SimpleAudioBooksPlayer.DAL.Migrations
 
                     b.HasKey("FilePath");
 
-                    b.HasIndex("GroupIndex");
+                    b.HasIndex("Index");
 
                     b.ToTable("SubtitleFiles");
                 });
@@ -97,7 +97,7 @@ namespace SimpleAudioBooksPlayer.DAL.Migrations
                 {
                     b.HasOne("SimpleAudioBooksPlayer.DAL.FileGroup", "Group")
                         .WithMany()
-                        .HasForeignKey("GroupIndex");
+                        .HasForeignKey("Index");
                 });
 #pragma warning restore 612, 618
         }

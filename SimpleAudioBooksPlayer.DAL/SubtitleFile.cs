@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SimpleAudioBooksPlayer.DAL
 {
@@ -21,6 +22,8 @@ namespace SimpleAudioBooksPlayer.DAL
             ParentFolderPath = filePath.TakeParentFolderPath();
         }
 
+
+        [ForeignKey("Index")]
         public FileGroup Group { get; set; }
         public string FileName { get; set; }
         [Key]

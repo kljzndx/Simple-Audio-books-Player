@@ -53,7 +53,7 @@ namespace SimpleAudioBooksPlayer.DAL.Migrations
                 columns: table => new
                 {
                     FilePath = table.Column<string>(nullable: false),
-                    GroupIndex = table.Column<int>(nullable: true),
+                    Index = table.Column<int>(nullable: true),
                     FileName = table.Column<string>(nullable: true),
                     ModifyTime = table.Column<DateTime>(nullable: false),
                     ParentFolderName = table.Column<string>(nullable: true),
@@ -64,8 +64,8 @@ namespace SimpleAudioBooksPlayer.DAL.Migrations
                 {
                     table.PrimaryKey("PK_SubtitleFiles", x => x.FilePath);
                     table.ForeignKey(
-                        name: "FK_SubtitleFiles_FileGroups_GroupIndex",
-                        column: x => x.GroupIndex,
+                        name: "FK_SubtitleFiles_FileGroups_Index",
+                        column: x => x.Index,
                         principalTable: "FileGroups",
                         principalColumn: "Index",
                         onDelete: ReferentialAction.Restrict);
@@ -77,9 +77,9 @@ namespace SimpleAudioBooksPlayer.DAL.Migrations
                 column: "Index");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SubtitleFiles_GroupIndex",
+                name: "IX_SubtitleFiles_Index",
                 table: "SubtitleFiles",
-                column: "GroupIndex");
+                column: "Index");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
