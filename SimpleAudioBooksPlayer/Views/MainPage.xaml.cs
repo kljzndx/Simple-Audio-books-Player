@@ -1,4 +1,8 @@
-﻿using Windows.UI.Xaml.Controls;
+﻿using System;
+using Windows.Storage;
+using Windows.System;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
 
@@ -12,6 +16,11 @@ namespace SimpleAudioBooksPlayer.Views
         public MainPage()
         {
             this.InitializeComponent();
+        }
+
+        private async void Button_OnClick(object sender, RoutedEventArgs e)
+        {
+            await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
         }
     }
 }
