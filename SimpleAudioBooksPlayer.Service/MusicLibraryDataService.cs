@@ -144,7 +144,13 @@ namespace SimpleAudioBooksPlayer.Service
             if (needRemoveFiles.Any())
             {
                 await RemoveRange(needRemoveFiles);
-                await _groupService.RemoveRange(needRemoveFiles.Select(f => f.FilePath.TakeParentFolderPath()).Distinct());
+
+                var groups = await _groupService.GetData();
+                var needRemoveGroupPaths = groups.Where(g => _source.All(src => src.ParentFolderPath != g.FolderPath))
+                    .Select(g => g.FolderPath).ToList();
+
+                if (needRemoveGroupPaths.Any())
+                    await _groupService.RemoveRange(needRemoveGroupPaths);
             }
         }
 
