@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace SimpleAudioBooksPlayer.DAL
 {
-    internal static class StringExtensions
+    public static class StringExtensions
     {
         public static string TakeFileName(this string path)
         {

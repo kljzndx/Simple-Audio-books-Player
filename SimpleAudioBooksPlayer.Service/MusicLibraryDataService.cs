@@ -15,6 +15,8 @@ namespace SimpleAudioBooksPlayer.Service
         private const int DbVersion = 1;
         private static MusicLibraryDataService<TFile, TFileFactory> _theService;
 
+        private readonly FileGroupDataService _groupService = FileGroupDataService.Current;
+
         private readonly ContextHelper<FilesContext, TFile> _helper = new ContextHelper<FilesContext, TFile>();
         private List<TFile> _source;
         private readonly LibraryFileScanner _scanner;
@@ -93,8 +95,19 @@ namespace SimpleAudioBooksPlayer.Service
             await _scanner.ScanByFolder(async files =>
             {
                 var fileList = files.ToList();
-                allFilePath.AddRange(fileList.Select(f => f.Path));
+                var filePaths = fileList.Select(f => f.Path).ToList();
+                allFilePath.AddRange(filePaths);
 
+                {
+                    var groupData = await _groupService.GetData();
+                    var folderPaths = filePaths.Select(p => p.TakeParentFolderPath()).Distinct()
+                        .Where(fp => groupData.All(g => g.FolderPath != fp)).ToList();
+
+                    if (folderPaths.Any())
+                        await _groupService.AddRange(folderPaths);
+                }
+
+                var groups = await _groupService.GetData();
                 List<TFile> needAdd = new List<TFile>(), needUpdate = new List<TFile>();
                 var oldData = _source.Where(src => src.DbVersion != DbVersion && fileList.Any(sf => sf.Path == src.FilePath));
 
@@ -103,7 +116,7 @@ namespace SimpleAudioBooksPlayer.Service
                     // 添加数据
                     {
                         if (_source.All(f => f.FilePath != file.Path))
-                            needAdd.Add(await _factory.CreateByFile(file, DbVersion, null));
+                            needAdd.Add(await _factory.CreateByFile(file, DbVersion, groups.Find(g => g.FolderPath == file.Path.TakeParentFolderPath())));
                     }
 
                     // 更新数据
@@ -114,7 +127,7 @@ namespace SimpleAudioBooksPlayer.Service
                             oldData.Any(od => od == d)));
 
                         if (isNeed)
-                            needUpdate.Add(await _factory.CreateByFile(file, DbVersion, null));
+                            needUpdate.Add(await _factory.CreateByFile(file, DbVersion, groups.Find(g => g.FolderPath == file.Path.TakeParentFolderPath())));
                     }
                 }
 
@@ -129,7 +142,10 @@ namespace SimpleAudioBooksPlayer.Service
             needRemoveFiles.AddRange(_source.Where(src => allFilePath.All(fp => fp != src.FilePath)));
 
             if (needRemoveFiles.Any())
+            {
                 await RemoveRange(needRemoveFiles);
+                await _groupService.RemoveRange(needRemoveFiles.Select(f => f.FilePath.TakeParentFolderPath()).Distinct());
+            }
         }
 
         private async Task AddRange(IEnumerable<TFile> datas)
