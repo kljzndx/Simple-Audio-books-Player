@@ -92,6 +92,7 @@ namespace SimpleAudioBooksPlayer
 
                 await window.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                 {
+                    await FileGroupDataServer.Current.Init();
                     await MusicFileDataServer.Current.Init();
 
                     await MusicLibraryDataServiceManager.Current.ScanFiles();

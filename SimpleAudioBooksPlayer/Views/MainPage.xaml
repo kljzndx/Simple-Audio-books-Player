@@ -15,6 +15,6 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Button Content="打开本地文件夹" Click="Button_OnClick"/>
-        <Frame Grid.Row="1" SourcePageType="local:MusicListPage"/>
+        <Frame Grid.Row="1"/>
     </Grid>
 </Page>

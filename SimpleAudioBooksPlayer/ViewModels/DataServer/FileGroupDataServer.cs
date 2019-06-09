@@ -44,8 +44,11 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
         private void Service_DataAdded(object sender, IEnumerable<FileGroup> e)
         {
-            foreach (var group in e)
-                Data.Add(new FileGroupDTO(group));
+            var needAdd = e.Select(g => new FileGroupDTO(g)).ToList();
+            foreach (var group in needAdd)
+                Data.Add(group);
+
+            DataAdded?.Invoke(this, needAdd);
         }
 
         private void Service_DataRemoved(object sender, IEnumerable<FileGroup> e)
@@ -53,6 +56,8 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             var needRemove = new List<FileGroupDTO>(Data.Where(src => e.Any(g => g.Index == src.Index)));
             foreach (var groupDto in needRemove)
                 Data.Remove(groupDto);
+
+            DataRemoved?.Invoke(this, needRemove);
         }
 
         private void Service_DataUpdated(object sender, IEnumerable<FileGroup> e)
@@ -62,8 +67,12 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             foreach (var groupDto in needRemove)
                 Data.Remove(groupDto);
 
-            foreach (var group in list)
-                Data.Add(new FileGroupDTO(group));
+            var needAdd = list.Select(g => new FileGroupDTO(g)).ToList();
+            foreach (var group in needAdd)
+                Data.Add(group);
+
+            DataRemoved?.Invoke(this, needRemove);
+            DataAdded?.Invoke(this, needAdd);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Linq;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
 using SimpleAudioBooksPlayer.Models.DTO;
@@ -12,7 +13,7 @@ namespace SimpleAudioBooksPlayer.ViewModels
     {
         private MusicFileDataServer _server;
         private ObservableCollection<MusicFileDTO> _data = new ObservableCollection<MusicFileDTO>();
-        private FileGroupDTO _group;
+        private int _groupId;
 
         public MusicListViewModel()
         {
@@ -27,19 +28,20 @@ namespace SimpleAudioBooksPlayer.ViewModels
             set => Set(ref _data, value);
         }
 
-        public void RefreshData()
+        public void RefreshData(int groupId)
         {
-            foreach (var fileDto in _server.Data)
+            foreach (var fileDto in _server.Data.Where(g => g.GroupId == groupId))
                 Data.Add(fileDto);
 
             _server.Data.CollectionChanged += Server_Data_CollectionChanged;
+            _groupId = groupId;
         }
 
         private void Server_Data_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.NewItems != null)
                 foreach (MusicFileDTO item in e.NewItems)
-                    //if (_group != null && _group.Equals(item.Group))
+                    if (item.GroupId == _groupId)
                         Data.Add(item);
 
             if (e.OldItems != null)

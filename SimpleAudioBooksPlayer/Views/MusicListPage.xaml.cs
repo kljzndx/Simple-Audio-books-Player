@@ -32,8 +32,11 @@ namespace SimpleAudioBooksPlayer.Views
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            base.OnNavigatedTo(e);
-            _vm.RefreshData();
+            if (e.Parameter is null)
+                return;
+
+            var groupId = (int) e.Parameter;
+            _vm.RefreshData(groupId);
         }
     }
 }
