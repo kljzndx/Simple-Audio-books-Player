@@ -9,7 +9,7 @@ using SimpleAudioBooksPlayer.DAL;
 namespace SimpleAudioBooksPlayer.DAL.Migrations
 {
     [DbContext(typeof(FilesContext))]
-    [Migration("20190608084826_FirstCreate")]
+    [Migration("20190609040339_FirstCreate")]
     partial class FirstCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
