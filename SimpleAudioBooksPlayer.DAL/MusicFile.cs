@@ -12,7 +12,7 @@ namespace SimpleAudioBooksPlayer.DAL
 
         public MusicFile(FileGroup group, string title, TimeSpan duration, string filePath, DateTime modifyTime, int dbVersion)
         {
-            Group = group;
+            GroupId = group.Index;
             Duration = duration;
             FilePath = filePath;
             ModifyTime = modifyTime;
@@ -24,8 +24,7 @@ namespace SimpleAudioBooksPlayer.DAL
             Title = String.IsNullOrWhiteSpace(title) ? FileName : title;
         }
 
-        [ForeignKey("Index")]
-        public FileGroup Group { get; set; }
+        public int GroupId { get; set; }
 
         public string Title { get; set; }
         public TimeSpan Duration { get; set; }

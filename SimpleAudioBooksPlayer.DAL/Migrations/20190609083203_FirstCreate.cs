@@ -28,7 +28,7 @@ namespace SimpleAudioBooksPlayer.DAL.Migrations
                 columns: table => new
                 {
                     FilePath = table.Column<string>(nullable: false),
-                    Index = table.Column<int>(nullable: true),
+                    GroupId = table.Column<int>(nullable: false),
                     Title = table.Column<string>(nullable: true),
                     Duration = table.Column<TimeSpan>(nullable: false),
                     FileName = table.Column<string>(nullable: true),
@@ -40,12 +40,6 @@ namespace SimpleAudioBooksPlayer.DAL.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_MusicFiles", x => x.FilePath);
-                    table.ForeignKey(
-                        name: "FK_MusicFiles_FileGroups_Index",
-                        column: x => x.Index,
-                        principalTable: "FileGroups",
-                        principalColumn: "Index",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -53,7 +47,7 @@ namespace SimpleAudioBooksPlayer.DAL.Migrations
                 columns: table => new
                 {
                     FilePath = table.Column<string>(nullable: false),
-                    Index = table.Column<int>(nullable: true),
+                    GroupId = table.Column<int>(nullable: false),
                     FileName = table.Column<string>(nullable: true),
                     ModifyTime = table.Column<DateTime>(nullable: false),
                     ParentFolderName = table.Column<string>(nullable: true),
@@ -63,35 +57,19 @@ namespace SimpleAudioBooksPlayer.DAL.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SubtitleFiles", x => x.FilePath);
-                    table.ForeignKey(
-                        name: "FK_SubtitleFiles_FileGroups_Index",
-                        column: x => x.Index,
-                        principalTable: "FileGroups",
-                        principalColumn: "Index",
-                        onDelete: ReferentialAction.Restrict);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_MusicFiles_Index",
-                table: "MusicFiles",
-                column: "Index");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SubtitleFiles_Index",
-                table: "SubtitleFiles",
-                column: "Index");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "FileGroups");
+
+            migrationBuilder.DropTable(
                 name: "MusicFiles");
 
             migrationBuilder.DropTable(
                 name: "SubtitleFiles");
-
-            migrationBuilder.DropTable(
-                name: "FileGroups");
         }
     }
 }

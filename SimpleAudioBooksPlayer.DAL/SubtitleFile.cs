@@ -12,7 +12,7 @@ namespace SimpleAudioBooksPlayer.DAL
 
         public SubtitleFile(FileGroup group, string filePath, DateTime modifyTime, int dbVersion)
         {
-            Group = group;
+            GroupId = group.Index;
             FilePath = filePath;
             ModifyTime = modifyTime;
             DbVersion = dbVersion;
@@ -22,9 +22,7 @@ namespace SimpleAudioBooksPlayer.DAL
             ParentFolderPath = filePath.TakeParentFolderPath();
         }
 
-
-        [ForeignKey("Index")]
-        public FileGroup Group { get; set; }
+        public int GroupId { get; set; }
         public string FileName { get; set; }
         [Key]
         public string FilePath { get; set; }

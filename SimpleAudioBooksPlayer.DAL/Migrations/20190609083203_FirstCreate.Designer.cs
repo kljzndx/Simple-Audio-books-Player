@@ -9,7 +9,7 @@ using SimpleAudioBooksPlayer.DAL;
 namespace SimpleAudioBooksPlayer.DAL.Migrations
 {
     [DbContext(typeof(FilesContext))]
-    [Migration("20190609040339_FirstCreate")]
+    [Migration("20190609083203_FirstCreate")]
     partial class FirstCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -47,7 +47,7 @@ namespace SimpleAudioBooksPlayer.DAL.Migrations
 
                     b.Property<string>("FileName");
 
-                    b.Property<int?>("Index");
+                    b.Property<int>("GroupId");
 
                     b.Property<DateTime>("ModifyTime");
 
@@ -58,8 +58,6 @@ namespace SimpleAudioBooksPlayer.DAL.Migrations
                     b.Property<string>("Title");
 
                     b.HasKey("FilePath");
-
-                    b.HasIndex("Index");
 
                     b.ToTable("MusicFiles");
                 });
@@ -73,7 +71,7 @@ namespace SimpleAudioBooksPlayer.DAL.Migrations
 
                     b.Property<string>("FileName");
 
-                    b.Property<int?>("Index");
+                    b.Property<int>("GroupId");
 
                     b.Property<DateTime>("ModifyTime");
 
@@ -83,23 +81,7 @@ namespace SimpleAudioBooksPlayer.DAL.Migrations
 
                     b.HasKey("FilePath");
 
-                    b.HasIndex("Index");
-
                     b.ToTable("SubtitleFiles");
-                });
-
-            modelBuilder.Entity("SimpleAudioBooksPlayer.DAL.MusicFile", b =>
-                {
-                    b.HasOne("SimpleAudioBooksPlayer.DAL.FileGroup", "Group")
-                        .WithMany()
-                        .HasForeignKey("Index");
-                });
-
-            modelBuilder.Entity("SimpleAudioBooksPlayer.DAL.SubtitleFile", b =>
-                {
-                    b.HasOne("SimpleAudioBooksPlayer.DAL.FileGroup", "Group")
-                        .WithMany()
-                        .HasForeignKey("Index");
                 });
 #pragma warning restore 612, 618
         }
