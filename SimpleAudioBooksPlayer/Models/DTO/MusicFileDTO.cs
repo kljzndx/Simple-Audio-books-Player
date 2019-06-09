@@ -1,4 +1,5 @@
 ﻿using System;
+using Windows.ApplicationModel.Email.DataProvider;
 using SimpleAudioBooksPlayer.DAL;
 
 namespace SimpleAudioBooksPlayer.Models.DTO
@@ -7,8 +8,7 @@ namespace SimpleAudioBooksPlayer.Models.DTO
     {
         public MusicFileDTO(MusicFile source)
         {
-            if (source.Group != null)
-                Group = new FileGroupDTO(source.Group);
+            GroupId = source.GroupId;
             Title = source.Title;
             Duration = source.Duration;
             FileName = source.FileName;
@@ -16,7 +16,7 @@ namespace SimpleAudioBooksPlayer.Models.DTO
             ModifyTime = source.ModifyTime;
         }
 
-        public FileGroupDTO Group { get; set; }
+        public int GroupId { get; }
 
         public string Title { get; set; }
         public TimeSpan Duration { get; set; }

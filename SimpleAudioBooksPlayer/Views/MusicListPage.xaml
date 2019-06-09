@@ -26,7 +26,7 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Text="{Binding Group.Index}"/>
+                        <TextBlock Text="{Binding GroupId}"/>
                         <TextBlock Grid.Column="1" Text="{Binding Title}" Margin="5,0"/>
                         <TextBlock Grid.Column="2" Text="{Binding Duration}"/>
                     </Grid>
