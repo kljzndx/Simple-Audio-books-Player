@@ -20,7 +20,7 @@
                         </Grid.RowDefinitions>
 
                         <Image Width="200" Height="200"/>
-                        <TextBlock Text="{Binding Name}"/>
+                        <TextBlock Grid.Row="1" Text="{Binding Name}"/>
                     </Grid>
                 </DataTemplate>
             </GridView.ItemTemplate>
