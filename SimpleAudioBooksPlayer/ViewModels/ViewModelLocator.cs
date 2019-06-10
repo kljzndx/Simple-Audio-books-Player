@@ -11,9 +11,11 @@ namespace SimpleAudioBooksPlayer.ViewModels
 
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<MusicListViewModel>();
+            SimpleIoc.Default.Register<GroupListViewModel>();
         }
 
         public MainViewModel Main => SimpleIoc.Default.GetInstance<MainViewModel>();
         public MusicListViewModel MusicList => SimpleIoc.Default.GetInstance<MusicListViewModel>();
+        public GroupListViewModel GroupList => SimpleIoc.Default.GetInstance<GroupListViewModel>();
     }
 }
