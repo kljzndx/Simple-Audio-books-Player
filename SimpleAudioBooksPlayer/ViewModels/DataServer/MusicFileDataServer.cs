@@ -18,6 +18,8 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
         public bool IsInit { get; private set; }
         public ObservableCollection<MusicFileDTO> Data { get; } = new ObservableCollection<MusicFileDTO>();
+
+        public event EventHandler<IEnumerable<MusicFileDTO>> DataLoaded;
         public event EventHandler<IEnumerable<MusicFileDTO>> DataAdded;
         public event EventHandler<IEnumerable<MusicFileDTO>> DataRemoved;
 
@@ -28,10 +30,13 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
             IsInit = true;
             _service = await MusicLibraryDataServiceManager.Current.GetMusicService();
+
             var source = await _service.GetData();
-            foreach (var fileDto in source.Select(f => new MusicFileDTO(f)))
+            var data = source.Select(f => new MusicFileDTO(f)).ToList();
+            foreach (var fileDto in data)
                 Data.Add(fileDto);
 
+            DataLoaded?.Invoke(this, data);
             _service.DataAdded += Service_DataAdded;
             _service.DataRemoved += Service_DataRemoved;
             _service.DataUpdated += Service_DataUpdated;

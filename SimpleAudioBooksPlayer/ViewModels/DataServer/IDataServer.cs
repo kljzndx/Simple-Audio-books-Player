@@ -9,6 +9,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
         bool IsInit { get; }
         ObservableCollection<TOutput> Data { get; }
 
+        event EventHandler<IEnumerable<TOutput>> DataLoaded;
         event EventHandler<IEnumerable<TOperation>> DataAdded;
         event EventHandler<IEnumerable<TOperation>> DataRemoved;
     }

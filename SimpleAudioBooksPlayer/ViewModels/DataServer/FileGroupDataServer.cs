@@ -22,6 +22,8 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
         public bool IsInit { get; private set; }
         public ObservableCollection<FileGroupDTO> Data { get; }
+
+        public event EventHandler<IEnumerable<FileGroupDTO>> DataLoaded;
         public event EventHandler<IEnumerable<FileGroupDTO>> DataAdded;
         public event EventHandler<IEnumerable<FileGroupDTO>> DataRemoved;
 
@@ -33,10 +35,12 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             IsInit = true;
             _service = FileGroupDataService.Current;
 
-            var data = await _service.GetData();
+            var source = await _service.GetData();
+            var data = source.Select(g => new FileGroupDTO(g)).ToList();
             foreach (var item in data)
-                Data.Add(new FileGroupDTO(item));
+                Data.Add(item);
 
+            DataLoaded?.Invoke(this, data);
             _service.DataAdded += Service_DataAdded;
             _service.DataRemoved += Service_DataRemoved;
             _service.DataUpdated += Service_DataUpdated;
