@@ -14,7 +14,7 @@
   <mp:PhoneIdentity PhoneProductId="ec174c2a-6be8-48f4-be63-4d23e8195ab3" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>Simple Audio-books Player</DisplayName>
+    <DisplayName>ms-resource:///App/Name</DisplayName>
     <PublisherDisplayName>kljzn</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -32,12 +32,17 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="SimpleAudioBooksPlayer.App">
       <uap:VisualElements
-        DisplayName="Simple Audio-books Player"
+        DisplayName="ms-resource:///App/Name"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
         Description="SimpleAudioBooksPlayer"
         BackgroundColor="transparent">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"/>
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" ShortName="ms-resource:///App/ShortName">
+          <uap:ShowNameOnTiles>
+            <uap:ShowOn Tile="square150x150Logo"/>
+            <uap:ShowOn Tile="wide310x150Logo"/>
+          </uap:ShowNameOnTiles>
+        </uap:DefaultTile >
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
     </Application>
