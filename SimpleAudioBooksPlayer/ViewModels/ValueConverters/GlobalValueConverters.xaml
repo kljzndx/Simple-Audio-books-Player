@@ -1,0 +1,10 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:valueConverters="using:SimpleAudioBooksPlayer.ViewModels.ValueConverters">
+
+    <valueConverters:TimeSpanToSongTimeString x:Key="TimeSpanToSongTimeString"/>
+    <valueConverters:DoubleToPercentage x:Key="DoubleToPercentage"/>
+    <valueConverters:BoolToVisibility x:Key="BoolToVisibility"/>
+    
+</ResourceDictionary>

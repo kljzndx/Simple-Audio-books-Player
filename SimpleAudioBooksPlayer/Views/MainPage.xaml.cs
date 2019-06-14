@@ -16,6 +16,7 @@ namespace SimpleAudioBooksPlayer.Views
         public MainPage()
         {
             this.InitializeComponent();
+            CustomMediaPlayerElement.SetMediaPlayer(App.MediaPlayer);
         }
 
         private async void Button_OnClick(object sender, RoutedEventArgs e)
