@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SimpleAudioBooksPlayer.DAL
 {
@@ -10,9 +9,10 @@ namespace SimpleAudioBooksPlayer.DAL
         {
         }
 
-        public MusicFile(FileGroup group, string title, TimeSpan duration, string filePath, DateTime modifyTime, int dbVersion)
+        public MusicFile(FileGroup group, uint trackNumber, string title, TimeSpan duration, string filePath, DateTime modifyTime, int dbVersion)
         {
             GroupId = group.Index;
+            TrackNumber = trackNumber;
             Duration = duration;
             FilePath = filePath;
             ModifyTime = modifyTime;
@@ -26,6 +26,7 @@ namespace SimpleAudioBooksPlayer.DAL
 
         public int GroupId { get; set; }
 
+        public uint TrackNumber { get; set; }
         public string Title { get; set; }
         public TimeSpan Duration { get; set; }
 

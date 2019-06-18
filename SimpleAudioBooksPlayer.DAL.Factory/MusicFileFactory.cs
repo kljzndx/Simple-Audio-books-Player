@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Windows.Devices.AllJoyn;
 using Windows.Storage;
 
 namespace SimpleAudioBooksPlayer.DAL.Factory
@@ -11,7 +10,7 @@ namespace SimpleAudioBooksPlayer.DAL.Factory
         {
             var basicProp = await file.GetBasicPropertiesAsync();
             var musicProp = await file.Properties.GetMusicPropertiesAsync();
-            return new MusicFile(group, musicProp.Title, musicProp.Duration, file.Path, basicProp.DateModified.DateTime, dbVersion);
+            return new MusicFile(group, musicProp.TrackNumber, musicProp.Title, musicProp.Duration, file.Path, basicProp.DateModified.DateTime, dbVersion);
         }
 
         public async Task<MusicFile> CreateByPath(string path, int dbVersion, FileGroup group)
