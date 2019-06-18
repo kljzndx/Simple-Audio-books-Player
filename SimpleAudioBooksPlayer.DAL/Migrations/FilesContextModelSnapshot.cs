@@ -70,7 +70,7 @@ namespace SimpleAudioBooksPlayer.DAL.Migrations
 
                     b.Property<string>("SortMethod");
 
-                    b.Property<int>("TrackId");
+                    b.Property<uint>("TrackId");
 
                     b.HasKey("GroupId");
 

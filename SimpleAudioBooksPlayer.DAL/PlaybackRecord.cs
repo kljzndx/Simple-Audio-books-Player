@@ -7,7 +7,7 @@ namespace SimpleAudioBooksPlayer.DAL
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int GroupId { get; set; }
-        public int TrackId { get; set; }
+        public uint TrackId { get; set; }
 
         public string SortMethod { get; set; }
         public bool IsReverse { get; set; }

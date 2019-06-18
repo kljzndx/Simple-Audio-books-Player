@@ -17,7 +17,7 @@ namespace SimpleAudioBooksPlayer.DAL.Migrations
                 columns: table => new
                 {
                     GroupId = table.Column<int>(nullable: false),
-                    TrackId = table.Column<int>(nullable: false),
+                    TrackId = table.Column<uint>(nullable: false),
                     SortMethod = table.Column<string>(nullable: true),
                     IsReverse = table.Column<bool>(nullable: false)
                 },

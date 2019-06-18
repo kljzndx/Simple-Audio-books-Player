@@ -9,7 +9,7 @@ using SimpleAudioBooksPlayer.DAL;
 namespace SimpleAudioBooksPlayer.DAL.Migrations
 {
     [DbContext(typeof(FilesContext))]
-    [Migration("20190618001623_AddTable_PlaybackRecords")]
+    [Migration("20190618010809_AddTable_PlaybackRecords")]
     partial class AddTable_PlaybackRecords
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -72,7 +72,7 @@ namespace SimpleAudioBooksPlayer.DAL.Migrations
 
                     b.Property<string>("SortMethod");
 
-                    b.Property<int>("TrackId");
+                    b.Property<uint>("TrackId");
 
                     b.HasKey("GroupId");
 

@@ -7,6 +7,8 @@
   <ItemGroup>
     <Compile Remove="Migrations\20190618000909_AddTable_PlaybackRecords.cs" />
     <Compile Remove="Migrations\20190618000909_AddTable_PlaybackRecords.Designer.cs" />
+    <Compile Remove="Migrations\20190618001623_AddTable_PlaybackRecords.cs" />
+    <Compile Remove="Migrations\20190618001623_AddTable_PlaybackRecords.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
