@@ -1,0 +1,36 @@
+﻿using System.Linq;
+using GalaSoft.MvvmLight;
+using SimpleAudioBooksPlayer.DAL;
+using SimpleAudioBooksPlayer.ViewModels.DataServer;
+
+namespace SimpleAudioBooksPlayer.Models.DTO
+{
+    public class PlaybackRecordDTO : ObservableObject
+    {
+        private string _currentTitle;
+
+        public PlaybackRecordDTO(PlaybackRecord source)
+        {
+            Group = FileGroupDataServer.Current.Data.First(g => g.Index == source.GroupId);
+            TrackId = source.TrackId;
+            CurrentTitle = source.CurrentTitle;
+            SortMethod = source.SortMethod;
+            IsReverse = source.IsReverse;
+        }
+
+        public FileGroupDTO Group { get; set; }
+        public uint TrackId { get; set; }
+        public string CurrentTitle
+        {
+            get => _currentTitle;
+            set => Set(ref _currentTitle, value);
+        }
+        public string SortMethod { get; set; }
+        public bool IsReverse { get; set; }
+
+        public PlaybackRecord ToTableObject()
+        {
+            return new PlaybackRecord(Group.Index, TrackId, CurrentTitle, SortMethod, IsReverse);
+        }
+    }
+}

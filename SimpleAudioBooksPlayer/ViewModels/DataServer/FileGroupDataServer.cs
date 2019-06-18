@@ -74,9 +74,6 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             var needAdd = list.Select(g => new FileGroupDTO(g)).ToList();
             foreach (var group in needAdd)
                 Data.Add(group);
-
-            DataRemoved?.Invoke(this, needRemove);
-            DataAdded?.Invoke(this, needAdd);
         }
     }
 }

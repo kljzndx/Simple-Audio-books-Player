@@ -8,10 +8,17 @@ namespace SimpleAudioBooksPlayer.Service
 {
     public class PlaybackRecordDataService : IObservableDataService<PlaybackRecord>
     {
+        public static readonly PlaybackRecordDataService Current;
+
         private readonly ContextHelper<FilesContext, PlaybackRecord> _helper;
         private List<PlaybackRecord> _source;
 
-        public PlaybackRecordDataService()
+        static PlaybackRecordDataService()
+        {
+            Current = new PlaybackRecordDataService();
+        }
+
+        private PlaybackRecordDataService()
         {
             _helper = new ContextHelper<FilesContext, PlaybackRecord>();
         }
@@ -28,7 +35,7 @@ namespace SimpleAudioBooksPlayer.Service
             return _source.ToList();
         }
 
-        public Task Add(IEnumerable<PlaybackRecord> source) => AddRange(source);
+        public Task Add(PlaybackRecord source) => AddRange(new[] {source});
 
         private async Task AddRange(IEnumerable<PlaybackRecord> source)
         {
@@ -40,9 +47,9 @@ namespace SimpleAudioBooksPlayer.Service
             DataAdded?.Invoke(this, sl);
         }
 
-        public Task Remove(IEnumerable<int> source) => RemoveRange(source);
+        public Task Remove(int source) => RemoveRange(new[] {source});
 
-        private async Task RemoveRange(IEnumerable<int> source)
+        public async Task RemoveRange(IEnumerable<int> source)
         {
             var sl = source.ToList();
             var needRemove = _source.Where(src => sl.Contains(src.GroupId)).ToList();
@@ -53,7 +60,7 @@ namespace SimpleAudioBooksPlayer.Service
             DataRemoved?.Invoke(this, needRemove);
         }
 
-        public Task Update(IEnumerable<PlaybackRecord> source) => UpdateRange(source);
+        public Task Update(PlaybackRecord source) => UpdateRange(new[] {source});
 
         private async Task UpdateRange(IEnumerable<PlaybackRecord> source)
         {
