@@ -16,8 +16,6 @@ namespace SimpleAudioBooksPlayer.DAL.Migrations
                 name: "PlaybackRecords",
                 columns: table => new
                 {
-                    Index = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
                     GroupId = table.Column<int>(nullable: false),
                     TrackId = table.Column<int>(nullable: false),
                     SortMethod = table.Column<string>(nullable: true),
@@ -25,7 +23,7 @@ namespace SimpleAudioBooksPlayer.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PlaybackRecords", x => x.Index);
+                    table.PrimaryKey("PK_PlaybackRecords", x => x.GroupId);
                 });
         }
 

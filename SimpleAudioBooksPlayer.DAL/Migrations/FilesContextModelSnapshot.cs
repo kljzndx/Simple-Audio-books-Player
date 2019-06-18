@@ -64,9 +64,6 @@ namespace SimpleAudioBooksPlayer.DAL.Migrations
 
             modelBuilder.Entity("SimpleAudioBooksPlayer.DAL.PlaybackRecord", b =>
                 {
-                    b.Property<int>("Index")
-                        .ValueGeneratedOnAdd();
-
                     b.Property<int>("GroupId");
 
                     b.Property<bool>("IsReverse");
@@ -75,7 +72,7 @@ namespace SimpleAudioBooksPlayer.DAL.Migrations
 
                     b.Property<int>("TrackId");
 
-                    b.HasKey("Index");
+                    b.HasKey("GroupId");
 
                     b.ToTable("PlaybackRecords");
                 });

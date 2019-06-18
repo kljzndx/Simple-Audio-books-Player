@@ -1,12 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SimpleAudioBooksPlayer.DAL
 {
     public class PlaybackRecord
     {
-        [Key]
-        public int Index { get; set; }
-
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int GroupId { get; set; }
         public int TrackId { get; set; }
 
