@@ -5,6 +5,19 @@ namespace SimpleAudioBooksPlayer.DAL
 {
     public class PlaybackRecord
     {
+        public PlaybackRecord()
+        {
+            
+        }
+
+        public PlaybackRecord(int groupId, uint trackId, string sortMethod, bool isReverse = false)
+        {
+            GroupId = groupId;
+            TrackId = trackId;
+            SortMethod = sortMethod;
+            IsReverse = isReverse;
+        }
+
         [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int GroupId { get; set; }
         public uint TrackId { get; set; }
