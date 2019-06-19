@@ -70,9 +70,6 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
             foreach (var mfd in needAdd)
                 Data.Add(mfd);
-
-            DataRemoved?.Invoke(this, needRemove);
-            DataAdded?.Invoke(this, needAdd);
         }
     }
 }
