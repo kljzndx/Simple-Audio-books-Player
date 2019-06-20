@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace SimpleAudioBooksPlayer.DAL
 {
@@ -13,6 +14,7 @@ namespace SimpleAudioBooksPlayer.DAL
         {
             GroupId = group.Index;
             TrackNumber = trackNumber;
+            Title = title;
             Duration = duration;
             FilePath = filePath;
             ModifyTime = modifyTime;
@@ -21,7 +23,13 @@ namespace SimpleAudioBooksPlayer.DAL
             FileName = filePath.TakeFileName();
             ParentFolderName = filePath.TakeParentFolderName();
             ParentFolderPath = filePath.TakeParentFolderPath();
-            Title = String.IsNullOrWhiteSpace(title) ? FileName : title;
+
+            if (String.IsNullOrWhiteSpace(Title))
+            {
+                var pathParagraph = FileName.Split('.').ToList();
+                pathParagraph.Remove(pathParagraph.Last());
+                Title = pathParagraph.Count == 1 ? pathParagraph.First() : String.Join(".", pathParagraph);
+            }
         }
 
         public int GroupId { get; set; }
