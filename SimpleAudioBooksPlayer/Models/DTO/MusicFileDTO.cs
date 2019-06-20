@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Email.DataProvider;
 using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.Storage;
@@ -20,6 +19,7 @@ namespace SimpleAudioBooksPlayer.Models.DTO
         public MusicFileDTO(MusicFile source)
         {
             GroupId = source.GroupId;
+            TrackNumber = source.TrackNumber;
             Title = source.Title;
             Duration = source.Duration;
             FileName = source.FileName;
@@ -32,6 +32,7 @@ namespace SimpleAudioBooksPlayer.Models.DTO
             _isPlaying = source.IsPlaying;
 
             GroupId = source.GroupId;
+            TrackNumber = source.TrackNumber;
             Title = source.Title;
             Duration = source.Duration;
             FileName = source.FileName;
@@ -53,6 +54,7 @@ namespace SimpleAudioBooksPlayer.Models.DTO
 
         public int GroupId { get; }
 
+        public uint TrackNumber { get; set; }
         public string Title { get; }
         public TimeSpan Duration { get; }
 
