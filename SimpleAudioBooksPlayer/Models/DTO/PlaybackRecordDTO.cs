@@ -9,6 +9,15 @@ namespace SimpleAudioBooksPlayer.Models.DTO
     {
         private string _currentTitle;
 
+        public PlaybackRecordDTO(string currentTitle, FileGroupDTO @group, uint trackId, string sortMethod, bool isReverse)
+        {
+            _currentTitle = currentTitle;
+            Group = @group;
+            TrackId = trackId;
+            SortMethod = sortMethod;
+            IsReverse = isReverse;
+        }
+
         public PlaybackRecordDTO(PlaybackRecord source)
         {
             Group = FileGroupDataServer.Current.Data.First(g => g.Index == source.GroupId);
