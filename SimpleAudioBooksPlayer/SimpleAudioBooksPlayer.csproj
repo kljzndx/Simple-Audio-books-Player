@@ -119,10 +119,12 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\DTO\PlaybackRecordDTO.cs" />
+    <Compile Include="Models\MusicListSortArgs.cs" />
     <Compile Include="ViewModels\DataServer\FileGroupDataServer.cs" />
     <Compile Include="ViewModels\DataServer\IDataServer.cs" />
     <Compile Include="ViewModels\DataServer\IFileDataServer.cs" />
     <Compile Include="ViewModels\DataServer\MusicFileDataServer.cs" />
+    <Compile Include="ViewModels\DataServer\PlaybackListDataServer.cs" />
     <Compile Include="ViewModels\DataServer\PlaybackRecordDataServer.cs" />
     <Compile Include="ViewModels\Events\PlayerNowPlaybackItemChangeEventArgs.cs" />
     <Compile Include="ViewModels\Events\PlayerPositionChangeEventArgs.cs" />

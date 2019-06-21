@@ -97,6 +97,8 @@ namespace SimpleAudioBooksPlayer
                 {
                     await FileGroupDataServer.Current.Init();
                     await MusicFileDataServer.Current.Init();
+                    await PlaybackRecordDataServer.Current.Init();
+                    await PlaybackListDataServer.Current.Init();
 
                     await MusicLibraryDataServiceManager.Current.ScanFiles();
                 });
