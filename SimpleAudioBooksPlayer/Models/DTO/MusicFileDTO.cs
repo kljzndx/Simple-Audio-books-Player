@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.Storage;
 using GalaSoft.MvvmLight;
 using SimpleAudioBooksPlayer.DAL;
+using SimpleAudioBooksPlayer.ViewModels.DataServer;
 
 namespace SimpleAudioBooksPlayer.Models.DTO
 {
@@ -18,7 +20,7 @@ namespace SimpleAudioBooksPlayer.Models.DTO
 
         public MusicFileDTO(MusicFile source)
         {
-            GroupId = source.GroupId;
+            Group = FileGroupDataServer.Current.Data.First(g => g.Index == source.GroupId);
             TrackNumber = source.TrackNumber;
             Title = source.Title;
             Duration = source.Duration;
@@ -31,7 +33,7 @@ namespace SimpleAudioBooksPlayer.Models.DTO
         {
             _isPlaying = source.IsPlaying;
 
-            GroupId = source.GroupId;
+            Group = source.Group;
             TrackNumber = source.TrackNumber;
             Title = source.Title;
             Duration = source.Duration;
@@ -52,7 +54,7 @@ namespace SimpleAudioBooksPlayer.Models.DTO
             set => Set(ref _isPlaying, value);
         }
 
-        public int GroupId { get; }
+        public FileGroupDTO Group { get; }
 
         public uint TrackNumber { get; set; }
         public string Title { get; }

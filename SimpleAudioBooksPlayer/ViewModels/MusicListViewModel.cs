@@ -30,7 +30,7 @@ namespace SimpleAudioBooksPlayer.ViewModels
 
         public void RefreshData(int groupId)
         {
-            foreach (var fileDto in _server.Data.Where(g => g.GroupId == groupId))
+            foreach (var fileDto in _server.Data.Where(g => g.Group.Index == groupId))
                 Data.Add(fileDto);
 
             _server.Data.CollectionChanged += Server_Data_CollectionChanged;
@@ -41,7 +41,7 @@ namespace SimpleAudioBooksPlayer.ViewModels
         {
             if (e.NewItems != null)
                 foreach (MusicFileDTO item in e.NewItems)
-                    if (item.GroupId == _groupId)
+                    if (item.Group.Index == _groupId)
                         Data.Add(item);
 
             if (e.OldItems != null)
