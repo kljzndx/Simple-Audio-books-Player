@@ -7,6 +7,7 @@ using Windows.Media.Playback;
 using Windows.UI.Xaml.Media;
 using SimpleAudioBooksPlayer.Models;
 using SimpleAudioBooksPlayer.Models.DTO;
+using SimpleAudioBooksPlayer.ViewModels.SettingProperties;
 
 namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 {
@@ -16,11 +17,13 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
         private int _tempItemId = -1;
         private int _currentGroupId = -1;
+        private MusicListSortMembers _currentSortMethod;
+
         private readonly List<List<MusicFileDTO>> _tempList = new List<List<MusicFileDTO>>();
         private readonly MediaPlaybackList _playbackList = new MediaPlaybackList();
+        private readonly MusicListSettingProperties _musicListSettings = MusicListSettingProperties.Current;
 
         private readonly MusicFileDataServer _musicServer = MusicFileDataServer.Current;
-        private readonly FileGroupDataServer _groupServer = FileGroupDataServer.Current;
         private readonly PlaybackRecordDataServer _recordServer = PlaybackRecordDataServer.Current;
 
         private PlaybackListDataServer()
@@ -49,8 +52,15 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
         {
             if (_currentGroupId != record.Group.Index)
             {
+                var sortSelector = MusicSortDeserialization.Deserialize(record.SortMethod);
                 _currentGroupId = record.Group.Index;
-                var list = _musicServer.Data.Where(m => record.Group.Equals(m.Group)).ToList();
+
+                IEnumerable<MusicFileDTO> source = _musicServer.Data.Where(m => record.Group.Equals(m.Group))
+                    .OrderBy(sortSelector.Invoke);
+                if (record.IsReverse)
+                    source = source.Reverse();
+
+                var list = source.ToList();
 
                 Data.Clear();
                 foreach (var musicFileDto in list)
@@ -62,23 +72,29 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             await PlayTo(record.TrackId);
         }
 
-        public async Task SetSource(MusicFileDTO playTo, MusicListSortArgs sortArgs)
+        public async Task SetSource(MusicFileDTO playTo, MusicListSortMembers sortMethod)
         {
-            var groupDto = _groupServer.Data.First(g => g.Equals(playTo.Group));
-            if (groupDto is null)
-                return;
-
-            if (_currentGroupId != playTo.Group.Index)
+            if (_currentGroupId != playTo.Group.Index || _currentSortMethod != sortMethod)
             {
-                var list = _musicServer.Data.Where(m => m.Group.Equals(playTo.Group)).ToList();
+                var sortSelector = MusicSortDeserialization.Deserialize(sortMethod);
+                IEnumerable<MusicFileDTO> source = _musicServer.Data.Where(m => m.Group.Equals(playTo.Group))
+                    .OrderBy(sortSelector.Invoke);
+
+                if (_musicListSettings.IsReverse)
+                    source = source.Reverse();
+
+                var list = source.ToList();
                 SplitList(list);
+
                 Data.Clear();
                 foreach (var musicFile in list)
                     Data.Add(musicFile);
+
+                _currentSortMethod = sortMethod;
             }
 
             uint trackId = (uint) Data.IndexOf(playTo);
-            await _recordServer.SetRecord(new PlaybackRecordDTO(playTo.Title, groupDto, trackId, sortArgs.SortMethod, false));
+            await _recordServer.SetRecord(new PlaybackRecordDTO(playTo.Title, playTo.Group, trackId, sortMethod, _musicListSettings.IsReverse));
             await PlayTo(trackId);
         }
 

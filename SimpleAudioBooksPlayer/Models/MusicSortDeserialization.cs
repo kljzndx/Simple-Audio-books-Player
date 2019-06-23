@@ -14,21 +14,21 @@ namespace SimpleAudioBooksPlayer.Models
 
     public delegate IComparable MusicListSortSelector<T>(T source);
 
-    public class MusicListSortArgs
+    public static class MusicSortDeserialization
     {
         private static readonly Regex NumberRegex = new Regex(@"[0-9]+");
 
-        public MusicListSortArgs(MusicListSortMembers member)
+        public static MusicListSortSelector<MusicFileDTO> Deserialize(MusicListSortMembers member)
         {
-            SortMethod = member.ToString();
+            MusicListSortSelector<MusicFileDTO> keySelector = null;
 
             switch (member)
             {
                 case MusicListSortMembers.TrackId:
-                    KeySelector = s => s.TrackNumber;
+                    keySelector = s => s.TrackNumber;
                     break;
                 case MusicListSortMembers.Name:
-                    KeySelector = s =>
+                    keySelector = s =>
                     {
                         var matches = NumberRegex.Matches(s.Title);
                         if (matches.Any(m => m.Success))
@@ -44,13 +44,11 @@ namespace SimpleAudioBooksPlayer.Models
                     };
                     break;
                 case MusicListSortMembers.ModifyTime:
-                    KeySelector = s => s.ModifyTime;
+                    keySelector = s => s.ModifyTime;
                     break;
             }
+
+            return keySelector;
         }
-
-
-        public string SortMethod { get; }
-        public MusicListSortSelector<MusicFileDTO> KeySelector { get; }
     }
 }
