@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Media.Playback;
+using Windows.UI.Xaml.Media;
 using SimpleAudioBooksPlayer.Models;
 using SimpleAudioBooksPlayer.Models.DTO;
 
@@ -44,15 +45,32 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             _musicServer.DataRemoved += MusicServer_DataRemoved;
         }
 
+        public async Task SetSource(PlaybackRecordDTO record)
+        {
+            if (_currentGroupId != record.Group.Index)
+            {
+                _currentGroupId = record.Group.Index;
+                var list = _musicServer.Data.Where(m => record.Group.Equals(m.Group)).ToList();
+
+                Data.Clear();
+                foreach (var musicFileDto in list)
+                    Data.Add(musicFileDto);
+
+                SplitList(list);
+            }
+
+            await PlayTo(record.TrackId);
+        }
+
         public async Task SetSource(MusicFileDTO playTo, MusicListSortArgs sortArgs)
         {
-            var groupDto = _groupServer.Data.First(g => g.Index == playTo.GroupId);
+            var groupDto = _groupServer.Data.First(g => g.Equals(playTo.Group));
             if (groupDto is null)
                 return;
 
-            var list = _musicServer.Data.Where(m => m.GroupId == playTo.GroupId).ToList();
-            if (_currentGroupId != playTo.GroupId)
+            if (_currentGroupId != playTo.Group.Index)
             {
+                var list = _musicServer.Data.Where(m => m.Group.Equals(playTo.Group)).ToList();
                 SplitList(list);
                 Data.Clear();
                 foreach (var musicFile in list)
