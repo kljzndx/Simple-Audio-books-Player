@@ -50,14 +50,14 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             if (pr is null)
             {
                 await _service.Add(record.ToTableObject());
-                Data.Add(record);
+                Data.Insert(0, record);
                 DataAdded?.Invoke(this, new[] {record});
             }
             else
             {
-                var id = Data.IndexOf(pr);
                 await _service.Update(record.ToTableObject());
-                Data[id] = record;
+                pr.Update(record);
+                Data.Move(Data.IndexOf(pr), 0);
             }
         }
 
