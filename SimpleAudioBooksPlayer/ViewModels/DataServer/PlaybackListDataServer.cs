@@ -59,6 +59,8 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
         public async Task SetSource(PlaybackRecordDTO record)
         {
+            bool hasData = Data.Any();
+
             if (!_currentGroup.Equals(record.Group) || _currentSortMethod != record.SortMethod)
             {
                 _currentGroup = record.Group;
@@ -71,7 +73,6 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
                 var list = source.ToList();
                 SplitList(list);
 
-                bool hasData = Data.Any();
                 if (hasData)
                     DataRemoved?.Invoke(this, Data.ToList());
 
@@ -86,6 +87,9 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             }
 
             await PlayTo(record.TrackId);
+
+            if (hasData)
+                BeginToPlay();
         }
 
         public async Task SetSource(MusicFileDTO playTo)
@@ -119,11 +123,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             await _recordServer.SetRecord(new PlaybackRecordDTO(playTo.Title, playTo.Group, trackId, _musicListSettings.SortMethod, _musicListSettings.IsReverse));
             await PlayTo(trackId);
 
-            if (App.MediaPlayer.PlaybackSession != null &&
-                App.MediaPlayer.PlaybackSession.PlaybackState != MediaPlaybackState.Playing)
-            {
-                App.MediaPlayer.Play();
-            }
+            BeginToPlay();
         }
 
         private void SplitList(IEnumerable<MusicFileDTO> files)
@@ -157,6 +157,15 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             }
 
             _playbackList.MoveTo(mfId);
+        }
+
+        private void BeginToPlay()
+        {
+            if (App.MediaPlayer.PlaybackSession != null &&
+                App.MediaPlayer.PlaybackSession.PlaybackState != MediaPlaybackState.Playing)
+            {
+                App.MediaPlayer.Play();
+            }
         }
 
         private async void PlaybackList_CurrentItemChanged(MediaPlaybackList sender, CurrentMediaPlaybackItemChangedEventArgs args)
