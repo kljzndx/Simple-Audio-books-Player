@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SimpleAudioBooksPlayer.DAL
@@ -10,13 +11,14 @@ namespace SimpleAudioBooksPlayer.DAL
             
         }
 
-        public PlaybackRecord(int groupId, uint trackId, string currentTitle, string sortMethod, bool isReverse = false)
+        public PlaybackRecord(int groupId, uint trackId, string currentTitle, string sortMethod, bool isReverse, DateTime playDate)
         {
             GroupId = groupId;
             TrackId = trackId;
             CurrentTitle = currentTitle;
             SortMethod = sortMethod;
             IsReverse = isReverse;
+            PlayDate = playDate;
         }
 
         [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
@@ -25,5 +27,6 @@ namespace SimpleAudioBooksPlayer.DAL
         public string CurrentTitle { get; set; }
         public string SortMethod { get; set; }
         public bool IsReverse { get; set; }
+        public DateTime PlayDate { get; set; }
     }
 }

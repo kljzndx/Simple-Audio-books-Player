@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SimpleAudioBooksPlayer.DAL;
 
 namespace SimpleAudioBooksPlayer.DAL.Migrations
 {
     [DbContext(typeof(FilesContext))]
-    partial class FilesContextModelSnapshot : ModelSnapshot
+    [Migration("20190624003257_AddColumn_PlayDate")]
+    partial class AddColumn_PlayDate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
