@@ -88,13 +88,13 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             await PlayTo(record.TrackId);
         }
 
-        public async Task SetSource(MusicFileDTO playTo, MusicListSortMembers sortMethod)
+        public async Task SetSource(MusicFileDTO playTo)
         {
-            if (_currentGroup.Equals(playTo.Group) || _currentSortMethod != sortMethod)
+            if (_currentGroup.Equals(playTo.Group) || _currentSortMethod != _musicListSettings.SortMethod)
             {
                 _currentGroup = playTo.Group;
 
-                var sortSelector = MusicSortDeserialization.Deserialize(sortMethod);
+                var sortSelector = MusicSortDeserialization.Deserialize(_musicListSettings.SortMethod);
                 IEnumerable<MusicFileDTO> source = _musicServer.Data.Where(m => m.Group.Equals(playTo.Group))
                     .OrderBy(sortSelector.Invoke);
 
@@ -112,12 +112,18 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
                 DataAdded?.Invoke(this, Data.ToList());
 
-                _currentSortMethod = sortMethod;
+                _currentSortMethod = _musicListSettings.SortMethod;
             }
 
             uint trackId = (uint) Data.IndexOf(playTo);
-            await _recordServer.SetRecord(new PlaybackRecordDTO(playTo.Title, playTo.Group, trackId, sortMethod, _musicListSettings.IsReverse));
+            await _recordServer.SetRecord(new PlaybackRecordDTO(playTo.Title, playTo.Group, trackId, _musicListSettings.SortMethod, _musicListSettings.IsReverse));
             await PlayTo(trackId);
+
+            if (App.MediaPlayer.PlaybackSession != null &&
+                App.MediaPlayer.PlaybackSession.PlaybackState != MediaPlaybackState.Playing)
+            {
+                App.MediaPlayer.Play();
+            }
         }
 
         private void SplitList(IEnumerable<MusicFileDTO> files)
