@@ -10,7 +10,7 @@
     DataContext="{Binding Source={StaticResource Locator}, Path=MusicList}">
 
     <Grid>
-        <ListView ItemsSource="{Binding Data}">
+        <ListView ItemsSource="{Binding Data}" >
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -26,7 +26,7 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Text="{Binding GroupId}"/>
+                        <TextBlock Text="{Binding Group.Index}"/>
                         <TextBlock Grid.Column="1" Text="{Binding Title}" Margin="5,0"/>
                         <TextBlock Grid.Column="2" Text="{Binding Duration}"/>
                     </Grid>
