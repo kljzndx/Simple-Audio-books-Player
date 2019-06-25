@@ -15,7 +15,6 @@ namespace SimpleAudioBooksPlayer.Models.DTO
         private WeakReference<StorageFile> _file;
         private MediaPlaybackItem _playbackItem;
 
-        private bool _isSelected;
         private bool _isPlaying;
 
         public MusicFileDTO(MusicFile source)
@@ -27,25 +26,6 @@ namespace SimpleAudioBooksPlayer.Models.DTO
             FileName = source.FileName;
             FilePath = source.FilePath;
             ModifyTime = source.ModifyTime;
-        }
-
-        public MusicFileDTO(MusicFileDTO source)
-        {
-            _isPlaying = source.IsPlaying;
-
-            Group = source.Group;
-            TrackNumber = source.TrackNumber;
-            Title = source.Title;
-            Duration = source.Duration;
-            FileName = source.FileName;
-            FilePath = source.FilePath;
-            ModifyTime = source.ModifyTime;
-        }
-
-        public bool IsSelected
-        {
-            get => _isSelected;
-            set => Set(ref _isSelected, value);
         }
 
         public bool IsPlaying
