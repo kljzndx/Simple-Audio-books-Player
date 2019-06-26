@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using Windows.Storage;
 using Windows.System;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
