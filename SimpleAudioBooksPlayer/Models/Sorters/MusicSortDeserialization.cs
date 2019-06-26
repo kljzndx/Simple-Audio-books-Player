@@ -15,8 +15,6 @@ namespace SimpleAudioBooksPlayer.Models.Sorters
 
     public static class MusicSortDeserialization
     {
-        private static readonly Regex NumberRegex = new Regex(@"[0-9]+");
-
         public static MusicListSortSelector<MusicFileDTO> Deserialize(MusicListSortMembers member)
         {
             MusicListSortSelector<MusicFileDTO> keySelector = null;
