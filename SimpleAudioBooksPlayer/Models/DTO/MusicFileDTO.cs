@@ -41,6 +41,8 @@ namespace SimpleAudioBooksPlayer.Models.DTO
             set => Set(ref _isPlaying, value);
         }
 
+        public bool HasRead { get; private set; }
+
         public FileGroupDTO Group { get; }
 
         public uint FileTrackNumber { get; }
@@ -68,11 +70,15 @@ namespace SimpleAudioBooksPlayer.Models.DTO
 
         public async Task<MediaPlaybackItem> GetPlaybackItem()
         {
+            if (HasRead)
+                return _playbackItem;
+
             var file = await GetFile();
 
             if (_playbackItem is null)
                 _playbackItem = new MediaPlaybackItem(MediaSource.CreateFromStorageFile(file));
 
+            HasRead = true;
             return _playbackItem;
         }
 
