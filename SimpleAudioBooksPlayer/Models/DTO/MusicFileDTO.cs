@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.Media.Core;
 using Windows.Media.Playback;
@@ -10,8 +11,10 @@ using SimpleAudioBooksPlayer.ViewModels.DataServer;
 
 namespace SimpleAudioBooksPlayer.Models.DTO
 {
-    public class MusicFileDTO : ObservableObject
+    public class MusicFileDTO : ObservableObject, IComparable, IComparable<MusicFileDTO>
     {
+        private static readonly Regex NumberRegex = new Regex(@"[0-9]+");
+
         private WeakReference<StorageFile> _file;
         private MediaPlaybackItem _playbackItem;
 
@@ -20,12 +23,16 @@ namespace SimpleAudioBooksPlayer.Models.DTO
         public MusicFileDTO(MusicFile source)
         {
             Group = FileGroupDataServer.Current.Data.First(g => g.Index == source.GroupId);
-            TrackNumber = source.TrackNumber;
+            FileTrackNumber = source.TrackNumber;
             Title = source.Title;
             Duration = source.Duration;
             FileName = source.FileName;
             FilePath = source.FilePath;
             ModifyTime = source.ModifyTime;
+
+            var matches = NumberRegex.Matches(Title);
+            if (matches.Any(m => m.Success) && UInt64.TryParse(String.Concat(matches.Select(m => m.Value)), out ulong result))
+                TitleTrackNumber = result;
         }
 
         public bool IsPlaying
@@ -36,7 +43,8 @@ namespace SimpleAudioBooksPlayer.Models.DTO
 
         public FileGroupDTO Group { get; }
 
-        public uint TrackNumber { get; set; }
+        public uint FileTrackNumber { get; }
+        public ulong TitleTrackNumber { get; }
         public string Title { get; }
         public TimeSpan Duration { get; }
 
@@ -66,6 +74,23 @@ namespace SimpleAudioBooksPlayer.Models.DTO
                 _playbackItem = new MediaPlaybackItem(MediaSource.CreateFromStorageFile(file));
 
             return _playbackItem;
+        }
+
+        public int CompareTo(MusicFileDTO other)
+        {
+            if (ReferenceEquals(this, other)) return 0;
+            if (ReferenceEquals(null, other)) return 1;
+            var titleTrackNumberComparison = TitleTrackNumber.CompareTo(other.TitleTrackNumber);
+            if (titleTrackNumberComparison != 0) return titleTrackNumberComparison;
+            return string.Compare(Title, other.Title, StringComparison.Ordinal);
+        }
+
+        public int CompareTo(object obj)
+        {
+            if (ReferenceEquals(this, obj)) return 0;
+            if (ReferenceEquals(null, obj)) return 1;
+            if (obj.GetType() != this.GetType()) return 1;
+            return CompareTo((MusicFileDTO) obj);
         }
     }
 }

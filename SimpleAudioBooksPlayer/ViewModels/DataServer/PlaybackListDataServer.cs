@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 using Windows.Media.Playback;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
+using GalaSoft.MvvmLight.Messaging;
 using SimpleAudioBooksPlayer.Models;
 using SimpleAudioBooksPlayer.Models.DTO;
 using SimpleAudioBooksPlayer.ViewModels.SettingProperties;
@@ -21,9 +23,10 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
         private FileGroupDTO _currentGroup;
         private MusicListSortMembers _currentSortMethod;
 
+        private readonly MusicListSettingProperties _musicListSettings = MusicListSettingProperties.Current;
         private readonly List<List<MusicFileDTO>> _tempList = new List<List<MusicFileDTO>>();
         private readonly MediaPlaybackList _playbackList = new MediaPlaybackList();
-        private readonly MusicListSettingProperties _musicListSettings = MusicListSettingProperties.Current;
+        private MediaPlayer _player;
 
         private readonly MusicFileDataServer _musicServer = MusicFileDataServer.Current;
         private readonly PlaybackRecordDataServer _recordServer = PlaybackRecordDataServer.Current;
@@ -46,6 +49,8 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
                 return;
 
             IsInit = true;
+            _player = App.MediaPlayer;
+            _player.Source = _playbackList;
 
             var record = _recordServer.Data.OrderBy(r => r.PlayDate).LastOrDefault();
             if (record != null)
@@ -53,15 +58,26 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
             DataLoaded?.Invoke(this, Data.ToList());
 
-            _playbackList.CurrentItemChanged += PlaybackList_CurrentItemChanged;
             _musicServer.DataRemoved += MusicServer_DataRemoved;
+            _player.MediaEnded += Player_MediaEnded;
+            _playbackList.CurrentItemChanged += PlaybackList_CurrentItemChanged;
+        }
+
+        private async void Player_MediaEnded(MediaPlayer sender, object args)
+        {
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            {
+                var id = 10 * (_tempItemId + 1);
+                if (id < Data.Count)
+                    await SetSource(Data[id]);
+            });
         }
 
         public async Task SetSource(PlaybackRecordDTO record)
         {
             bool hasData = Data.Any();
 
-            if (!_currentGroup.Equals(record.Group) || _currentSortMethod != record.SortMethod)
+            if (!record.Group.Equals(_currentGroup) || _currentSortMethod != record.SortMethod)
             {
                 _currentGroup = record.Group;
                 var sortSelector = MusicSortDeserialization.Deserialize(record.SortMethod);
@@ -94,7 +110,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
         public async Task SetSource(MusicFileDTO playTo)
         {
-            if (_currentGroup.Equals(playTo.Group) || _currentSortMethod != _musicListSettings.SortMethod)
+            if (!playTo.Group.Equals(_currentGroup) || _currentSortMethod != _musicListSettings.SortMethod)
             {
                 _currentGroup = playTo.Group;
 
@@ -120,7 +136,6 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             }
 
             uint trackId = (uint) Data.IndexOf(playTo);
-            await _recordServer.SetRecord(new PlaybackRecordDTO(playTo.Title, playTo.Group, trackId, _musicListSettings.SortMethod, _musicListSettings.IsReverse));
             await PlayTo(trackId);
 
             BeginToPlay();
@@ -136,24 +151,27 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
                 var temp = new List<MusicFileDTO>();
 
                 for (int i = 0; i < 10; i++)
-                    temp.Add(queue.Dequeue());
+                    if (queue.Any())
+                        temp.Add(queue.Dequeue());
+                    else
+                        break;
 
                 _tempList.Add(temp);
             }
         }
-
+        
         private async Task PlayTo(uint trackId)
         {
-            var groupId = (int)(((trackId + 1) / 10) - 1);
+            var groupId = (int) (trackId + 1) / 10;
             var group = _tempList[groupId];
-            var mfId = (uint)(trackId < 10 ? trackId : trackId - (10 * (groupId + 1)));
+            var mfId = (uint) (trackId < 10 ? trackId : trackId - (10 * groupId));
 
             if (_tempItemId != groupId)
             {
+                _tempItemId = groupId;
                 _playbackList.Items.Clear();
                 foreach (var fileDto in group)
                     _playbackList.Items.Add(await fileDto.GetPlaybackItem());
-                _tempItemId = groupId;
             }
 
             _playbackList.MoveTo(mfId);
@@ -161,19 +179,23 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
         private void BeginToPlay()
         {
-            if (App.MediaPlayer.PlaybackSession != null &&
-                App.MediaPlayer.PlaybackSession.PlaybackState != MediaPlaybackState.Playing)
+            if (_player.PlaybackSession != null &&
+                _player.PlaybackSession.PlaybackState != MediaPlaybackState.Playing)
             {
-                App.MediaPlayer.Play();
+                _player.Play();
             }
         }
 
         private async void PlaybackList_CurrentItemChanged(MediaPlaybackList sender, CurrentMediaPlaybackItemChangedEventArgs args)
         {
-            await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            var cw = CoreApplication.MainView.CoreWindow;
+            await cw.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
                 int id = (int)(_tempItemId * 10 + sender.CurrentItemIndex);
+                if (id == -1)
+                    return;
                 var mfd = Data[id];
+                
                 await _recordServer.SetRecord(new PlaybackRecordDTO(mfd.Title, mfd.Group, (uint) id, _currentSortMethod,
                     _musicListSettings.IsReverse));
             });

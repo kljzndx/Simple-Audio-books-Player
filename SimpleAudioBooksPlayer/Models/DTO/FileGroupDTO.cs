@@ -34,6 +34,9 @@ namespace SimpleAudioBooksPlayer.Models.DTO
 
         public bool Equals(FileGroupDTO other)
         {
+            if (other is null)
+                return false;
+
             return Index == other.Index;
         }
 

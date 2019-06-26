@@ -25,23 +25,10 @@ namespace SimpleAudioBooksPlayer.Models
             switch (member)
             {
                 case MusicListSortMembers.TrackId:
-                    keySelector = s => s.TrackNumber;
+                    keySelector = s => s.FileTrackNumber;
                     break;
                 case MusicListSortMembers.Name:
-                    keySelector = s =>
-                    {
-                        var matches = NumberRegex.Matches(s.Title);
-                        if (matches.Any(m => m.Success))
-                        {
-                            string numStr = String.Concat(matches.Select(m => m.Value));
-                            if (UInt32.TryParse(numStr, out uint iResult))
-                                return iResult;
-                            else if (UInt64.TryParse(numStr, out ulong lResult))
-                                return lResult;
-                        }
-
-                        return s.Title;
-                    };
+                    keySelector = s => s;
                     break;
                 case MusicListSortMembers.ModifyTime:
                     keySelector = s => s.ModifyTime;
