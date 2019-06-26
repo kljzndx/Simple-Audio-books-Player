@@ -120,6 +120,8 @@
     </Compile>
     <Compile Include="Models\DTO\PlaybackRecordDTO.cs" />
     <Compile Include="Models\Sorters\MusicSortDeserialization.cs" />
+    <Compile Include="Models\Sorters\MusicSorterUi.cs" />
+    <Compile Include="Models\StringResources.cs" />
     <Compile Include="ViewModels\DataServer\FileGroupDataServer.cs" />
     <Compile Include="ViewModels\DataServer\IDataServer.cs" />
     <Compile Include="ViewModels\DataServer\IFileDataServer.cs" />
@@ -283,7 +285,12 @@
   <ItemGroup>
     <PRIResource Include="StringResources\en-US\App.resw" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <PRIResource Include="StringResources\zh-CN\Members\SorterMembers.resw" />
+  </ItemGroup>
+  <ItemGroup>
+    <PRIResource Include="StringResources\en-US\Members\SorterMembers.resw" />
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

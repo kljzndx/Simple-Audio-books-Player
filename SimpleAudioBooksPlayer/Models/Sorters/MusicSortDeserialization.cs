@@ -4,15 +4,6 @@ using SimpleAudioBooksPlayer.Models.DTO;
 
 namespace SimpleAudioBooksPlayer.Models.Sorters
 {
-    public enum MusicListSortMembers
-    {
-        TrackId,
-        Name,
-        ModifyTime
-    }
-
-    public delegate IComparable MusicListSortSelector<T>(T source);
-
     public static class MusicSortDeserialization
     {
         public static MusicListSortSelector<MusicFileDTO> Deserialize(MusicListSortMembers member)
