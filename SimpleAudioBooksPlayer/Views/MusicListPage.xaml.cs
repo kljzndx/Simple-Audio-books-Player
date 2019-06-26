@@ -12,7 +12,9 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using SimpleAudioBooksPlayer.Models.DTO;
 using SimpleAudioBooksPlayer.ViewModels;
+using SimpleAudioBooksPlayer.ViewModels.DataServer;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -37,6 +39,15 @@ namespace SimpleAudioBooksPlayer.Views
 
             var groupId = (int) e.Parameter;
             _vm.RefreshData(groupId);
+        }
+
+        private async void Main_ListView_OnItemClick(object sender, ItemClickEventArgs e)
+        {
+            var theItem = e.ClickedItem as MusicFileDTO;
+            if (theItem == null)
+                return;
+
+            await PlaybackListDataServer.Current.SetSource(theItem);
         }
     }
 }
