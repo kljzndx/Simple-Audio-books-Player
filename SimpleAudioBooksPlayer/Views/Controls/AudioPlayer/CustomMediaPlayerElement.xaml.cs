@@ -18,6 +18,7 @@ using SimpleAudioBooksPlayer.ViewModels.Events;
 using SimpleAudioBooksPlayer.ViewModels.SettingProperties;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using SimpleAudioBooksPlayer.ViewModels.DataServer;
 
 //https://go.microsoft.com/fwlink/?LinkId=234236 上介绍了“用户控件”项模板
 
@@ -211,6 +212,9 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
                 {
                     NowPlaybackItemChanged?.Invoke(this, new PlayerNowPlaybackItemChangeEventArgs(CurrentItem, null));
                     CurrentItem = null;
+
+                    foreach (var fileDto in MusicFileDataServer.Current.Data.Where(m => m.IsPlaying).ToList())
+                        fileDto.IsPlaying = false;
                 }
 
                 InitPlayerSettings();
@@ -236,13 +240,25 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
 
         private async void Source_CurrentItemChanged(MediaPlaybackList sender, CurrentMediaPlaybackItemChangedEventArgs args)
         {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
                 NowPlaybackItemChanged?.Invoke(this, new PlayerNowPlaybackItemChangeEventArgs(CurrentItem, args.NewItem));
                 CurrentItem = args.NewItem;
 
                 if (TryGetSession(out var session))
                     session.PlaybackRate = _settings.PlaybackRate;
+
+
+                foreach (var fileDto in MusicFileDataServer.Current.Data.Where(m => m.IsPlaying).ToList())
+                    fileDto.IsPlaying = false;
+
+                if (args.NewItem != null)
+                    foreach (var fileDto in PlaybackListDataServer.Current.Data.Where(m => m.HasRead))
+                        if (await fileDto.GetPlaybackItem() == args.NewItem)
+                        {
+                            fileDto.IsPlaying = true;
+                            break;
+                        }
             });
         }
 
