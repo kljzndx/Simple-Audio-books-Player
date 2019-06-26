@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Linq;
 using System.Text.RegularExpressions;
 using SimpleAudioBooksPlayer.Models.DTO;
 
-namespace SimpleAudioBooksPlayer.Models
+namespace SimpleAudioBooksPlayer.Models.Sorters
 {
     public enum MusicListSortMembers
     {

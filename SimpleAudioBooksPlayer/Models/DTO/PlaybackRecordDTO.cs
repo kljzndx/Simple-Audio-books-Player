@@ -1,8 +1,8 @@
-﻿
-using System;
+﻿using System;
 using System.Linq;
 using GalaSoft.MvvmLight;
 using SimpleAudioBooksPlayer.DAL;
+using SimpleAudioBooksPlayer.Models.Sorters;
 using SimpleAudioBooksPlayer.ViewModels.DataServer;
 
 namespace SimpleAudioBooksPlayer.Models.DTO

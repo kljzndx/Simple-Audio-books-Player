@@ -1,6 +1,6 @@
 ﻿using HappyStudio.UwpToolsLibrary.Auxiliarys;
 using HappyStudio.UwpToolsLibrary.Auxiliarys.Attributes;
-using SimpleAudioBooksPlayer.Models;
+using SimpleAudioBooksPlayer.Models.Sorters;
 
 namespace SimpleAudioBooksPlayer.ViewModels.SettingProperties
 {

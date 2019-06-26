@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Media.Playback;
 using Windows.UI.Core;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media;
-using GalaSoft.MvvmLight.Messaging;
-using SimpleAudioBooksPlayer.Models;
 using SimpleAudioBooksPlayer.Models.DTO;
+using SimpleAudioBooksPlayer.Models.Sorters;
 using SimpleAudioBooksPlayer.ViewModels.SettingProperties;
 
 namespace SimpleAudioBooksPlayer.ViewModels.DataServer

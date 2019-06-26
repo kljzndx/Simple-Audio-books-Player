@@ -119,7 +119,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\DTO\PlaybackRecordDTO.cs" />
-    <Compile Include="Models\MusicSortDeserialization.cs" />
+    <Compile Include="Models\Sorters\MusicSortDeserialization.cs" />
     <Compile Include="ViewModels\DataServer\FileGroupDataServer.cs" />
     <Compile Include="ViewModels\DataServer\IDataServer.cs" />
     <Compile Include="ViewModels\DataServer\IFileDataServer.cs" />
