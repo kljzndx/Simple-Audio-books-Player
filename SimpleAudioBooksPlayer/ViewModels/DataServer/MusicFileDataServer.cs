@@ -62,14 +62,8 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
         private void Service_DataUpdated(object sender, IEnumerable<MusicFile> e)
         {
-            var needRemove = Data.Where(d => e.Any(f => f.FilePath == d.FilePath)).ToList();
-            var needAdd = e.Select(f => new MusicFileDTO(f)).ToList();
-
-            foreach (var fileDto in needRemove)
-                Data.Remove(fileDto);
-
-            foreach (var mfd in needAdd)
-                Data.Add(mfd);
+            foreach (var musicFile in e)
+                Data.FirstOrDefault(d => d.FilePath == musicFile.FilePath)?.Update(musicFile);
         }
     }
 }

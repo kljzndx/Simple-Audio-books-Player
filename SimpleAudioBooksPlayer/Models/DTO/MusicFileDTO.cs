@@ -20,19 +20,22 @@ namespace SimpleAudioBooksPlayer.Models.DTO
 
         private bool _isPlaying;
 
+        private uint _fileTrackNumber;
+        private string _title;
+        private TimeSpan _duration;
+        private DateTime _modifyTime;
+
         public MusicFileDTO(MusicFile source)
         {
             Group = FileGroupDataServer.Current.Data.First(g => g.Index == source.GroupId);
-            FileTrackNumber = source.TrackNumber;
-            Title = source.Title;
-            Duration = source.Duration;
+            _fileTrackNumber = source.TrackNumber;
+            _title = source.Title;
+            _duration = source.Duration;
             FileName = source.FileName;
             FilePath = source.FilePath;
-            ModifyTime = source.ModifyTime;
+            _modifyTime = source.ModifyTime;
 
-            var matches = NumberRegex.Matches(Title);
-            if (matches.Any(m => m.Success) && UInt64.TryParse(String.Concat(matches.Select(m => m.Value)), out ulong result))
-                TitleTrackNumber = result;
+            GetTitleTrackNumber();
         }
 
         public bool IsPlaying
@@ -44,15 +47,54 @@ namespace SimpleAudioBooksPlayer.Models.DTO
         public bool HasRead { get; private set; }
 
         public FileGroupDTO Group { get; }
+        public uint FileTrackNumber
+        {
+            get => _fileTrackNumber;
+            private set => Set(ref _fileTrackNumber, value);
+        }
+        public ulong TitleTrackNumber { get; private set; }
+        public string Title
+        {
+            get => _title;
+            private set
+            {
+                Set(ref _title, value);
+                GetTitleTrackNumber();
+            }
+        }
 
-        public uint FileTrackNumber { get; }
-        public ulong TitleTrackNumber { get; }
-        public string Title { get; }
-        public TimeSpan Duration { get; }
+        public TimeSpan Duration
+        {
+            get => _duration;
+            private set => Set(ref _duration, value);
+        }
 
         public string FileName { get; }
         public string FilePath { get; }
-        public DateTime ModifyTime { get; }
+        public DateTime ModifyTime
+        {
+            get => _modifyTime;
+            private set => Set(ref _modifyTime, value);
+        }
+
+        public void Update(MusicFile source)
+        {
+            if (source.FilePath != FilePath)
+                throw new Exception("不是同一个文件");
+
+            FileTrackNumber = source.TrackNumber;
+            Title = source.Title;
+            Duration = source.Duration;
+            ModifyTime = source.ModifyTime;
+        }
+
+        private void GetTitleTrackNumber()
+        {
+            var matches = NumberRegex.Matches(Title);
+            if (matches.Any(m => m.Success) &&
+                UInt64.TryParse(String.Concat(matches.Select(m => m.Value)), out ulong result))
+                TitleTrackNumber = result;
+        }
 
         private async Task<StorageFile> GetFile()
         {
