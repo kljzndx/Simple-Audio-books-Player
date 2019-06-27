@@ -562,22 +562,6 @@
 
                                 <Border x:Name="MediaTransportControls_Command_Border" Grid.Column="2" Grid.Row="2">
                                     <StackPanel Orientation="Horizontal">
-                                        <AppBarButton x:Uid="/Player/RepeatMode_AppBarButton" Style="{StaticResource AppBarButtonStyle}">
-                                            <AppBarButton.Flyout>
-                                                <Flyout>
-                                                    <ListBox x:Name="RepeatMode_ListBox" SelectedIndex="{TemplateBinding RepeatMode_SelectedID}">
-                                                        <ListBoxItem x:Uid="/Player/RepeatMode_Single_ListBoxItem"/>
-                                                        <ListBoxItem x:Uid="/Player/RepeatMode_List_ListBoxItem"/>
-                                                        <ListBoxItem x:Uid="/Player/RepeatMode_Random_ListBoxItem"/>
-                                                    </ListBox>
-                                                </Flyout>
-                                            </AppBarButton.Flyout>
-
-                                            <AppBarButton.Icon>
-                                                <FontIcon Glyph="&#xE14A;"/>
-                                            </AppBarButton.Icon>
-                                        </AppBarButton>
-
                                         <AppBarButton x:Name='VolumeMuteButton' Style='{StaticResource AppBarButtonStyle}' MediaTransportControlsHelper.DropoutOrder='19'>
                                             <AppBarButton.Flyout>
                                                 <Flyout x:Name='VolumeFlyout' FlyoutPresenterStyle="{StaticResource FlyoutStyle}">

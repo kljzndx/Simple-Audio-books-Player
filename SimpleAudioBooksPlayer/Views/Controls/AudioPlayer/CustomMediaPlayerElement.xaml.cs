@@ -40,8 +40,6 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
         public CustomMediaPlayerElement()
         {
             this.InitializeComponent();
-            _settings.PropertyChanged += Settings_PropertyChanged;
-            MyTransportControls.RepeatMode_SelectedID = (int) _settings.RepeatMode;
 
             MyTransportControls.CoverButton_Click += (s, e) => CoverButton_Click?.Invoke(s, e);
         }
@@ -93,26 +91,6 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
         private void InitPlayerSettings()
         {
             var source = player.Source as MediaPlaybackList;
-            // 循环模式
-            {
-                if (source != null)
-                {
-                    source.AutoRepeatEnabled = true;
-
-                    switch ((int)_settings.RepeatMode)
-                    {
-                        case 0:
-                            player.IsLoopingEnabled = true;
-                            break;
-                        case 1:
-                            source.ShuffleEnabled = false;
-                            break;
-                        case 2:
-                            source.ShuffleEnabled = true;
-                            break;
-                    }
-                }
-            }
             // 音量
             {
                 player.Volume = _settings.Volume;
@@ -324,40 +302,5 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
         }
 
         #endregion
-
-        private async void Settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                switch (e.PropertyName)
-                {
-                    case nameof(_settings.PlaybackRate):
-                        if (TryGetSession(out var session))
-                            session.PlaybackRate = _settings.PlaybackRate;
-                        break;
-                }
-            });
-        }
-
-        private void MyTransportControls_OnRepeatModeSelectionChanged(CustomTransportControls sender, KeyValuePair<int, string> args)
-        {
-            _settings.RepeatMode = (PlaybackRepeatModeEnum) args.Key;
-
-            if (player.Source is MediaPlaybackList mpl)
-            {
-                switch (args.Key)
-                {
-                    case 0:
-                        player.IsLoopingEnabled = true;
-                        break;
-                    case 1:
-                        mpl.ShuffleEnabled = false;
-                        break;
-                    case 2:
-                        mpl.ShuffleEnabled = true;
-                        break;
-                }
-            }
-        }
     }
 }

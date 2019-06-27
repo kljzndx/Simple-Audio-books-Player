@@ -17,20 +17,11 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
 {
     public sealed class CustomTransportControls : MediaTransportControls
     {
-        public static readonly DependencyProperty RepeatMode_SelectedIDProperty = DependencyProperty.Register(
-            nameof(RepeatMode_SelectedID), typeof(int), typeof(CustomTransportControls), new PropertyMetadata(-1));
-
         private Slider playbackRateSlider;
 
         public CustomTransportControls()
         {
             this.DefaultStyleKey = typeof(CustomTransportControls);
-        }
-
-        public int RepeatMode_SelectedID
-        {
-            get => (int)GetValue(RepeatMode_SelectedIDProperty);
-            set => SetValue(RepeatMode_SelectedIDProperty, value);
         }
 
         public static readonly DependencyProperty CoverSourceProperty = DependencyProperty.Register(
@@ -59,8 +50,6 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
 
         public event RoutedEventHandler CoverButton_Click;
         public event RangeBaseValueChangedEventHandler RateValueChanged;
-
-        public event TypedEventHandler<CustomTransportControls, KeyValuePair<int, string>> RepeatModeSelectionChanged;
 
         protected override void OnApplyTemplate()
         {
@@ -92,16 +81,6 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
                 fastForwardButton.AddHandler(PointerReleasedEvent, new PointerEventHandler((s, e) => FastForwardButton_PointerReleased?.Invoke(s, e)), true);
                 fastForwardButton.AddHandler(PointerCanceledEvent, new PointerEventHandler((s, e) => FastForwardButton_PointerReleased?.Invoke(s, e)), true);
                 fastForwardButton.AddHandler(PointerCaptureLostEvent, new PointerEventHandler((s, e) => FastForwardButton_PointerReleased?.Invoke(s, e)), true);
-            }
-
-            //this.LogByObject("监听循环模式的选择更改事件");
-            {
-                var repeatModeListBox = (ListBox)GetTemplateChild("RepeatMode_ListBox");
-                repeatModeListBox.SelectionChanged += (s, e) =>
-                {
-                    var sender = (ListBox)s;
-                    RepeatModeSelectionChanged?.Invoke(this, new KeyValuePair<int, string>(sender.SelectedIndex, ((ListBoxItem)sender.SelectedItem).Content.ToString()));
-                };
             }
 
             {

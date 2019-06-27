@@ -15,18 +15,11 @@ namespace SimpleAudioBooksPlayer.ViewModels.SettingProperties
     {
         public static readonly PlayerSettingProperties Current = new PlayerSettingProperties();
 
-        [SettingFieldByEnum(nameof(RepeatMode), typeof(PlaybackRepeatModeEnum), nameof(PlaybackRepeatModeEnum.List))] private PlaybackRepeatModeEnum repeatMode;
         [SettingFieldByNormal(nameof(Volume), 1D)] private double volume;
         [SettingFieldByNormal(nameof(PlaybackRate), 1D)] private double playbackRate;
 
         private PlayerSettingProperties() : base(ApplicationData.Current.LocalSettings.CreateContainer("Player", ApplicationDataCreateDisposition.Always))
         {
-        }
-
-        public PlaybackRepeatModeEnum RepeatMode
-        {
-            get => repeatMode;
-            set => SetSetting(ref repeatMode, value, settingValue: value.ToString());
         }
 
         public double Volume
