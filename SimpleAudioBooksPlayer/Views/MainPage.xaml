@@ -17,7 +17,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Button Content="打开本地文件夹" Click="Button_OnClick"/>
-        <Frame Grid.Row="1" SourcePageType="local:GroupListPage"/>
+        <Frame x:Name="Main_Frame" Grid.Row="1" SourcePageType="local:GroupListPage" Navigated="Main_Frame_OnNavigated"/>
 
         <ap:CustomMediaPlayerElement x:Name="CustomMediaPlayerElement" Grid.Row="2"/>
     </Grid>
