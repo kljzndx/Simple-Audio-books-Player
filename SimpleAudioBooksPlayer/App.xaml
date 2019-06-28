@@ -11,7 +11,9 @@
             </ResourceDictionary.MergedDictionaries>
             <vm:ViewModelLocator x:Key="Locator"/>
 
-            <!-- Default style for Windows.UI.Xaml.Controls.AppBarButton -->
+
+
+            <!-- Default style of version 17134 for AppBarButton -->
             <Style x:Key="DefaultAppBarButtonStyle" TargetType="AppBarButton">
                 <Setter Property="Background" Value="{ThemeResource AppBarButtonBackground}" />
                 <Setter Property="Foreground" Value="{ThemeResource AppBarButtonForeground}" />
@@ -265,7 +267,6 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-
         </ResourceDictionary>
     </Application.Resources>
 
