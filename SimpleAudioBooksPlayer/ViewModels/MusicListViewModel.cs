@@ -48,14 +48,15 @@ namespace SimpleAudioBooksPlayer.ViewModels
             }
 
             if (_settings.SortMethod != _sortMethod)
-                SortData();
+                SortData(_settings.SortMethod);
         }
 
-        private void SortData()
+        public void SortData(MusicListSortMembers method)
         {
-            _sortMethod = _settings.SortMethod;
+            _sortMethod = method;
+            _settings.SortMethod = method;
 
-            IEnumerable<MusicFileDTO> source = Data.OrderBy(SorterMembers[(int) _sortMethod].KeySelector.Invoke);
+            IEnumerable<MusicFileDTO> source = Data.OrderBy(SorterMembers[(int) method].KeySelector.Invoke);
 
             if (_settings.IsReverse)
                 source = source.Reverse();

@@ -11,7 +11,52 @@
     DataContext="{Binding Source={StaticResource Locator}, Path=MusicList}">
 
     <Grid>
-        <ListView ItemsSource="{Binding Data}" SelectionMode="None" IsItemClickEnabled="True" ItemClick="Main_ListView_OnItemClick">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="2" Orientation="Horizontal">
+                <StackPanel.Resources>
+                    <Style TargetType="Button" BasedOn="{StaticResource IconButton_Style}">
+                    </Style>
+                </StackPanel.Resources>
+                <TextBlock Text="排序：" VerticalAlignment="Center"/>
+                <Button x:Name="Reverse_Button" Click="{x:Bind _vm.Reverse}">
+                    <SymbolIcon Symbol="Sort"/>
+                </Button>
+                <Button x:Name="SorterList_Button">
+                    <Button.Content>
+                        <FontIcon Glyph="&#xE011;"/>
+                    </Button.Content>
+
+                    <Button.Flyout>
+                        <Flyout>
+                            <ListView x:Name="Sorter_ListView" ItemsSource="{Binding SorterMembers}" SelectionChanged="Sorter_ListView_OnSelectionChanged">
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Name}"/>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
+            </StackPanel>
+        </Grid>
+
+        <ListView x:Name="Main_ListView" Grid.Row="1" ItemsSource="{Binding Data}" SelectionMode="None" IsItemClickEnabled="True" ItemClick="Main_ListView_OnItemClick">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
