@@ -67,13 +67,8 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
         private void Service_DataUpdated(object sender, IEnumerable<FileGroup> e)
         {
             var list = e.ToList();
-            var needRemove = new List<FileGroupDTO>(Data.Where(src => list.Any(g => g.Index == src.Index)));
-            foreach (var groupDto in needRemove)
-                Data.Remove(groupDto);
-
-            var needAdd = list.Select(g => new FileGroupDTO(g)).ToList();
-            foreach (var group in needAdd)
-                Data.Add(group);
+            foreach (var fileGroup in list)
+                Data.First(g => g.Index == fileGroup.Index).Update(fileGroup);
         }
     }
 }

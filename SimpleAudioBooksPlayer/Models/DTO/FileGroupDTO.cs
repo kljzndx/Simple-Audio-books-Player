@@ -64,6 +64,15 @@ namespace SimpleAudioBooksPlayer.Models.DTO
             return cover;
         }
 
+        public void Update(FileGroup source)
+        {
+            if (source.Index != Index)
+                throw new Exception("新的文件组跟当前文件组没半毛钱关系");
+
+            Name = source.Name;
+            HasCover = source.HasCover;
+        }
+
         public FileGroup ToTableModel()
         {
             return new FileGroup(Index, Name, FolderPath, HasCover, CreateTime);
