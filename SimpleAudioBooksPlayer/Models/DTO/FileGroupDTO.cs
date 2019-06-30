@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Threading.Tasks;
+using Windows.Storage;
+using Windows.UI.Xaml.Media.Imaging;
 using GalaSoft.MvvmLight;
 using SimpleAudioBooksPlayer.DAL;
 
@@ -6,6 +9,11 @@ namespace SimpleAudioBooksPlayer.Models.DTO
 {
     public class FileGroupDTO : ObservableObject, IEquatable<FileGroupDTO>
     {
+        private const string DefaultCoverUri = "ms-appx:///Assets/CoverIcon.png";
+        private const string CustomCoverUri = "ms-appdata:///local/cover/";
+
+        private WeakReference<BitmapImage> _cover;
+
         private string _name;
         private bool _hasCover;
 
@@ -31,6 +39,30 @@ namespace SimpleAudioBooksPlayer.Models.DTO
             set => Set(ref _hasCover, value);
         }
         public DateTime CreateTime { get; set; }
+
+        public async Task<BitmapImage> GetCover()
+        {
+            BitmapImage cover = null;
+            _cover?.TryGetTarget(out cover);
+            if (cover is null)
+            {
+                if (HasCover)
+                {
+                    var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(CustomCoverUri+$"{Index}.png"));
+                    cover = new BitmapImage();
+                    cover.SetSource(await file.OpenAsync(FileAccessMode.Read));
+                    _cover = new WeakReference<BitmapImage>(cover);
+                }
+                else
+                {
+                    var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(DefaultCoverUri));
+                    cover = new BitmapImage();
+                    cover.SetSource(await file.OpenAsync(FileAccessMode.Read));
+                    _cover = new WeakReference<BitmapImage>(cover);
+                }
+            }
+            return cover;
+        }
 
         public bool Equals(FileGroupDTO other)
         {

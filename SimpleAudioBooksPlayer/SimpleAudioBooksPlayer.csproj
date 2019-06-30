@@ -148,6 +148,9 @@
     <Compile Include="Views\GroupListPage.xaml.cs">
       <DependentUpon>GroupListPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ItemTemplates\FileGroupItemTemplate.xaml.cs">
+      <DependentUpon>FileGroupItemTemplate.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ItemTemplates\MusicListItemTemplate.xaml.cs">
       <DependentUpon>MusicListItemTemplate.xaml</DependentUpon>
     </Compile>
@@ -167,6 +170,7 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\CoverIcon.png" />
     <Content Include="Assets\LargeTile.scale-100.png" />
     <Content Include="Assets\LargeTile.scale-125.png" />
     <Content Include="Assets\LargeTile.scale-150.png" />
@@ -232,6 +236,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\GroupListPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ItemTemplates\FileGroupItemTemplate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
