@@ -64,6 +64,11 @@ namespace SimpleAudioBooksPlayer.Models.DTO
             return cover;
         }
 
+        public FileGroup ToTableModel()
+        {
+            return new FileGroup(Index, Name, FolderPath, HasCover, CreateTime);
+        }
+
         public bool Equals(FileGroupDTO other)
         {
             if (other is null)

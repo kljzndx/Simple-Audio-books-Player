@@ -17,6 +17,15 @@ namespace SimpleAudioBooksPlayer.DAL
             CreateTime = DateTime.Now;
         }
 
+        public FileGroup(int index, string name, string folderPath, bool hasCover, DateTime time)
+        {
+            Index = index;
+            Name = name;
+            FolderPath = folderPath;
+            HasCover = hasCover;
+            CreateTime = time;
+        }
+
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Index { get; set; }
         public string Name { get; set; }
