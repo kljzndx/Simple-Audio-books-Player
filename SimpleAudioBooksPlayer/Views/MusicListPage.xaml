@@ -22,10 +22,9 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <StackPanel Grid.Column="2" Orientation="Horizontal">
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
                 <StackPanel.Resources>
-                    <Style TargetType="Button" BasedOn="{StaticResource IconButton_Style}">
-                    </Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource IconButton_Style}"/>
                 </StackPanel.Resources>
                 <TextBlock Text="排序：" VerticalAlignment="Center"/>
                 <Button x:Name="Reverse_Button" Click="{x:Bind _vm.Reverse}">
