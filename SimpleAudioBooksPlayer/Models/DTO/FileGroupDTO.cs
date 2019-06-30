@@ -64,6 +64,12 @@ namespace SimpleAudioBooksPlayer.Models.DTO
             return cover;
         }
 
+        public void SetCover(BitmapImage cover)
+        {
+            _cover = new WeakReference<BitmapImage>(cover);
+            HasCover = true;
+        }
+
         public void Update(FileGroup source)
         {
             if (source.Index != Index)

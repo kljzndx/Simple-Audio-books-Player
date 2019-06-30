@@ -38,8 +38,16 @@ namespace SimpleAudioBooksPlayer.Views.ItemTemplates
         private async void FileGroupItemTemplate_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
         {
             if (Cover_Image.Source is null && Source != null)
+            {
                 Cover_Image.Source = await Source.GetCover();
+                Source.PropertyChanged += Source_PropertyChanged;
+            }
         }
 
+        private async void Source_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "HasCover")
+                Cover_Image.Source = await Source.GetCover();
+        }
     }
 }
