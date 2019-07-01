@@ -12,8 +12,8 @@
 
     <Page.Resources>
         <MenuFlyout x:Name="RightTap_MenuFlyout">
-            <MenuFlyoutItem x:Name="Rename_MenuFlyoutItem" Text="重命名" Click="Rename_MenuFlyoutItem_OnClick"/>
-            <MenuFlyoutItem x:Name="SetCover_MenuFlyoutItem" Text="设置封面" Click="SetCover_MenuFlyoutItem_OnClick"/>
+            <MenuFlyoutItem x:Uid="/GroupListPage/Rename_MenuFlyoutItem" Text="重命名" Click="Rename_MenuFlyoutItem_OnClick"/>
+            <MenuFlyoutItem x:Uid="/GroupListPage/SetCover_MenuFlyoutItem" Text="设置封面" Click="SetCover_MenuFlyoutItem_OnClick"/>
         </MenuFlyout>
     </Page.Resources>
 
@@ -26,8 +26,8 @@
             </GridView.ItemTemplate>
         </GridView>
 
-        <ContentDialog x:Name="RenameGroup_ContentDialog" PrimaryButtonText="确定" SecondaryButtonText="取消" PrimaryButtonClick="RenameGroup_ContentDialog_OnPrimaryButtonClick">
-            <TextBox x:Name="GroupName_TextBox" Header="新名称" VerticalAlignment="Center"/>
+        <ContentDialog x:Name="RenameGroup_ContentDialog" x:Uid="/GroupListPage/RenameGroup_ContentDialog" PrimaryButtonText="确定" SecondaryButtonText="取消" PrimaryButtonClick="RenameGroup_ContentDialog_OnPrimaryButtonClick">
+            <TextBox x:Name="GroupName_TextBox" x:Uid="/GroupListPage/GroupName_TextBox" Header="新名称" VerticalAlignment="Center"/>
         </ContentDialog>
     </Grid>
 </Page>
