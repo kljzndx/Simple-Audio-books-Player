@@ -50,6 +50,12 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             _service.DataUpdated += Service_DataUpdated;
         }
 
+        public async Task Rename(FileGroupDTO groupDto, string newName)
+        {
+            groupDto.Name = newName;
+            await _service.RenameGroup(groupDto.Index, newName);
+        }
+
         public async Task SetCover(FileGroupDTO groupDto, StorageFile file)
         {
             if (_coverFolder is null)

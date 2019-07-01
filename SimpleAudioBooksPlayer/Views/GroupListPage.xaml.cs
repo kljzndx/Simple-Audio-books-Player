@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using SimpleAudioBooksPlayer.Models.DTO;
 using SimpleAudioBooksPlayer.ViewModels;
+using SimpleAudioBooksPlayer.ViewModels.DataServer;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -58,15 +59,21 @@ namespace SimpleAudioBooksPlayer.Views
             RightTap_MenuFlyout.ShowAt(Main_GridView, e.GetPosition(Main_GridView));
         }
 
-        private void Rename_MenuFlyoutItem_OnClick(object sender, RoutedEventArgs e)
+        private async void Rename_MenuFlyoutItem_OnClick(object sender, RoutedEventArgs e)
         {
-            
+            await RenameGroup_ContentDialog.ShowAsync();
         }
 
         private async void SetCover_MenuFlyoutItem_OnClick(object sender, RoutedEventArgs e)
         {
             await _vm.SetUpCover(_tempGroup);
             _tempGroup = null;
+        }
+
+        private async void RenameGroup_ContentDialog_OnPrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+            if (!String.IsNullOrWhiteSpace(GroupName_TextBox.Text))
+                await FileGroupDataServer.Current.Rename(_tempGroup, GroupName_TextBox.Text);
         }
     }
 }

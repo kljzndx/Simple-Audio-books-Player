@@ -25,5 +25,9 @@
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>
+
+        <ContentDialog x:Name="RenameGroup_ContentDialog" PrimaryButtonText="确定" SecondaryButtonText="取消" PrimaryButtonClick="RenameGroup_ContentDialog_OnPrimaryButtonClick">
+            <TextBox x:Name="GroupName_TextBox" Header="新名称" VerticalAlignment="Center"/>
+        </ContentDialog>
     </Grid>
 </Page>
