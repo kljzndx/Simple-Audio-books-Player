@@ -30,13 +30,25 @@ namespace SimpleAudioBooksPlayer.Service
             return _source.ToList();
         }
 
-        public async Task RenameGroup(int geoupId, string newName)
+        public async Task RenameGroup(int groupId, string newName)
         {
-            var group = _source.FirstOrDefault(src => src.Index == geoupId);
+            var group = _source.FirstOrDefault(src => src.Index == groupId);
             if (@group == null)
                 return;
 
             group.Name = newName;
+
+            await _helper.Update(group);
+            DataUpdated?.Invoke(this, new[] {group});
+        }
+
+        public async Task SetCover(int groupId)
+        {
+            var group = _source.FirstOrDefault(src => src.Index == groupId);
+            if (@group == null)
+                return;
+
+            group.HasCover = true;
 
             await _helper.Update(group);
             DataUpdated?.Invoke(this, new[] {group});

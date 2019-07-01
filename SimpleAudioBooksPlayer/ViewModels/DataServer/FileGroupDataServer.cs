@@ -62,9 +62,12 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
                     _coverFolder = await ApplicationData.Current.LocalFolder.GetFolderAsync("cover");
 
             var bitmapFile = await file.CopyAsync(_coverFolder, $"{groupDto.Index}.image", NameCollisionOption.ReplaceExisting);
+
             var bi = new BitmapImage();
             bi.SetSource(await bitmapFile.OpenAsync(FileAccessMode.Read));
             groupDto.SetCover(bi);
+
+            await _service.SetCover(groupDto.Index);
         }
 
         private void Service_DataAdded(object sender, IEnumerable<FileGroup> e)
