@@ -31,7 +31,7 @@ namespace SimpleAudioBooksPlayer.Views.ItemTemplates
 
         public FileGroupDTO Source
         {
-            get => (FileGroupDTO)GetValue(SourceProperty);
+            get => (FileGroupDTO) GetValue(SourceProperty);
             set => SetValue(SourceProperty, value);
         }
 
@@ -40,14 +40,13 @@ namespace SimpleAudioBooksPlayer.Views.ItemTemplates
             if (Cover_Image.Source is null && Source != null)
             {
                 Cover_Image.Source = await Source.GetCover();
-                Source.PropertyChanged += Source_PropertyChanged;
+                Source.CoverChanged += Source_CoverChanged;
             }
         }
 
-        private async void Source_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private async void Source_CoverChanged(object sender, object e)
         {
-            if (e.PropertyName == "HasCover")
-                Cover_Image.Source = await Source.GetCover();
+            Cover_Image.Source = await Source.GetCover();
         }
     }
 }

@@ -26,6 +26,8 @@ namespace SimpleAudioBooksPlayer.Models.DTO
             CreateTime = source.CreateTime;
         }
 
+        public event EventHandler<object> CoverChanged;
+
         public int Index { get; }
         public string Name
         {
@@ -68,6 +70,7 @@ namespace SimpleAudioBooksPlayer.Models.DTO
         {
             _cover = new WeakReference<BitmapImage>(cover);
             HasCover = true;
+            CoverChanged?.Invoke(this, null);
         }
 
         public void Update(FileGroup source)
