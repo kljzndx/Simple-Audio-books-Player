@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.Storage;
+using Windows.UI.Xaml.Media.Imaging;
 using SimpleAudioBooksPlayer.DAL;
 using SimpleAudioBooksPlayer.Models.DTO;
 using SimpleAudioBooksPlayer.Service;
+using SimpleAudioBooksPlayer.ViewModels.SettingProperties;
 
 namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 {
@@ -14,6 +17,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
         public static readonly FileGroupDataServer Current = new FileGroupDataServer();
 
         private FileGroupDataService _service;
+        private StorageFolder _coverFolder;
 
         public FileGroupDataServer()
         {
@@ -44,6 +48,23 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             _service.DataAdded += Service_DataAdded;
             _service.DataRemoved += Service_DataRemoved;
             _service.DataUpdated += Service_DataUpdated;
+        }
+
+        public async Task SetCover(FileGroupDTO groupDto, StorageFile file)
+        {
+            if (_coverFolder is null)
+                if (!OtherSettingProperties.Current.IsCreatedCoverFolder)
+                {
+                    _coverFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("cover");
+                    OtherSettingProperties.Current.IsCreatedCoverFolder = true;
+                }
+                else
+                    _coverFolder = await ApplicationData.Current.LocalFolder.GetFolderAsync("cover");
+
+            var bitmapFile = await file.CopyAsync(_coverFolder, $"{groupDto.Index}.image", NameCollisionOption.ReplaceExisting);
+            var bi = new BitmapImage();
+            bi.SetSource(await bitmapFile.OpenAsync(FileAccessMode.Read));
+            groupDto.SetCover(bi);
         }
 
         private void Service_DataAdded(object sender, IEnumerable<FileGroup> e)

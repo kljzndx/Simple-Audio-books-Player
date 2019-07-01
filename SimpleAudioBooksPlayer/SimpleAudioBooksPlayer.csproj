@@ -135,6 +135,7 @@
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MusicListViewModel.cs" />
     <Compile Include="ViewModels\SettingProperties\MusicListSettingProperties.cs" />
+    <Compile Include="ViewModels\SettingProperties\OtherSettingProperties.cs" />
     <Compile Include="ViewModels\SettingProperties\PlayerSettingProperties.cs" />
     <Compile Include="ViewModels\ValueConverters\BoolToVisibility.cs" />
     <Compile Include="ViewModels\ValueConverters\CollectionToString.cs" />
