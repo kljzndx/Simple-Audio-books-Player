@@ -24,7 +24,8 @@ namespace SimpleAudioBooksPlayer.Views
     /// </summary>
     public sealed partial class GroupListPage : Page
     {
-        private GroupListViewModel _vm;
+        private readonly GroupListViewModel _vm;
+        private FileGroupDTO _tempGroup;
 
         public GroupListPage()
         {
@@ -44,6 +45,28 @@ namespace SimpleAudioBooksPlayer.Views
                 return;
 
             Frame.Navigate(typeof(MusicListPage), group.Index);
+        }
+
+        private void Main_GridView_OnRightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            var theElement = (FrameworkElement) e.OriginalSource;
+            var group = theElement.DataContext as FileGroupDTO;
+            if (group is null)
+                return;
+
+            _tempGroup = group;
+            RightTap_MenuFlyout.ShowAt(Main_GridView, e.GetPosition(Main_GridView));
+        }
+
+        private void Rename_MenuFlyoutItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private async void SetCover_MenuFlyoutItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            await _vm.SetUpCover(_tempGroup);
+            _tempGroup = null;
         }
     }
 }
