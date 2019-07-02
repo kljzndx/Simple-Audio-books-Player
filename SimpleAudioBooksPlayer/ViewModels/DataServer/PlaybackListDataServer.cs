@@ -89,6 +89,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
                 if (hasData)
                     DataRemoved?.Invoke(this, Data.ToList());
 
+                _playbackList.Items.Clear();
                 Data.Clear();
                 foreach (var musicFileDto in list)
                     Data.Add(musicFileDto);
@@ -112,7 +113,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
                 _currentGroup = playTo.Group;
 
                 var sortSelector = MusicSortDeserialization.Deserialize(_musicListSettings.SortMethod);
-                IEnumerable<MusicFileDTO> source = _musicServer.Data.Where(m => m.Group.Equals(playTo.Group))
+                IEnumerable<MusicFileDTO> source = _musicServer.Data.Where(m => m.Group.Equals(_currentGroup))
                     .OrderBy(sortSelector.Invoke);
 
                 if (_musicListSettings.IsReverse)
@@ -123,6 +124,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
                 DataRemoved?.Invoke(this, Data.ToList());
 
+                _playbackList.Items.Clear();
                 Data.Clear();
                 foreach (var musicFile in list)
                     Data.Add(musicFile);
@@ -145,7 +147,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
                 _currentGroup = groupDto;
 
                 var sortSelector = MusicSortDeserialization.Deserialize(_musicListSettings.SortMethod);
-                IEnumerable<MusicFileDTO> source = _musicServer.Data.Where(m => m.Group.Equals(groupDto))
+                IEnumerable<MusicFileDTO> source = _musicServer.Data.Where(m => m.Group.Equals(_currentGroup))
                     .OrderBy(sortSelector.Invoke);
 
                 if (_musicListSettings.IsReverse)
@@ -156,6 +158,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
                 DataRemoved?.Invoke(this, Data.ToList());
 
+                _playbackList.Items.Clear();
                 Data.Clear();
                 foreach (var musicFile in list)
                     Data.Add(musicFile);
