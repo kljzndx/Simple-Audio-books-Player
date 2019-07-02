@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Navigation;
 using SimpleAudioBooksPlayer.Models.DTO;
 using SimpleAudioBooksPlayer.ViewModels;
 using SimpleAudioBooksPlayer.ViewModels.DataServer;
+using SimpleAudioBooksPlayer.ViewModels.Events;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -32,6 +33,8 @@ namespace SimpleAudioBooksPlayer.Views
         {
             this.InitializeComponent();
             _vm = (GroupListViewModel) this.DataContext;
+
+            GroupListMoreMenuNotifier.ShowMoreMenuRequested += GroupListMoreMenuNotifier_ShowMoreMenuRequested;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -57,6 +60,16 @@ namespace SimpleAudioBooksPlayer.Views
 
             _tempGroup = group;
             RightTap_MenuFlyout.ShowAt(Main_GridView, e.GetPosition(Main_GridView));
+        }
+
+        private void GroupListMoreMenuNotifier_ShowMoreMenuRequested(FrameworkElement sender, object e)
+        {
+            var dto = sender.DataContext as FileGroupDTO;
+            if (dto == null)
+                return;
+
+            _tempGroup = dto;
+            RightTap_MenuFlyout.ShowAt(sender);
         }
 
         private async void Rename_MenuFlyoutItem_OnClick(object sender, RoutedEventArgs e)

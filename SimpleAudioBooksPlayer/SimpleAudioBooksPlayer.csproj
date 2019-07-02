@@ -128,6 +128,7 @@
     <Compile Include="ViewModels\DataServer\MusicFileDataServer.cs" />
     <Compile Include="ViewModels\DataServer\PlaybackListDataServer.cs" />
     <Compile Include="ViewModels\DataServer\PlaybackRecordDataServer.cs" />
+    <Compile Include="ViewModels\Events\GroupListMoreMenuNotifier.cs" />
     <Compile Include="ViewModels\Events\PlayerNowPlaybackItemChangeEventArgs.cs" />
     <Compile Include="ViewModels\Events\PlayerPositionChangeEventArgs.cs" />
     <Compile Include="ViewModels\Extensions\TimespanExtension.cs" />
@@ -260,6 +261,9 @@
   <ItemGroup>
     <PackageReference Include="HappyStudio.Parsing.Subtitle">
       <Version>1.2.1</Version>
+    </PackageReference>
+    <PackageReference Include="HappyStudio.UwpToolsLibrary.Control">
+      <Version>1.6.6</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.8</Version>

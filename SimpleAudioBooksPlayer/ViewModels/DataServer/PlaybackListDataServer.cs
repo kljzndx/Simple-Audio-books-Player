@@ -138,6 +138,39 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             BeginToPlay();
         }
 
+        public async Task SetSource(FileGroupDTO groupDto)
+        {
+            if (!groupDto.Equals(_currentGroup) || _currentSortMethod != _musicListSettings.SortMethod)
+            {
+                _currentGroup = groupDto;
+
+                var sortSelector = MusicSortDeserialization.Deserialize(_musicListSettings.SortMethod);
+                IEnumerable<MusicFileDTO> source = _musicServer.Data.Where(m => m.Group.Equals(groupDto))
+                    .OrderBy(sortSelector.Invoke);
+
+                if (_musicListSettings.IsReverse)
+                    source = source.Reverse();
+
+                var list = source.ToList();
+                SplitList(list);
+
+                DataRemoved?.Invoke(this, Data.ToList());
+
+                Data.Clear();
+                foreach (var musicFile in list)
+                    Data.Add(musicFile);
+
+                DataAdded?.Invoke(this, Data.ToList());
+
+                _currentSortMethod = _musicListSettings.SortMethod;
+            }
+
+            uint trackId = (uint) Data.IndexOf(Data.First());
+            await PlayTo(trackId);
+
+            BeginToPlay();
+        }
+
         private void SplitList(IEnumerable<MusicFileDTO> files)
         {
             _tempList.Clear();

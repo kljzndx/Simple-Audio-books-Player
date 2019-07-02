@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.Devices.Input;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -13,6 +14,8 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using SimpleAudioBooksPlayer.Models.DTO;
+using SimpleAudioBooksPlayer.ViewModels.DataServer;
+using SimpleAudioBooksPlayer.ViewModels.Events;
 
 //https://go.microsoft.com/fwlink/?LinkId=234236 上介绍了“用户控件”项模板
 
@@ -27,6 +30,7 @@ namespace SimpleAudioBooksPlayer.Views.ItemTemplates
         {
             this.InitializeComponent();
             DataContextChanged += FileGroupItemTemplate_DataContextChanged;
+
         }
 
         public FileGroupDTO Source
@@ -47,6 +51,42 @@ namespace SimpleAudioBooksPlayer.Views.ItemTemplates
         private async void Source_CoverChanged(object sender, object e)
         {
             Cover_Image.Source = await Source.GetCover();
+        }
+
+        private void ControlButtonFadeOut_Storyboard_OnCompleted(object sender, object e)
+        {
+            ControlButton_StackPanel.Visibility = Visibility.Collapsed;
+        }
+
+        private void Cover_Grid_OnPointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            ControlButton_StackPanel.Visibility = Visibility.Visible;
+            ControlButtonFadeIn_Storyboard.Begin();
+        }
+
+        private void Cover_Grid_OnPointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            ControlButtonFadeOut_Storyboard.Begin();
+        }
+
+        private async void Play_Button_OnClick(object sender, RoutedEventArgs e)
+        {
+            await PlaybackListDataServer.Current.SetSource(Source);
+        }
+
+        private void More_Button_OnClick(object sender, RoutedEventArgs e)
+        {
+            GroupListMoreMenuNotifier.RequestShowMoreMenu(More_Button);
+        }
+
+        private void Cover_Image_OnTapped(object sender, TappedRoutedEventArgs e)
+        {
+            if (e.PointerDeviceType != PointerDeviceType.Mouse && ControlButton_StackPanel.Visibility == Visibility.Collapsed)
+            {
+                e.Handled = true;
+                ControlButton_StackPanel.Visibility = Visibility.Visible;
+                ControlButtonFadeIn_Storyboard.Begin();
+            }
         }
     }
 }
