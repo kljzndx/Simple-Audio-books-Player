@@ -33,6 +33,7 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
         public static event TypedEventHandler<CustomMediaPlayerElement, PlayerNowPlaybackItemChangeEventArgs> NowPlaybackItemChanged;
 
         private readonly PlayerSettingProperties _settings = PlayerSettingProperties.Current;
+        private readonly PlaybackListDataServer _dataServer = PlaybackListDataServer.Current;
 
         private bool? _isPressPositionControlButton = false;
         private bool _isUserChangePosition;
@@ -156,7 +157,7 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
             //this.LogByObject($"已完成 {optionInfo} 操作");
         }
 
-        private void ReleasePositionButton(bool isNextSong)
+        private async Task ReleasePositionButton(bool isNextSong)
         {
             bool? b = _isPressPositionControlButton;
             _isPressPositionControlButton = false;
@@ -167,9 +168,19 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
                 //this.LogByObject($"正在执行 {optionInfo} 操作");
 
                 if (isNextSong)
-                    mpl.MoveNext();
+                {
+                    if (mpl.CurrentItemIndex < mpl.Items.Count - 2)
+                        mpl.MoveNext();
+                    else
+                        await _dataServer.NextClip();
+                }
                 else
-                    mpl.MovePrevious();
+                {
+                    if (mpl.CurrentItemIndex > 0)
+                        mpl.MovePrevious();
+                    else
+                        await _dataServer.PreviousClip();
+                }
 
                 //this.LogByObject($"完成 {optionInfo} 操作");
             }
@@ -286,9 +297,9 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
             await PressPositionButton(false);
         }
 
-        private void MyTransportControls_OnRewindButton_PointerReleased(object sender, PointerRoutedEventArgs e)
+        private async void MyTransportControls_OnRewindButton_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
-            ReleasePositionButton(false);
+            await ReleasePositionButton(false);
         }
 
         private async void MyTransportControls_OnFastForwardButton_PointerPressed(object sender, PointerRoutedEventArgs e)
@@ -296,9 +307,9 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
             await PressPositionButton(true);
         }
 
-        private void MyTransportControls_OnFastForwardButton_PointerReleased(object sender, PointerRoutedEventArgs e)
+        private async void MyTransportControls_OnFastForwardButton_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
-            ReleasePositionButton(true);
+            await ReleasePositionButton(true);
         }
 
         #endregion

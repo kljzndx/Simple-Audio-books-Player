@@ -19,6 +19,8 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
         private FileGroupDTO _currentGroup;
         private MusicListSortMembers _currentSortMethod;
 
+        private uint _playingId;
+         
         private int _clipId = -1;
         private readonly List<List<MusicFileDTO>> _clipList = new List<List<MusicFileDTO>>();
 
@@ -60,6 +62,28 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             _musicServer.DataRemoved += MusicServer_DataRemoved;
             _player.MediaEnded += Player_MediaEnded;
             _playbackList.CurrentItemChanged += PlaybackList_CurrentItemChanged;
+        }
+
+        public async Task PreviousClip()
+        {
+            if (!Data.Any())
+                return;
+
+            if (_playingId == 0)
+                await PlayTo((uint) Data.IndexOf(Data.Last()));
+            else
+                await PlayTo(_playingId - 1);
+        }
+
+        public async Task NextClip()
+        {
+            if (!Data.Any())
+                return;
+
+            if (_playingId == Data.Count - 1)
+                await PlayTo((uint) Data.IndexOf(Data.First()));
+            else
+                await PlayTo(_playingId + 1);
         }
 
         #region Source setter
@@ -151,6 +175,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
         
         private async Task PlayTo(uint trackId)
         {
+            _playingId = trackId;
             var clipId = (int) Math.Ceiling((trackId + 1) / 10D) - 1;
             
             var clip = _clipList[clipId];
@@ -193,7 +218,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                var id = 10 * (_clipId + 1);
+                var id = (int) _playingId + 1;
                 if (id < Data.Count)
                     await SetSource(Data[id]);
             });
