@@ -145,7 +145,8 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
         
         private async Task PlayTo(uint trackId)
         {
-            var groupId = (int) (trackId + 1) / 10;
+            var groupId = (int) Math.Ceiling((trackId + 1) / 10D) - 1;
+            
             var group = _tempList[groupId];
             var mfId = (uint) (trackId < 10 ? trackId : trackId - (10 * groupId));
 
