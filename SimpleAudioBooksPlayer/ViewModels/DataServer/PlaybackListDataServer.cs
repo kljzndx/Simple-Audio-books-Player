@@ -16,12 +16,13 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
     {
         public static PlaybackListDataServer Current = new PlaybackListDataServer();
 
-        private int _tempItemId = -1;
         private FileGroupDTO _currentGroup;
         private MusicListSortMembers _currentSortMethod;
 
+        private int _clipId = -1;
+        private readonly List<List<MusicFileDTO>> _clipList = new List<List<MusicFileDTO>>();
+
         private readonly MusicListSettingProperties _musicListSettings = MusicListSettingProperties.Current;
-        private readonly List<List<MusicFileDTO>> _tempList = new List<List<MusicFileDTO>>();
         private readonly MediaPlaybackList _playbackList = new MediaPlaybackList();
         private MediaPlayer _player;
 
@@ -34,6 +35,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
         }
 
         public bool IsInit { get; private set; }
+
         public ObservableCollection<MusicFileDTO> Data { get; }
 
         public event EventHandler<IEnumerable<MusicFileDTO>> DataLoaded;
@@ -60,6 +62,8 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             _playbackList.CurrentItemChanged += PlaybackList_CurrentItemChanged;
         }
 
+        #region Source setter
+        
         public async Task SetSource(PlaybackRecordDTO record)
         {
             bool hasData = Data.Any();
@@ -91,6 +95,8 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             BeginToPlay();
         }
 
+        #endregion
+
         private void InitData(FileGroupDTO groupDto, MusicListSortMembers method, bool? isReverse = null)
         {
             bool hasData = Data.Any();
@@ -120,13 +126,13 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
                     DataAdded?.Invoke(this, Data.ToList());
 
                 _currentSortMethod = method;
-                _tempItemId = -1;
+                _clipId = -1;
             }
         }
 
         private void SplitList(IEnumerable<MusicFileDTO> files)
         {
-            _tempList.Clear();
+            _clipList.Clear();
             var queue = new Queue<MusicFileDTO>(files);
 
             while (queue.Any())
@@ -139,23 +145,23 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
                     else
                         break;
 
-                _tempList.Add(temp);
+                _clipList.Add(temp);
             }
         }
         
         private async Task PlayTo(uint trackId)
         {
-            var groupId = (int) Math.Ceiling((trackId + 1) / 10D) - 1;
+            var clipId = (int) Math.Ceiling((trackId + 1) / 10D) - 1;
             
-            var group = _tempList[groupId];
-            var mfId = (uint) (trackId < 10 ? trackId : trackId - (10 * groupId));
+            var clip = _clipList[clipId];
+            var mfId = (uint) (trackId < 10 ? trackId : trackId - (10 * clipId));
 
-            if (_tempItemId != groupId)
+            if (_clipId != clipId)
             {
-                _tempItemId = groupId;
+                _clipId = clipId;
                 _playbackList.Items.Clear();
 
-                foreach (var fileDto in group)
+                foreach (var fileDto in clip)
                     _playbackList.Items.Add(await fileDto.GetPlaybackItem());
             }
 
@@ -187,7 +193,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                var id = 10 * (_tempItemId + 1);
+                var id = 10 * (_clipId + 1);
                 if (id < Data.Count)
                     await SetSource(Data[id]);
             });
@@ -198,7 +204,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             var cw = CoreApplication.MainView.CoreWindow;
             await cw.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                int id = (int) (_tempItemId * 10 + sender.CurrentItemIndex);
+                int id = (int) (_clipId * 10 + sender.CurrentItemIndex);
                 if (id == -1)
                     return;
 
