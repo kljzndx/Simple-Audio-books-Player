@@ -53,6 +53,12 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
             return session != null;
         }
 
+        private void Play()
+        {
+            if (!TryGetSession(out var session) || session.PlaybackState != MediaPlaybackState.Playing)
+                player.Play();
+        }
+
         #region Player setup methods
 
         public void SetMediaPlayer(MediaPlayer mediaPlayer)
@@ -69,6 +75,7 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
         {
             player.SourceChanged += Player_SourceChanged;
             player.MediaOpened += Player_MediaOpened;
+            player.MediaEnded += Player_MediaEnded;
             player.MediaFailed += Player_MediaFailed;
             player.VolumeChanged += Player_VolumeChanged;
 
@@ -81,6 +88,7 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
         {
             player.SourceChanged -= Player_SourceChanged;
             player.MediaOpened -= Player_MediaOpened;
+            player.MediaEnded -= Player_MediaEnded;
             player.MediaFailed -= Player_MediaFailed;
             player.VolumeChanged -= Player_VolumeChanged;
 
@@ -219,6 +227,15 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
                     NowPlaybackItemChanged?.Invoke(this, new PlayerNowPlaybackItemChangeEventArgs(CurrentItem, mpi));
                     CurrentItem = mpi;
                 }
+            });
+        }
+
+        private async void Player_MediaEnded(MediaPlayer sender, object args)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            {
+                await _dataServer.NextClip();
+                Play();
             });
         }
 

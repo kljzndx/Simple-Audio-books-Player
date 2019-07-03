@@ -60,7 +60,6 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             DataLoaded?.Invoke(this, Data.ToList());
 
             _musicServer.DataRemoved += MusicServer_DataRemoved;
-            _player.MediaEnded += Player_MediaEnded;
             _playbackList.CurrentItemChanged += PlaybackList_CurrentItemChanged;
         }
 
@@ -212,16 +211,6 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
                 Data.Remove(fileDto);
             }
-        }
-
-        private async void Player_MediaEnded(MediaPlayer sender, object args)
-        {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-            {
-                var id = (int) _playingId + 1;
-                if (id < Data.Count)
-                    await SetSource(Data[id]);
-            });
         }
 
         private async void PlaybackList_CurrentItemChanged(MediaPlaybackList sender, CurrentMediaPlaybackItemChangedEventArgs args)
