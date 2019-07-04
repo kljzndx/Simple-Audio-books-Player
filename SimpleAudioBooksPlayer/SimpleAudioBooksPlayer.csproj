@@ -135,6 +135,7 @@
     <Compile Include="ViewModels\GroupListViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MusicListViewModel.cs" />
+    <Compile Include="ViewModels\PlayRecordViewModel.cs" />
     <Compile Include="ViewModels\SettingProperties\MusicListSettingProperties.cs" />
     <Compile Include="ViewModels\SettingProperties\OtherSettingProperties.cs" />
     <Compile Include="ViewModels\SettingProperties\PlayerSettingProperties.cs" />
@@ -156,6 +157,9 @@
     <Compile Include="Views\ItemTemplates\MusicListItemTemplate.xaml.cs">
       <DependentUpon>MusicListItemTemplate.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ItemTemplates\PlayRecordItemTemplate.xaml.cs">
+      <DependentUpon>PlayRecordItemTemplate.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -167,6 +171,9 @@
     </Compile>
     <Compile Include="Views\MusicViewFrameworkPage.xaml.cs">
       <DependentUpon>MusicViewFrameworkPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PlayRecordPage.xaml.cs">
+      <DependentUpon>PlayRecordPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -253,6 +260,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\ItemTemplates\PlayRecordItemTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -262,6 +273,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MusicViewFrameworkPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PlayRecordPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

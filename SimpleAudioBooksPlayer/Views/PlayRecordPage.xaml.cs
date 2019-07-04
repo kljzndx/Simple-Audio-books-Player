@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using SimpleAudioBooksPlayer.ViewModels;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -20,20 +21,14 @@ namespace SimpleAudioBooksPlayer.Views
     /// <summary>
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
-    public sealed partial class MusicViewFrameworkPage : Page
+    public sealed partial class PlayRecordPage : Page
     {
-        public MusicViewFrameworkPage()
+        private readonly PlayRecordViewModel _viewModel;
+
+        public PlayRecordPage()
         {
             this.InitializeComponent();
-        }
-
-        private void Frame_OnNavigating(object sender, NavigatingCancelEventArgs e)
-        {
-            if (e.SourcePageType != typeof(MusicListPage))
-                return;
-
-            e.Cancel = true;
-            this.Frame.Navigate(e.SourcePageType, e.Parameter);
+            _viewModel = (PlayRecordViewModel) DataContext;
         }
     }
 }

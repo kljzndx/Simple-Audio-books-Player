@@ -10,7 +10,10 @@
 
     <Pivot x:Name="Root_Pivot">
         <PivotItem Header="首页">
-            <Frame x:Name="GroupView_Frame" SourcePageType="local:GroupListPage" Navigating="GroupView_Frame_OnNavigating"/>
+            <Frame x:Name="GroupView_Frame" SourcePageType="local:GroupListPage" Navigating="Frame_OnNavigating"/>
+        </PivotItem>
+        <PivotItem Header="播放记录">
+            <Frame x:Name="PlayRecordView_Frame" SourcePageType="local:PlayRecordPage" Navigating="Frame_OnNavigating"/>
         </PivotItem>
     </Pivot>
 </Page>
