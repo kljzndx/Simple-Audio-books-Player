@@ -22,17 +22,12 @@ namespace SimpleAudioBooksPlayer.Views
         {
             this.InitializeComponent();
             CustomMediaPlayerElement.SetMediaPlayer(App.MediaPlayer);
-            _navigationManager.BackRequested += _navigationManager_BackRequested;
+            _navigationManager.BackRequested += NavigationManager_BackRequested;
         }
 
-        private void _navigationManager_BackRequested(object sender, BackRequestedEventArgs e)
+        private void NavigationManager_BackRequested(object sender, BackRequestedEventArgs e)
         {
             Main_Frame.GoBack();
-        }
-
-        private async void Button_OnClick(object sender, RoutedEventArgs e)
-        {
-            await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
         }
 
         private void Main_Frame_OnNavigated(object sender, NavigationEventArgs e)
