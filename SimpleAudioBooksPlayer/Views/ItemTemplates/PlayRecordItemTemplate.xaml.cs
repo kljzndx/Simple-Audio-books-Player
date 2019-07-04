@@ -26,7 +26,7 @@ namespace SimpleAudioBooksPlayer.Views.ItemTemplates
         public PlayRecordItemTemplate()
         {
             this.InitializeComponent();
-            Title_TextBlock.FontSize += 2;
+            Title_TextBlock.FontSize += 1;
             this.DataContextChanged += PlayRecordItemTemplate_DataContextChanged;
         }
 
