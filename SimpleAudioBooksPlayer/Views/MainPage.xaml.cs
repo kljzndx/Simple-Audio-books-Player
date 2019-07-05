@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Windows.Storage;
-using Windows.System;
 using Windows.UI.Core;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -16,7 +13,7 @@ namespace SimpleAudioBooksPlayer.Views
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        private SystemNavigationManager _navigationManager = SystemNavigationManager.GetForCurrentView();
+        private readonly SystemNavigationManager _navigationManager = SystemNavigationManager.GetForCurrentView();
 
         public MainPage()
         {
