@@ -19,6 +19,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using SimpleAudioBooksPlayer.Service;
 using SimpleAudioBooksPlayer.ViewModels.DataServer;
+using SimpleAudioBooksPlayer.ViewModels.Events;
 
 namespace SimpleAudioBooksPlayer
 {
@@ -30,6 +31,7 @@ namespace SimpleAudioBooksPlayer
         public static readonly MediaPlayer MediaPlayer = new MediaPlayer();
 
         private bool _canRefreshData = true;
+        private ApplicationTheme _currentTheme;
         
         /// <summary>
         /// 初始化单一实例应用程序对象。这是执行的创作代码的第一行，
@@ -48,6 +50,8 @@ namespace SimpleAudioBooksPlayer
         /// <param name="e">有关启动请求和过程的详细信息。</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
+            _currentTheme = RequestedTheme;
+
             Frame rootFrame = Window.Current.Content as Frame;
 
             // 不要在窗口已包含内容时重复应用程序初始化，
@@ -95,6 +99,12 @@ namespace SimpleAudioBooksPlayer
 
                 await window.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                 {
+                    if (_currentTheme != RequestedTheme)
+                    {
+                        _currentTheme = RequestedTheme;
+                        ThemeChangeEvent.ReportThemeChange(_currentTheme);
+                    }
+
                     await FileGroupDataServer.Current.Init();
                     await MusicFileDataServer.Current.Init();
                     await PlaybackRecordDataServer.Current.Init();

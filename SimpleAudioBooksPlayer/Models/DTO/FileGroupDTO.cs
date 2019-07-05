@@ -1,15 +1,22 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
 using GalaSoft.MvvmLight;
 using SimpleAudioBooksPlayer.DAL;
+using SimpleAudioBooksPlayer.ViewModels.Events;
 
 namespace SimpleAudioBooksPlayer.Models.DTO
 {
     public class FileGroupDTO : ObservableObject, IEquatable<FileGroupDTO>
     {
-        private const string DefaultCoverUri = "ms-appx:///Assets/CoverIcon.png";
+        private static BitmapImage lightCover;
+        private static BitmapImage darkCover;
+
+        private static BitmapImage defaultImage;
+        private static ApplicationTheme currentTheme;
+
         private const string CustomCoverUri = "ms-appdata:///local/cover/";
 
         private WeakReference<BitmapImage> _cover;
@@ -24,6 +31,8 @@ namespace SimpleAudioBooksPlayer.Models.DTO
             FolderPath = source.FolderPath;
             _hasCover = source.HasCover;
             CreateTime = source.CreateTime;
+
+            ThemeChangeEvent.ThemeChanged += ThemeChangeEvent_ThemeChanged;
         }
 
         public event EventHandler<object> CoverChanged;
@@ -57,9 +66,7 @@ namespace SimpleAudioBooksPlayer.Models.DTO
                 }
                 else
                 {
-                    var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(DefaultCoverUri));
-                    cover = new BitmapImage();
-                    cover.SetSource(await file.OpenAsync(FileAccessMode.Read));
+                    cover = defaultImage;
                     _cover = new WeakReference<BitmapImage>(cover);
                 }
             }
@@ -104,6 +111,39 @@ namespace SimpleAudioBooksPlayer.Models.DTO
         public override int GetHashCode()
         {
             return Index;
+        }
+
+        public static async Task InitAssets()
+        {
+            currentTheme = Application.Current.RequestedTheme;
+
+            var lightFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/CoverIcon.theme-light.png"));
+            var darkFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/CoverIcon.theme-dark.png"));
+
+            var lb = new BitmapImage();
+            lb.SetSource(await lightFile.OpenAsync(FileAccessMode.Read));
+            var db = new BitmapImage();
+            db.SetSource(await darkFile.OpenAsync(FileAccessMode.Read));
+
+            lightCover = lb;
+            darkCover = db;
+
+            defaultImage = currentTheme == ApplicationTheme.Light ? lightCover : darkCover;
+        }
+
+        private void ThemeChangeEvent_ThemeChanged(object sender, ApplicationTheme e)
+        {
+            if (HasCover)
+                return;
+
+            if (currentTheme != e)
+            {
+                currentTheme = e;
+                defaultImage = currentTheme == ApplicationTheme.Light ? lightCover : darkCover;
+            }
+
+            _cover = new WeakReference<BitmapImage>(defaultImage);
+            CoverChanged?.Invoke(this, null);
         }
     }
 }

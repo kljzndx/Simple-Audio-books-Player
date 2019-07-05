@@ -38,6 +38,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
             IsInit = true;
             _service = FileGroupDataService.Current;
+            await FileGroupDTO.InitAssets();
 
             var source = await _service.GetData();
             var data = source.Select(g => new FileGroupDTO(g)).ToList();
