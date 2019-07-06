@@ -56,6 +56,8 @@ namespace SimpleAudioBooksPlayer.ViewModels
         {
             foreach (var fileGroupDto in e)
                 Data.Add(fileGroupDto);
+
+            // 排序方法
         }
 
         private void Server_DataRenamed(object sender, FileGroupDTO e)
