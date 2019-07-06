@@ -23,8 +23,8 @@
         <Image x:Name="Cover_Image" Grid.RowSpan="2" Width="100" Height="100" Margin="0,0,5,0"/>
 
         <StackPanel Grid.Column="1">
-            <TextBlock x:Name="Title_TextBlock" Text="{x:Bind Source.Group.Name, Mode=OneWay}" FontWeight="Bold" TextWrapping="NoWrap" Style="{ThemeResource BodyTextBlockStyle}"/>
-            <TextBlock x:Name="RecordTitle_TextBlock" Text="{x:Bind Source.CurrentTitle, Mode=OneWay}" Margin="0,3" Opacity="0.6" Style="{ThemeResource CaptionTextBlockStyle}"/>
+            <TextBlock x:Name="Title_TextBlock" Text="{x:Bind Source.Group.Name, Mode=OneWay}" FontWeight="Bold" TextWrapping="NoWrap" Style="{ThemeResource BodyTextBlockStyle}" ToolTipService.ToolTip="{x:Bind Source.Group.Name, Mode=OneWay}"/>
+            <TextBlock x:Name="RecordTitle_TextBlock" Text="{x:Bind Source.CurrentTitle, Mode=OneWay}" Margin="0,3" Opacity="0.6" Style="{ThemeResource CaptionTextBlockStyle}" ToolTipService.ToolTip="{x:Bind Source.CurrentTitle, Mode=OneWay}"/>
         </StackPanel>
     </Grid>
 </UserControl>
