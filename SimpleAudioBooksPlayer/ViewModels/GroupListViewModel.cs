@@ -24,6 +24,9 @@ namespace SimpleAudioBooksPlayer.ViewModels
             _coverPicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
 
             _server.DataLoaded += Server_DataLoaded;
+            _server.DataAdded += Server_DataAdded;
+            _server.DataRenamed += Server_DataRenamed;
+            _server.DataRemoved += Server_DataRemoved;
         }
 
         public ObservableCollection<FileGroupDTO> Data { get; }
@@ -47,6 +50,23 @@ namespace SimpleAudioBooksPlayer.ViewModels
         private void Server_DataLoaded(object sender, IEnumerable<FileGroupDTO> e)
         {
             RefreshData();
+        }
+
+        private void Server_DataAdded(object sender, IEnumerable<FileGroupDTO> e)
+        {
+            foreach (var fileGroupDto in e)
+                Data.Add(fileGroupDto);
+        }
+
+        private void Server_DataRenamed(object sender, FileGroupDTO e)
+        {
+            // 排序方法
+        }
+
+        private void Server_DataRemoved(object sender, IEnumerable<FileGroupDTO> e)
+        {
+            foreach (var fileGroupDto in e)
+                Data.Remove(fileGroupDto);
         }
     }
 }

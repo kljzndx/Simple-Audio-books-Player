@@ -30,6 +30,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
         public event EventHandler<IEnumerable<FileGroupDTO>> DataLoaded;
         public event EventHandler<IEnumerable<FileGroupDTO>> DataAdded;
         public event EventHandler<IEnumerable<FileGroupDTO>> DataRemoved;
+        public event EventHandler<FileGroupDTO> DataRenamed;
 
         public async Task Init()
         {
@@ -55,6 +56,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
         {
             groupDto.Name = newName;
             await _service.RenameGroup(groupDto.Index, newName);
+            DataRenamed?.Invoke(this, groupDto);
         }
 
         public async Task SetCover(FileGroupDTO groupDto, StorageFile file)
