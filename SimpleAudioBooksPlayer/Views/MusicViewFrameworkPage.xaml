@@ -8,12 +8,35 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Pivot x:Name="Root_Pivot">
-        <PivotItem Header="首页">
-            <Frame x:Name="GroupView_Frame" SourcePageType="local:GroupListPage" Navigating="Frame_OnNavigating"/>
-        </PivotItem>
-        <PivotItem Header="播放记录">
-            <Frame x:Name="PlayRecordView_Frame" SourcePageType="local:PlayRecordPage" Navigating="Frame_OnNavigating"/>
-        </PivotItem>
-    </Pivot>
+    <SplitView x:Name="Root_SplitView" PanePlacement="Right">
+        <SplitView.Pane>
+            <Grid>
+                <ScrollViewer>
+                    <Frame x:Name="SidePage_Frame" Padding="4,4,4,0"/>
+                </ScrollViewer>
+            </Grid>
+        </SplitView.Pane>
+
+        <Pivot x:Name="Main_Pivot">
+            <Pivot.RightHeader>
+                <Button Style="{StaticResource IconButton_Style}">
+                    <Button.Flyout>
+                        <MenuFlyout>
+                            <MenuFlyoutItem x:Name="Settings_MenuFlyoutItem" Text="设置" Click="Settings_MenuFlyoutItem_OnClick"/>
+                            <MenuFlyoutItem x:Name="About_MenuFlyoutItem" Text="关于"/>
+                        </MenuFlyout>
+                    </Button.Flyout>
+
+                    <FontIcon Glyph="&#xE10C;"/>
+                </Button>
+            </Pivot.RightHeader>
+
+            <PivotItem Header="首页">
+                <Frame x:Name="GroupView_Frame" SourcePageType="local:GroupListPage" Navigating="Frame_OnNavigating"/>
+            </PivotItem>
+            <PivotItem Header="播放记录">
+                <Frame x:Name="PlayRecordView_Frame" SourcePageType="local:PlayRecordPage" Navigating="Frame_OnNavigating"/>
+            </PivotItem>
+        </Pivot>
+    </SplitView>
 </Page>

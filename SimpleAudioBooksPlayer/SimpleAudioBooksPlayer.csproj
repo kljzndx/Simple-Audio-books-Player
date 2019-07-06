@@ -140,6 +140,7 @@
     <Compile Include="ViewModels\SettingProperties\MusicListSettingProperties.cs" />
     <Compile Include="ViewModels\SettingProperties\OtherSettingProperties.cs" />
     <Compile Include="ViewModels\SettingProperties\PlayerSettingProperties.cs" />
+    <Compile Include="ViewModels\SidePages\SettingsViewModel.cs" />
     <Compile Include="ViewModels\ValueConverters\BoolToVisibility.cs" />
     <Compile Include="ViewModels\ValueConverters\CollectionToString.cs" />
     <Compile Include="ViewModels\ValueConverters\DoubleToPercentage.cs" />
@@ -175,6 +176,9 @@
     </Compile>
     <Compile Include="Views\PlayRecordPage.xaml.cs">
       <DependentUpon>PlayRecordPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SidePages\SettingsPage.xaml.cs">
+      <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -281,6 +285,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\SidePages\SettingsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="HappyStudio.Parsing.Subtitle">
@@ -334,6 +342,7 @@
   <ItemGroup>
     <PRIResource Include="StringResources\en-US\Pages\GroupListPage.resw" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

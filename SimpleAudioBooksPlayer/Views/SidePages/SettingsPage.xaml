@@ -1,0 +1,34 @@
+﻿<Page
+    x:Class="SimpleAudioBooksPlayer.Views.SidePages.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:SimpleAudioBooksPlayer.Views.SidePages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    DataContext="{Binding Source={StaticResource Locator}, Path=Settings}">
+
+    <StackPanel>
+        <StackPanel>
+            <Button x:Name="ManageLocationOfScan_Button" Content="管理扫描位置" Click="ManageLocationOfScan_Button_OnClick"/>
+        </StackPanel>
+
+        <ContentDialog x:Name="ManageLocationOfScan_ContentDialog" SecondaryButtonText="关闭" Opened="ManageLocationOfScan_ContentDialog_OnOpened">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Button x:Name="AddLocation_Button" Content="添加位置" HorizontalAlignment="Stretch" Click="AddLocation_Button_OnClick"/>
+                <ListView x:Name="Locations_ListView" Grid.Row="1" Margin="0,8" ItemsSource="{Binding MusicLibrary.Folders}" SelectionMode="None" IsItemClickEnabled="True" ItemClick="Locations_ListView_OnItemClick">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path}"/>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+        </ContentDialog>
+    </StackPanel>
+</Page>
