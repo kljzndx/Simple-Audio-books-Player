@@ -22,6 +22,10 @@ namespace SimpleAudioBooksPlayer.ViewModels
             SorterMembers.Add(new MusicSorterUi<MusicFileDTO>("TrackNumber", MusicSortDeserialization.Deserialize(MusicListSortMembers.TrackId)));
             SorterMembers.Add(new MusicSorterUi<MusicFileDTO>("Title", MusicSortDeserialization.Deserialize(MusicListSortMembers.Name)));
             SorterMembers.Add(new MusicSorterUi<MusicFileDTO>("ModifyDate", MusicSortDeserialization.Deserialize(MusicListSortMembers.ModifyTime)));
+
+            _server.DataAdded += Server_DataAdded;
+            _server.DataRemoved += Server_DataRemoved;
+            _server.DataUpdated += Server_DataUpdated;
         }
 
         public ObservableCollection<MusicFileDTO> Data { get; } = new ObservableCollection<MusicFileDTO>();
@@ -74,6 +78,29 @@ namespace SimpleAudioBooksPlayer.ViewModels
             var data = Data.Reverse().ToList();
             for (var i = 0; i < data.Count; i++)
                 Data.Move(Data.IndexOf(data[i]), i);
+        }
+
+        private void Server_DataAdded(object sender, IEnumerable<MusicFileDTO> e)
+        {
+            foreach (var fileDto in e.Where(m => m.Group.Index == _groupId))
+                Data.Add(fileDto);
+
+            SortData(_sortMethod);
+            if (_settings.IsReverse)
+                Reverse();
+        }
+
+        private void Server_DataRemoved(object sender, IEnumerable<MusicFileDTO> e)
+        {
+            foreach (var fileDto in e.Where(Data.Contains))
+                Data.Remove(fileDto);
+        }
+
+        private void Server_DataUpdated(object sender, IEnumerable<MusicFileDTO> e)
+        {
+            SortData(_sortMethod);
+            if (_settings.IsReverse)
+                Reverse();
         }
     }
 }

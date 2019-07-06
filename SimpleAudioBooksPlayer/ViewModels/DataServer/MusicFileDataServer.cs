@@ -22,6 +22,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
         public event EventHandler<IEnumerable<MusicFileDTO>> DataLoaded;
         public event EventHandler<IEnumerable<MusicFileDTO>> DataAdded;
         public event EventHandler<IEnumerable<MusicFileDTO>> DataRemoved;
+        public event EventHandler<IEnumerable<MusicFileDTO>> DataUpdated;
 
         public async Task Init()
         {
@@ -48,7 +49,8 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             foreach (var mfd in mfdList)
                 Data.Add(mfd);
 
-            DataAdded?.Invoke(this, mfdList);
+            if (mfdList.Any())
+                DataAdded?.Invoke(this, mfdList);
         }
 
         private void Service_DataRemoved(object sender, IEnumerable<MusicFile> e)
@@ -57,13 +59,26 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             foreach (var fileDto in needRemove)
                 Data.Remove(fileDto);
 
-            DataRemoved?.Invoke(this, needRemove);
+            if (needRemove.Any())
+                DataRemoved?.Invoke(this, needRemove);
         }
 
         private void Service_DataUpdated(object sender, IEnumerable<MusicFile> e)
         {
+            var list = new List<MusicFileDTO>();
+
             foreach (var musicFile in e)
-                Data.FirstOrDefault(d => d.FilePath == musicFile.FilePath)?.Update(musicFile);
+            {
+                var fileDto = Data.FirstOrDefault(d => d.FilePath == musicFile.FilePath);
+                if (fileDto is null)
+                    continue;
+
+                fileDto.Update(musicFile);
+                list.Add(fileDto);
+            }
+
+            if (list.Any())
+                DataUpdated?.Invoke(this, list);
         }
     }
 }
