@@ -39,9 +39,9 @@ namespace SimpleAudioBooksPlayer.Models.Sorters
             if (b1 && b2)
                 result = num1.CompareTo(num2);
             if (b1 && !b2)
-                result = -1;
-            if (!b1 && b2)
                 result = 1;
+            if (!b1 && b2)
+                result = -1;
 
             return result;
         }
