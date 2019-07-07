@@ -23,6 +23,7 @@
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+
         <Grid x:Name="Cover_Grid" Background="Transparent" PointerEntered="Cover_Grid_OnPointerEntered" PointerExited="Cover_Grid_OnPointerExited">
             <Image x:Name="Cover_Image" Width="200" Height="200" Tapped="Cover_Image_OnTapped"/>
 
@@ -37,6 +38,6 @@
             </StackPanel>
         </Grid>
 
-        <TextBlock Grid.Row="1" Text="{x:Bind Source.Name, Mode=OneWay}"/>
+        <TextBlock x:Name="Title_TextBlock" Grid.Row="1" Text="{x:Bind Source.Name, Mode=OneWay}" FontWeight="Bold" TextWrapping="NoWrap" Margin="0,4,0,0" Style="{ThemeResource BodyTextBlockStyle}"/>
     </Grid>
 </UserControl>
