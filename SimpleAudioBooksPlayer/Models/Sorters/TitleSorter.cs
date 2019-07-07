@@ -35,24 +35,22 @@ namespace SimpleAudioBooksPlayer.Models.Sorters
             bool firstNum1 = input1.IndexOf((match1.FirstOrDefault()?.Value) ?? String.Empty, StringComparison.Ordinal) == 0;
             bool firstNum2 = input2.IndexOf((match2.FirstOrDefault()?.Value) ?? String.Empty, StringComparison.Ordinal) == 0;
 
+            if (firstNum1 || firstNum2)
             {
-                if (firstNum1 || firstNum2)
+                bool isSuccess = true;
+
+                if (b1 && b2)
                 {
-                    bool isSuccess = true;
-
-                    if (b1 && b2)
-                    {
-                        result = num1.CompareTo(num2);
-                        isSuccess = result != 0;
-                    }
-                    if (b1 && !b2)
-                        result = -1;
-                    if (!b1 && b2)
-                        result = 1;
-
-                    if (isSuccess)
-                        return result;
+                    result = num1.CompareTo(num2);
+                    isSuccess = result != 0;
                 }
+                if (b1 && !b2)
+                    result = -1;
+                if (!b1 && b2)
+                    result = 1;
+
+                if (isSuccess)
+                    return result;
             }
 
             {
