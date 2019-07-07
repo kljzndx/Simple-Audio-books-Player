@@ -2,13 +2,6 @@
 
 namespace SimpleAudioBooksPlayer.Models.Sorters
 {
-    public enum MusicListSortMembers
-    {
-        TrackId,
-        Name,
-        ModifyTime
-    }
-
     public delegate IComparable MusicListSortSelector<T>(T source);
 
     public class MusicSorterUi<T>

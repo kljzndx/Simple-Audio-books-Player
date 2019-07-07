@@ -4,6 +4,13 @@ using SimpleAudioBooksPlayer.Models.Sorters;
 
 namespace SimpleAudioBooksPlayer.ViewModels.SettingProperties
 {
+    public enum MusicListSortMembers
+    {
+        TrackId,
+        Name,
+        ModifyTime
+    }
+
     public class MusicListSettingProperties : SettingsBase
     {
         public static MusicListSettingProperties Current = new MusicListSettingProperties();

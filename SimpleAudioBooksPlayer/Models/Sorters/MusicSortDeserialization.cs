@@ -1,4 +1,5 @@
 ﻿using SimpleAudioBooksPlayer.Models.DTO;
+using SimpleAudioBooksPlayer.ViewModels.SettingProperties;
 
 namespace SimpleAudioBooksPlayer.Models.Sorters
 {
