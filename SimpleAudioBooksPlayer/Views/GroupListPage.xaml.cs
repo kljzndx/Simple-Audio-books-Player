@@ -76,6 +76,7 @@ namespace SimpleAudioBooksPlayer.Views
 
         private async void Rename_MenuFlyoutItem_OnClick(object sender, RoutedEventArgs e)
         {
+            GroupName_TextBox.Text = _tempGroup.Name;
             await RenameGroup_ContentDialog.ShowAsync();
         }
 
@@ -89,6 +90,9 @@ namespace SimpleAudioBooksPlayer.Views
         {
             if (!String.IsNullOrWhiteSpace(GroupName_TextBox.Text))
                 await FileGroupDataServer.Current.Rename(_tempGroup, GroupName_TextBox.Text);
+
+            GroupName_TextBox.Text = String.Empty;
+            _tempGroup = null;
         }
 
         private void Sorter_ListView_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
