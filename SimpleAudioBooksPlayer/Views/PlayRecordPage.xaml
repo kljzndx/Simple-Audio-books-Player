@@ -13,6 +13,12 @@
     SizeChanged="PlayRecordPage_OnSizeChanged">
 
     <GridView x:Name="Main_GridView" ItemsSource="{x:Bind _viewModel.Data, Mode=OneWay}" SelectionMode="None" IsItemClickEnabled="True" ItemClick="Main_GridView_OnItemClick">
+        <GridView.ItemContainerStyle>
+            <Style TargetType="GridViewItem">
+                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            </Style>
+        </GridView.ItemContainerStyle>
+
         <GridView.ItemTemplate>
             <DataTemplate x:DataType="model:PlaybackRecordDTO">
                 <temp:PlayRecordItemTemplate Source="{x:Bind}"/>

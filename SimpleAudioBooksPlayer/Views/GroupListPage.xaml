@@ -65,6 +65,12 @@
         </Grid>
 
         <GridView x:Name="Main_GridView" Grid.Row="1" ItemsSource="{x:Bind _vm.Data, Mode=OneWay}" IsItemClickEnabled="True" ItemClick="Main_GridView_OnItemClick" RightTapped="Main_GridView_OnRightTapped">
+            <GridView.ItemContainerStyle>
+                <Style TargetType="GridViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                </Style>
+            </GridView.ItemContainerStyle>
+
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="model:FileGroupDTO">
                     <temp:FileGroupItemTemplate Source="{x:Bind}"/>

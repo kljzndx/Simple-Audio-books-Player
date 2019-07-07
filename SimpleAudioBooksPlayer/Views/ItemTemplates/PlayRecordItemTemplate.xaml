@@ -10,7 +10,7 @@
     d:DesignWidth="400"
     Height="110">
 
-    <Grid Margin="5">
+    <Grid Padding="4">
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
@@ -20,7 +20,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         
-        <Image x:Name="Cover_Image" Grid.RowSpan="2" Width="100" Height="100" Margin="0,0,5,0"/>
+        <Image x:Name="Cover_Image" Grid.RowSpan="2" Width="100" Height="100" Margin="0,0,4,0"/>
 
         <StackPanel Grid.Column="1">
             <TextBlock x:Name="Title_TextBlock" Text="{x:Bind Source.Group.Name, Mode=OneWay}" FontWeight="Bold" TextWrapping="NoWrap" Style="{ThemeResource BodyTextBlockStyle}" ToolTipService.ToolTip="{x:Bind Source.Group.Name, Mode=OneWay}"/>

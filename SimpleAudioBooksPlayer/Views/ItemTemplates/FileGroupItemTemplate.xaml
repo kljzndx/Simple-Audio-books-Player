@@ -18,7 +18,7 @@
         </Storyboard>
     </UserControl.Resources>
 
-    <Grid ToolTipService.ToolTip="{x:Bind Source.Name, Mode=OneWay}">
+    <Grid Width="208" Padding="4" ToolTipService.ToolTip="{x:Bind Source.Name, Mode=OneWay}">
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
