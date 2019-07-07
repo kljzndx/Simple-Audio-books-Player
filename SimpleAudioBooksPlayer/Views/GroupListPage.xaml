@@ -33,13 +33,13 @@
                 <StackPanel.Resources>
                     <Style TargetType="Button" BasedOn="{StaticResource IconButton_Style}"/>
                 </StackPanel.Resources>
-                <TextBlock Text="排序：" VerticalAlignment="Center"/>
+                <TextBlock x:Uid="/MusicView/Sort_TextBlock" VerticalAlignment="Center"/>
 
-                <Button x:Name="Reverse_Button" Click="{x:Bind _vm.Reverse}">
+                <Button x:Name="Reverse_Button" x:Uid="/MusicView/Reverse_Button" Click="{x:Bind _vm.Reverse}">
                     <SymbolIcon Symbol="Sort"/>
                 </Button>
 
-                <Button x:Name="SorterList_Button">
+                <Button x:Name="SorterList_Button" x:Uid="/MusicView/SelectSorter_Button">
                     <Button.Content>
                         <FontIcon Glyph="&#xE011;"/>
                     </Button.Content>
