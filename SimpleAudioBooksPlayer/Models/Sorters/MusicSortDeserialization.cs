@@ -1,6 +1,4 @@
-﻿using System;
-using System.Text.RegularExpressions;
-using SimpleAudioBooksPlayer.Models.DTO;
+﻿using SimpleAudioBooksPlayer.Models.DTO;
 
 namespace SimpleAudioBooksPlayer.Models.Sorters
 {
@@ -13,10 +11,10 @@ namespace SimpleAudioBooksPlayer.Models.Sorters
             switch (member)
             {
                 case MusicListSortMembers.TrackId:
-                    keySelector = s => s.FileTrackNumber;
+                    keySelector = s => s.TrackNumber;
                     break;
                 case MusicListSortMembers.Name:
-                    keySelector = s => s;
+                    keySelector = s => s.Title;
                     break;
                 case MusicListSortMembers.ModifyTime:
                     keySelector = s => s.ModifyTime;
