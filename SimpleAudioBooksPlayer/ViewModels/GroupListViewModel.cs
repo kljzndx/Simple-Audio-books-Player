@@ -57,9 +57,6 @@ namespace SimpleAudioBooksPlayer.ViewModels
 
         public void Sort(MusicSorterUi<FileGroupDTO> sorter)
         {
-            if (sorter == _currentSorter)
-                return;
-
             Settings.SortMethod = (GroupListSorterMember) SorterMembers.IndexOf(sorter);
 
             var list = Data.OrderBy(sorter.KeySelector.Invoke).ToList();
