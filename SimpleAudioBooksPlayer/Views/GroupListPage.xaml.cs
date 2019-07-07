@@ -34,6 +34,8 @@ namespace SimpleAudioBooksPlayer.Views
             this.InitializeComponent();
             _vm = (GroupListViewModel) this.DataContext;
 
+            Sorter_ListView.SelectedIndex = (int) _vm.Settings.SortMethod;
+
             GroupListMoreMenuNotifier.ShowMoreMenuRequested += GroupListMoreMenuNotifier_ShowMoreMenuRequested;
         }
 
@@ -87,6 +89,14 @@ namespace SimpleAudioBooksPlayer.Views
         {
             if (!String.IsNullOrWhiteSpace(GroupName_TextBox.Text))
                 await FileGroupDataServer.Current.Rename(_tempGroup, GroupName_TextBox.Text);
+        }
+
+        private void Sorter_ListView_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (Sorter_ListView.SelectedIndex == (int) _vm.Settings.SortMethod)
+                return;
+
+            _vm.Sort(_vm.SorterMembers[Sorter_ListView.SelectedIndex]);
         }
     }
 }
