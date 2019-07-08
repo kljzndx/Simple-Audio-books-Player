@@ -96,6 +96,8 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
         {
             bool hasData = Data.Any();
 
+            await SetPlayedTime();
+            
             InitData(record.Group, record.SortMethod, record.IsReverse);
 
             await PlayTo(record.TrackId);
