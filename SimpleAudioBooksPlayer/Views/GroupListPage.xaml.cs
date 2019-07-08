@@ -35,6 +35,7 @@ namespace SimpleAudioBooksPlayer.Views
             _vm = (GroupListViewModel) this.DataContext;
 
             Sorter_ListView.SelectedIndex = (int) _vm.Settings.SortMethod;
+            Main_GridView.ItemsSource = _vm.Data;
 
             GroupListMoreMenuNotifier.ShowMoreMenuRequested += GroupListMoreMenuNotifier_ShowMoreMenuRequested;
         }
@@ -101,6 +102,14 @@ namespace SimpleAudioBooksPlayer.Views
                 return;
 
             _vm.Sort(_vm.SorterMembers[Sorter_ListView.SelectedIndex]);
+        }
+
+        private void Search_TextBox_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (String.IsNullOrWhiteSpace(Search_TextBox.Text))
+                Main_GridView.ItemsSource = _vm.Data;
+            else
+                Main_GridView.ItemsSource = _vm.Data.Where(g => g.Name.ToLower().Contains(Search_TextBox.Text.ToLower())).ToList();
         }
     }
 }
