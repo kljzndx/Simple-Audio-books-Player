@@ -25,7 +25,7 @@
         </Grid.RowDefinitions>
 
         <Grid x:Name="Cover_Grid" Background="Transparent" PointerEntered="Cover_Grid_OnPointerEntered" PointerExited="Cover_Grid_OnPointerExited">
-            <Image x:Name="Cover_Image" Width="200" Height="200" Tapped="Cover_Image_OnTapped"/>
+            <Image x:Name="Cover_Image" Width="200" Height="200" Stretch="UniformToFill" Tapped="Cover_Image_OnTapped" AllowDrop="True" DropCompleted="Cover_Image_OnDropCompleted" DragOver="Cover_Image_OnDragOver" Drop="Cover_Image_OnDrop"/>
 
             <StackPanel x:Name="ControlButton_StackPanel" Visibility="Collapsed" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <StackPanel.Resources>

@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Devices.Input;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -88,6 +90,26 @@ namespace SimpleAudioBooksPlayer.Views.ItemTemplates
                 ControlButton_StackPanel.Visibility = Visibility.Visible;
                 ControlButtonFadeIn_Storyboard.Begin();
             }
+        }
+
+        private void Cover_Image_OnDragOver(object sender, DragEventArgs e)
+        {
+            e.AcceptedOperation = DataPackageOperation.Copy;
+        }
+
+        private async void Cover_Image_OnDrop(object sender, DragEventArgs e)
+        {
+            var items = await e.DataView.GetStorageItemsAsync();
+            var file = items.FirstOrDefault(si => si.IsOfType(StorageItemTypes.File)) as StorageFile;
+            if (file is null || (file.FileType.ToLower() != ".jpg" || file.FileType.ToLower() != ".png"))
+                return;
+
+            await FileGroupDataServer.Current.SetCover(Source, file);
+        }
+
+        private void Cover_Image_OnDropCompleted(UIElement sender, DropCompletedEventArgs args)
+        {
+            
         }
     }
 }
