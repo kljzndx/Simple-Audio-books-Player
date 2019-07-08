@@ -106,10 +106,5 @@ namespace SimpleAudioBooksPlayer.Views.ItemTemplates
 
             await FileGroupDataServer.Current.SetCover(Source, file);
         }
-
-        private void Cover_Image_OnDropCompleted(UIElement sender, DropCompletedEventArgs args)
-        {
-            
-        }
     }
 }
