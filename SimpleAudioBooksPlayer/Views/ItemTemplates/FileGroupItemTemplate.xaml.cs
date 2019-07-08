@@ -32,8 +32,6 @@ namespace SimpleAudioBooksPlayer.Views.ItemTemplates
         {
             this.InitializeComponent();
             DataContextChanged += FileGroupItemTemplate_DataContextChanged;
-
-            Title_TextBlock.FontSize += 1;
         }
 
         public FileGroupDTO Source
