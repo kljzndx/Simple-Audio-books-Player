@@ -17,6 +17,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
         public static PlaybackListDataServer Current = new PlaybackListDataServer();
 
         private FileGroupDTO _currentGroup;
+        private PlaybackRecordDTO _currentRecordDto;
         private MusicListSortMembers _currentSortMethod;
 
         private uint _playingId;
@@ -95,12 +96,21 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
             await PlayTo(record.TrackId);
 
+            if (_player.PlaybackSession != null)
+                _player.PlaybackSession.Position = record.PlayedTime;
+
             if (hasData)
                 BeginToPlay();
         }
 
         public async Task SetSource(MusicFileDTO playTo)
         {
+            if (_player.PlaybackSession != null && _currentRecordDto != null)
+            {
+                _currentRecordDto.PlayedTime = _player.PlaybackSession.Position;
+                await _recordServer.SetRecord(_currentRecordDto);
+            }
+
             InitData(playTo.Group, _musicListSettings.SortMethod);
 
             uint trackId = (uint) Data.IndexOf(playTo);
@@ -111,6 +121,12 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
         public async Task SetSource(FileGroupDTO groupDto)
         {
+            if (_player.PlaybackSession != null && _currentRecordDto != null)
+            {
+                _currentRecordDto.PlayedTime = _player.PlaybackSession.Position;
+                await _recordServer.SetRecord(_currentRecordDto);
+            }
+
             InitData(groupDto, _musicListSettings.SortMethod);
 
             await PlayTo(0);
@@ -223,8 +239,8 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
                     return;
 
                 var mfd = Data[id];
-                await _recordServer.SetRecord(new PlaybackRecordDTO(mfd.Title, mfd.Group, (uint) id, _currentSortMethod,
-                    _musicListSettings.IsReverse));
+                _currentRecordDto = new PlaybackRecordDTO(mfd.Title, mfd.Group, (uint) id, _currentSortMethod, _musicListSettings.IsReverse);
+                await _recordServer.SetRecord(_currentRecordDto);
             });
         }
     }

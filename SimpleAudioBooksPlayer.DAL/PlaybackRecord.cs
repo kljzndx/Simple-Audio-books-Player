@@ -11,7 +11,7 @@ namespace SimpleAudioBooksPlayer.DAL
             
         }
 
-        public PlaybackRecord(int groupId, uint trackId, string currentTitle, string sortMethod, bool isReverse, DateTime playDate)
+        public PlaybackRecord(int groupId, uint trackId, string currentTitle, string sortMethod, bool isReverse, DateTime playDate, TimeSpan playedTime)
         {
             GroupId = groupId;
             TrackId = trackId;
@@ -19,6 +19,7 @@ namespace SimpleAudioBooksPlayer.DAL
             SortMethod = sortMethod;
             IsReverse = isReverse;
             PlayDate = playDate;
+            PlayedTime = playedTime;
         }
 
         [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
@@ -28,5 +29,6 @@ namespace SimpleAudioBooksPlayer.DAL
         public string SortMethod { get; set; }
         public bool IsReverse { get; set; }
         public DateTime PlayDate { get; set; }
+        public TimeSpan PlayedTime { get; set; }
     }
 }

@@ -12,7 +12,7 @@ namespace SimpleAudioBooksPlayer.Models.DTO
         private string _currentTitle;
         private DateTime _playDate;
 
-        public PlaybackRecordDTO(string currentTitle, FileGroupDTO @group, uint trackId, MusicListSortMembers sortMethod, bool isReverse)
+        public PlaybackRecordDTO(string currentTitle, FileGroupDTO @group, uint trackId, MusicListSortMembers sortMethod, bool isReverse, TimeSpan playedTime)
         {
             _currentTitle = currentTitle;
             Group = @group;
@@ -20,6 +20,11 @@ namespace SimpleAudioBooksPlayer.Models.DTO
             SortMethod = sortMethod;
             IsReverse = isReverse;
             _playDate = DateTime.Now;
+            PlayedTime = playedTime;
+        }
+
+        public PlaybackRecordDTO(string currentTitle, FileGroupDTO @group, uint trackId, MusicListSortMembers sortMethod, bool isReverse) : this(currentTitle, group, trackId, sortMethod, isReverse, TimeSpan.Zero)
+        {
         }
 
         public PlaybackRecordDTO(PlaybackRecord source)
@@ -30,6 +35,7 @@ namespace SimpleAudioBooksPlayer.Models.DTO
             SortMethod = Enum.Parse<MusicListSortMembers>(source.SortMethod);
             IsReverse = source.IsReverse;
             _playDate = source.PlayDate;
+            PlayedTime = source.PlayedTime;
         }
 
         public FileGroupDTO Group { get; set; }
@@ -46,10 +52,11 @@ namespace SimpleAudioBooksPlayer.Models.DTO
             get => _playDate;
             set => Set(ref _playDate, value);
         }
+        public TimeSpan PlayedTime { get; set; }
 
         public PlaybackRecord ToTableObject()
         {
-            return new PlaybackRecord(Group.Index, TrackId, CurrentTitle, SortMethod.ToString(), IsReverse, PlayDate);
+            return new PlaybackRecord(Group.Index, TrackId, CurrentTitle, SortMethod.ToString(), IsReverse, PlayDate, PlayedTime);
         }
 
         public void Update(PlaybackRecordDTO source)
@@ -62,6 +69,7 @@ namespace SimpleAudioBooksPlayer.Models.DTO
             SortMethod = source.SortMethod;
             IsReverse = source.IsReverse;
             PlayDate = source.PlayDate;
+            PlayedTime = source.PlayedTime;
         }
     }
 }
