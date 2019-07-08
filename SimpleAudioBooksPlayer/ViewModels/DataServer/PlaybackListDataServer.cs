@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.ApplicationModel;
 using Windows.ApplicationModel.Core;
 using Windows.Media.Playback;
 using Windows.UI.Core;
@@ -35,6 +36,9 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
         private PlaybackListDataServer()
         {
             Data = new ObservableCollection<MusicFileDTO>();
+
+            App.Current.Suspending += App_Suspending;
+            App.Current.EnteredBackground += App_EnteredBackground;
         }
 
         public bool IsInit { get; private set; }
@@ -105,11 +109,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
         public async Task SetSource(MusicFileDTO playTo)
         {
-            if (_player.PlaybackSession != null && _currentRecordDto != null)
-            {
-                _currentRecordDto.PlayedTime = _player.PlaybackSession.Position;
-                await _recordServer.SetRecord(_currentRecordDto);
-            }
+            await SetPlayedTime();
 
             InitData(playTo.Group, _musicListSettings.SortMethod);
 
@@ -121,11 +121,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
         public async Task SetSource(FileGroupDTO groupDto)
         {
-            if (_player.PlaybackSession != null && _currentRecordDto != null)
-            {
-                _currentRecordDto.PlayedTime = _player.PlaybackSession.Position;
-                await _recordServer.SetRecord(_currentRecordDto);
-            }
+            await SetPlayedTime();
 
             InitData(groupDto, _musicListSettings.SortMethod);
 
@@ -135,6 +131,15 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
         }
 
         #endregion
+
+        private async Task SetPlayedTime()
+        {
+            if (_player.PlaybackSession != null && _currentRecordDto != null)
+            {
+                _currentRecordDto.PlayedTime = _player.PlaybackSession.Position;
+                await _recordServer.SetRecord(_currentRecordDto);
+            }
+        }
 
         private void InitData(FileGroupDTO groupDto, MusicListSortMembers method, bool? isReverse = null)
         {
@@ -242,6 +247,20 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
                 _currentRecordDto = new PlaybackRecordDTO(mfd.Title, mfd.Group, (uint) id, _currentSortMethod, _musicListSettings.IsReverse);
                 await _recordServer.SetRecord(_currentRecordDto);
             });
+        }
+
+        private async void App_Suspending(object sender, SuspendingEventArgs e)
+        {
+            var deferral = e.SuspendingOperation.GetDeferral();
+            await SetPlayedTime();
+            deferral.Complete();
+        }
+
+        private async void App_EnteredBackground(object sender, EnteredBackgroundEventArgs e)
+        {
+            var deferral = e.GetDeferral();
+            await SetPlayedTime();
+            deferral.Complete();
         }
     }
 }
