@@ -526,7 +526,7 @@
 
                                     <StackPanel Orientation="Horizontal">
                                         <Button x:Name="Cover_Button" Padding="0">
-                                            <Image Width="44" Height="44" Source="{TemplateBinding CoverSource}"/>
+                                            <Image Width="44" Height="44" Source="{TemplateBinding CoverSource}" Stretch="UniformToFill"/>
                                         </Button>
 
                                         <AppBarButton x:Name='Rewind_Button'

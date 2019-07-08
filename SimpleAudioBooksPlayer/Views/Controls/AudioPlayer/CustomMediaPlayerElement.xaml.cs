@@ -263,6 +263,7 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
                         if (await fileDto.GetPlaybackItem() == args.NewItem)
                         {
                             fileDto.IsPlaying = true;
+                            MyTransportControls.CoverSource = await fileDto.Group.GetCover();
                             break;
                         }
             });
