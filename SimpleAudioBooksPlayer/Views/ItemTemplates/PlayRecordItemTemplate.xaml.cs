@@ -23,6 +23,8 @@ namespace SimpleAudioBooksPlayer.Views.ItemTemplates
         public static readonly DependencyProperty SourceProperty = DependencyProperty.Register(
             nameof(Source), typeof(PlaybackRecordDTO), typeof(PlayRecordItemTemplate), new PropertyMetadata(null));
 
+        private FileGroupDTO _currentGroup;
+
         public PlayRecordItemTemplate()
         {
             this.InitializeComponent();
@@ -41,7 +43,11 @@ namespace SimpleAudioBooksPlayer.Views.ItemTemplates
             if (Source != null)
             {
                 Cover_Image.Source = await Source.Group.GetCover();
-                Source.Group.CoverChanged += Group_CoverChanged;
+                if (_currentGroup != null)
+                    _currentGroup.CoverChanged -= Group_CoverChanged;
+
+                _currentGroup = Source.Group;
+                _currentGroup.CoverChanged += Group_CoverChanged;
             }
         }
 
