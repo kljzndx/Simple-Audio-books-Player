@@ -30,9 +30,9 @@
             <Pivot.RightHeader>
                 <Button Style="{StaticResource IconButton_Style}">
                     <Button.Flyout>
-                        <MenuFlyout>
-                            <MenuFlyoutItem x:Name="Settings_MenuFlyoutItem" Text="设置" Click="Settings_MenuFlyoutItem_OnClick"/>
-                            <MenuFlyoutItem x:Name="About_MenuFlyoutItem" Text="关于"/>
+                        <MenuFlyout x:Name="More_MenuFlyout" Opened="More_MenuFlyout_OnOpened">
+                            <MenuFlyoutItem x:Name="Settings_MenuFlyoutItem" Tag="SettingsPage" Click="Settings_MenuFlyoutItem_OnClick"/>
+                            <MenuFlyoutItem x:Name="About_MenuFlyoutItem" Tag="AboutPage"/>
                         </MenuFlyout>
                     </Button.Flyout>
 

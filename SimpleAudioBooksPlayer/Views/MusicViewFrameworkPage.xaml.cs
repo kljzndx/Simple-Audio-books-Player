@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -48,6 +49,12 @@ namespace SimpleAudioBooksPlayer.Views
         private void SidePage_Frame_OnNavigated(object sender, NavigationEventArgs e)
         {
             Title_TextBlock.Text = PageTitleGetter.GetTitle(e.SourcePageType);
+        }
+
+        private void More_MenuFlyout_OnOpened(object sender, object e)
+        {
+            foreach (MenuFlyoutItem item in More_MenuFlyout.Items)
+                item.Text = ResourceLoader.GetForCurrentView((string) item.Tag).GetString("Title");
         }
     }
 }
