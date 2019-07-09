@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Linq;
 using Windows.UI.Core;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using SimpleAudioBooksPlayer.Models.Attributes;
 
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
 
@@ -18,6 +20,7 @@ namespace SimpleAudioBooksPlayer.Views
         public MainPage()
         {
             this.InitializeComponent();
+            TitleBar_Grid.Visibility = Visibility.Collapsed;
             CustomMediaPlayerElement.SetMediaPlayer(App.MediaPlayer);
             _navigationManager.BackRequested += NavigationManager_BackRequested;
         }
@@ -29,9 +32,18 @@ namespace SimpleAudioBooksPlayer.Views
 
         private void Main_Frame_OnNavigated(object sender, NavigationEventArgs e)
         {
-            _navigationManager.AppViewBackButtonVisibility = Main_Frame.CanGoBack
-                ? AppViewBackButtonVisibility.Visible
-                : AppViewBackButtonVisibility.Collapsed;
+            if (Main_Frame.CanGoBack)
+            {
+                TitleBar_Grid.Visibility = Visibility.Visible;
+                Title_TextBlock.Text = PageTitleGetter.GetTitle(e.SourcePageType);
+            }
+            else
+                TitleBar_Grid.Visibility = Visibility.Collapsed;
+        }
+
+        private void GoBack_Button_OnClick(object sender, RoutedEventArgs e)
+        {
+            Main_Frame.GoBack();
         }
     }
 }

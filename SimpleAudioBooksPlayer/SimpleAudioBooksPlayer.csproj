@@ -119,6 +119,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\Attributes\PageTitleAttribute.cs" />
+    <Compile Include="Models\Attributes\PageTitleGetter.cs" />
     <Compile Include="Models\DTO\PlaybackRecordDTO.cs" />
     <Compile Include="Models\Sorters\MusicSortDeserialization.cs" />
     <Compile Include="Models\Sorters\MusicSorterUi.cs" />

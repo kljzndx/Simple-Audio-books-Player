@@ -17,6 +17,16 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
+        <Grid x:Name="TitleBar_Grid" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Button x:Name="GoBack_Button" Style="{ThemeResource NavigationBackButtonNormalStyle}" Click="GoBack_Button_OnClick"/>
+            <TextBlock x:Name="Title_TextBlock" Grid.Column="1" VerticalAlignment="Center" Margin="6,0" Style="{ThemeResource TitleTextBlockStyle}"/>
+        </Grid>
+
         <Frame x:Name="Main_Frame" Grid.Row="1" SourcePageType="local:MusicViewFrameworkPage" Navigated="Main_Frame_OnNavigated"/>
 
         <ap:CustomMediaPlayerElement x:Name="CustomMediaPlayerElement" Grid.Row="2"/>
