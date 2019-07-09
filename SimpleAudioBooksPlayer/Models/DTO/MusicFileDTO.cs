@@ -12,7 +12,7 @@ using SimpleAudioBooksPlayer.ViewModels.DataServer;
 
 namespace SimpleAudioBooksPlayer.Models.DTO
 {
-    public class MusicFileDTO : ObservableObject
+    public class MusicFileDTO : ObservableObject, IComparable, IComparable<MusicFileDTO>
     {
         private static readonly Regex NumberRegex = new Regex(@"[0-9]+");
 
@@ -108,6 +108,23 @@ namespace SimpleAudioBooksPlayer.Models.DTO
 
             HasRead = true;
             return _playbackItem;
+        }
+
+        public int CompareTo(MusicFileDTO other)
+        {
+            if (ReferenceEquals(this, other)) return 0;
+            if (ReferenceEquals(null, other)) return 1;
+
+            return SystemStringSorter.Compare(Title, other.Title);
+        }
+
+        public int CompareTo(object obj)
+        {
+            if (ReferenceEquals(this, obj)) return 0;
+            if (ReferenceEquals(null, obj)) return 1;
+            if (obj.GetType() != typeof(MusicFileDTO)) return 1;
+
+            return CompareTo((MusicFileDTO) obj);
         }
     }
 }

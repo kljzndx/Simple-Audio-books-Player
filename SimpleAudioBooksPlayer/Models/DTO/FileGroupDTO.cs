@@ -5,11 +5,12 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
 using GalaSoft.MvvmLight;
 using SimpleAudioBooksPlayer.DAL;
+using SimpleAudioBooksPlayer.Models.Sorters;
 using SimpleAudioBooksPlayer.ViewModels.Events;
 
 namespace SimpleAudioBooksPlayer.Models.DTO
 {
-    public class FileGroupDTO : ObservableObject, IEquatable<FileGroupDTO>
+    public class FileGroupDTO : ObservableObject, IEquatable<FileGroupDTO>, IComparable, IComparable<FileGroupDTO>
     {
         private static BitmapImage lightCover;
         private static BitmapImage darkCover;
@@ -144,6 +145,23 @@ namespace SimpleAudioBooksPlayer.Models.DTO
 
             _cover = new WeakReference<BitmapImage>(defaultImage);
             CoverChanged?.Invoke(this, null);
+        }
+
+        public int CompareTo(object obj)
+        {
+            if (ReferenceEquals(this, obj)) return 0;
+            if (ReferenceEquals(null, obj)) return 1;
+            if (obj.GetType() != typeof(FileGroupDTO)) return 1;
+
+            return CompareTo((FileGroupDTO) obj);
+        }
+
+        public int CompareTo(FileGroupDTO other)
+        {
+            if (ReferenceEquals(this, other)) return 0;
+            if (ReferenceEquals(null, other)) return 1;
+
+            return SystemStringSorter.Compare(Name, other.Name);
         }
     }
 }

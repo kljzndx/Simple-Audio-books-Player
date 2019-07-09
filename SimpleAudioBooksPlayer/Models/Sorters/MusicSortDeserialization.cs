@@ -15,7 +15,7 @@ namespace SimpleAudioBooksPlayer.Models.Sorters
                     keySelector = s => s.TrackNumber;
                     break;
                 case MusicListSortMembers.Name:
-                    keySelector = s => s.Title;
+                    keySelector = s => s;
                     break;
                 case MusicListSortMembers.ModifyTime:
                     keySelector = s => s.ModifyTime;

@@ -31,7 +31,7 @@ namespace SimpleAudioBooksPlayer.ViewModels
             _coverPicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
 
             SorterMembers = new List<MusicSorterUi<FileGroupDTO>>();
-            SorterMembers.Add(new MusicSorterUi<FileGroupDTO>("Title", g => g.Name));
+            SorterMembers.Add(new MusicSorterUi<FileGroupDTO>("Title", g => g));
             SorterMembers.Add(new MusicSorterUi<FileGroupDTO>("CreateDate", g => g.CreateTime));
 
             _server.DataLoaded += Server_DataLoaded;
