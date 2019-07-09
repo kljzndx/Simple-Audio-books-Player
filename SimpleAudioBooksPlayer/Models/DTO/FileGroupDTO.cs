@@ -60,7 +60,7 @@ namespace SimpleAudioBooksPlayer.Models.DTO
             {
                 if (HasCover)
                 {
-                    var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(CustomCoverUri+$"{Index}.image"));
+                    var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(CustomCoverUri + $"{Index}.image"));
                     cover = new BitmapImage();
                     cover.SetSource(await file.OpenAsync(FileAccessMode.Read));
                     _cover = new WeakReference<BitmapImage>(cover);
