@@ -38,7 +38,7 @@ namespace SimpleAudioBooksPlayer.Views.ItemTemplates
 
         private async void PlayRecordItemTemplate_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
         {
-            if (Source != null && Cover_Image.Source is null)
+            if (Source != null)
             {
                 Cover_Image.Source = await Source.Group.GetCover();
                 Source.Group.CoverChanged += Group_CoverChanged;
