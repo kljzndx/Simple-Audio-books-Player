@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using SimpleAudioBooksPlayer.Models.Attributes;
 using SimpleAudioBooksPlayer.Views.SidePages;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
@@ -42,6 +43,11 @@ namespace SimpleAudioBooksPlayer.Views
             Root_SplitView.IsPaneOpen = true;
             if (SidePage_Frame.SourcePageType != typeof(SettingsPage))
                 SidePage_Frame.Navigate(typeof(SettingsPage));
+        }
+
+        private void SidePage_Frame_OnNavigated(object sender, NavigationEventArgs e)
+        {
+            Title_TextBlock.Text = PageTitleGetter.GetTitle(e.SourcePageType);
         }
     }
 }

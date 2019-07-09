@@ -11,8 +11,17 @@
     <SplitView x:Name="Root_SplitView" PanePlacement="Right">
         <SplitView.Pane>
             <Grid>
-                <ScrollViewer>
-                    <Frame x:Name="SidePage_Frame" Padding="4,4,4,0"/>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Border Margin="8">
+                    <TextBlock x:Name="Title_TextBlock" Style="{ThemeResource TitleTextBlockStyle}"/>
+                </Border>
+
+                <ScrollViewer Grid.Row="1">
+                    <Frame x:Name="SidePage_Frame" Padding="4,4,4,0" Navigated="SidePage_Frame_OnNavigated"/>
                 </ScrollViewer>
             </Grid>
         </SplitView.Pane>
