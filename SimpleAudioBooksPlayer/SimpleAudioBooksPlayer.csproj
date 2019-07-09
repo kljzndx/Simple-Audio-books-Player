@@ -118,6 +118,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\Attributes\PageTitleAttribute.cs" />
     <Compile Include="Models\DTO\PlaybackRecordDTO.cs" />
     <Compile Include="Models\Sorters\MusicSortDeserialization.cs" />
     <Compile Include="Models\Sorters\MusicSorterUi.cs" />
@@ -349,6 +350,12 @@
   </ItemGroup>
   <ItemGroup>
     <PRIResource Include="StringResources\en-US\Pages\MusicView.resw" />
+  </ItemGroup>
+  <ItemGroup>
+    <PRIResource Include="StringResources\zh-CN\Pages\MusicListPage.resw" />
+  </ItemGroup>
+  <ItemGroup>
+    <PRIResource Include="StringResources\en-US\Pages\MusicListPage.resw" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
