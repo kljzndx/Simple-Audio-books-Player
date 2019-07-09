@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using SimpleAudioBooksPlayer.Models.Attributes;
 using SimpleAudioBooksPlayer.Service;
 using SimpleAudioBooksPlayer.ViewModels.DataServer;
 using SimpleAudioBooksPlayer.ViewModels.SidePages;
@@ -25,6 +26,7 @@ namespace SimpleAudioBooksPlayer.Views.SidePages
     /// <summary>
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
+    [PageTitle("SettingsPage")]
     public sealed partial class SettingsPage : Page
     {
         private readonly SettingsViewModel _viewModel;

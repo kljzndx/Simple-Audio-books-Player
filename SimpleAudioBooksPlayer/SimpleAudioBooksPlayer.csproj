@@ -358,6 +358,12 @@
   <ItemGroup>
     <PRIResource Include="StringResources\en-US\Pages\MusicListPage.resw" />
   </ItemGroup>
+  <ItemGroup>
+    <PRIResource Include="StringResources\zh-CN\Pages\SettingsPage.resw" />
+  </ItemGroup>
+  <ItemGroup>
+    <PRIResource Include="StringResources\en-US\Pages\SettingsPage.resw" />
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
