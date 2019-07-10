@@ -39,6 +39,12 @@ namespace SimpleAudioBooksPlayer.Views
             this.Frame.Navigate(e.SourcePageType, e.Parameter);
         }
 
+        private void More_MenuFlyout_OnOpened(object sender, object e)
+        {
+            foreach (MenuFlyoutItem item in More_MenuFlyout.Items)
+                item.Text = ResourceLoader.GetForCurrentView((string) item.Tag).GetString("Title");
+        }
+
         private void Settings_MenuFlyoutItem_OnClick(object sender, RoutedEventArgs e)
         {
             Root_SplitView.IsPaneOpen = true;
@@ -46,15 +52,16 @@ namespace SimpleAudioBooksPlayer.Views
                 SidePage_Frame.Navigate(typeof(SettingsPage));
         }
 
+        private void About_MenuFlyoutItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            Root_SplitView.IsPaneOpen = true;
+            if (SidePage_Frame.SourcePageType != typeof(AboutPage))
+                SidePage_Frame.Navigate(typeof(AboutPage));
+        }
+
         private void SidePage_Frame_OnNavigated(object sender, NavigationEventArgs e)
         {
             Title_TextBlock.Text = PageTitleGetter.GetTitle(e.SourcePageType);
-        }
-
-        private void More_MenuFlyout_OnOpened(object sender, object e)
-        {
-            foreach (MenuFlyoutItem item in More_MenuFlyout.Items)
-                item.Text = ResourceLoader.GetForCurrentView((string) item.Tag).GetString("Title");
         }
     }
 }
