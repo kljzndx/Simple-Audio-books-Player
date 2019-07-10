@@ -256,7 +256,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
                     _isPreLoadClip = true;
                 }
 
-                if (_isPreLoadClip && sender.CurrentItemIndex == 10)
+                if (_isPreLoadClip && sender.CurrentItemIndex >= 10)
                 {
                     _isPreLoadClip = false;
                     _clipId = _clipId < _clipList.Count - 1 ? _clipId + 1 : 0;
