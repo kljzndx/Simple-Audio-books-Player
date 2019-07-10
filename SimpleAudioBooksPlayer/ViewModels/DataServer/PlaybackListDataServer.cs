@@ -20,6 +20,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
         private FileGroupDTO _currentGroup;
         private PlaybackRecordDTO _currentRecordDto;
         private MusicListSortMembers _currentSortMethod;
+        private bool _isPreLoadClip;
 
         private uint _playingId;
          
@@ -73,6 +74,8 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             if (!Data.Any())
                 return;
 
+            _isPreLoadClip = false;
+
             if (_playingId == 0)
                 await PlayTo((uint) Data.IndexOf(Data.Last()));
             else
@@ -83,6 +86,8 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
         {
             if (!Data.Any())
                 return;
+
+            _isPreLoadClip = false;
 
             if (_playingId == Data.Count - 1)
                 await PlayTo((uint) Data.IndexOf(Data.First()));
@@ -241,9 +246,29 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             var cw = CoreApplication.MainView.CoreWindow;
             await cw.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
+                if (args.Reason == MediaPlaybackItemChangedReason.EndOfStream
+                    && !_isPreLoadClip && sender.Items.Count != 1 && sender.CurrentItemIndex == sender.Items.Count - 1)
+                {
+                    var cid = _clipId < _clipList.Count - 1 ? _clipId + 1 : 0;
+                    foreach (var fileDto in _clipList[cid])
+                        sender.Items.Add(await fileDto.GetPlaybackItem());
+
+                    _isPreLoadClip = true;
+                }
+
+                if (_isPreLoadClip && sender.CurrentItemIndex == 10)
+                {
+                    _isPreLoadClip = false;
+                    _clipId = _clipId < _clipList.Count - 1 ? _clipId + 1 : 0;
+                    for (int i = 0; i < 10; i++)
+                        sender.Items.RemoveAt(0);
+                }
+
                 int id = (int) (_clipId * 10 + sender.CurrentItemIndex);
-                if (id == -1)
+                if (id < 0)
                     return;
+
+                _playingId = (uint) id;
 
                 var mfd = Data[id];
                 _currentRecordDto = new PlaybackRecordDTO(mfd.Title, mfd.Group, (uint) id, _currentSortMethod, _musicListSettings.IsReverse);
