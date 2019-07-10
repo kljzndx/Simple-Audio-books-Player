@@ -57,7 +57,10 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             {
                 await _service.Update(record.ToTableObject());
                 pr.Update(record);
-                Data.Move(Data.IndexOf(pr), 0);
+
+                int id = Data.IndexOf(pr);
+                if (id != 0)
+                    Data.Move(id, 0);
             }
         }
 
