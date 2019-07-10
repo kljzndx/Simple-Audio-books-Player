@@ -46,7 +46,7 @@ namespace SimpleAudioBooksPlayer.Views.SidePages
 
         private async void GitHub_AppBarButton_Click(object sender, RoutedEventArgs e)
         {
-            await Launcher.LaunchUriAsync(new Uri("https://github.com/kljzndx/Simple-Songs-Player"));
+            await Launcher.LaunchUriAsync(new Uri("https://github.com/kljzndx/Simple-Audio-books-Player"));
         }
 
         //private async void OpenLogsFolder_AppBarButton_Click(object sender, RoutedEventArgs e)
