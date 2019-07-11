@@ -25,6 +25,14 @@
             <CompositeTransform x:Name="RootBorder_Transform" ScaleX="0"/>
         </Border.RenderTransform>
 
-        <TextBlock x:Name="Main_TextBlock" Foreground="White" VerticalAlignment="Center" Margin="12,0,6,0"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock x:Name="Main_TextBlock" Foreground="White" VerticalAlignment="Center" Margin="12,0,8,0"/>
+            <Button x:Name="Close_Button" Grid.Column="1" Content="&#xE106;" FontFamily="Segoe MDL2 Assets" RequestedTheme="Dark" Click="{x:Bind Hide}"/>
+        </Grid>
     </Border>
 </UserControl>
