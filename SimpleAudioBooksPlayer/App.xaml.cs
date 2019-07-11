@@ -31,7 +31,7 @@ namespace SimpleAudioBooksPlayer
     {
         public static readonly MediaPlayer MediaPlayer = new MediaPlayer();
 
-        private readonly ResourceLoader _notificationStrings = ResourceLoader.GetForCurrentView("Notifications");
+        private ResourceLoader _notificationStrings;
 
         private bool _canRefreshData = true;
         private ApplicationTheme _currentTheme;
@@ -74,6 +74,7 @@ namespace SimpleAudioBooksPlayer
                 // 将框架放在当前窗口中
                 Window.Current.Content = rootFrame;
                 Window.Current.Activated += Window_Activated;
+                _notificationStrings = ResourceLoader.GetForCurrentView("Notifications");
             }
 
             if (e.PrelaunchActivated == false)
