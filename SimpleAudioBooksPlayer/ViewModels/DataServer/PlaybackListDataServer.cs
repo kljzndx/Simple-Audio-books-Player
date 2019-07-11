@@ -148,6 +148,19 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             }
         }
 
+        private async Task PreLoad()
+        {
+            if (!_isPreLoadClip && _playbackList.Items.Count != 1 &&
+                _playbackList.CurrentItemIndex == _playbackList.Items.Count - 1)
+            {
+                var cid = _clipId < _clipList.Count - 1 ? _clipId + 1 : 0;
+                foreach (var fileDto in _clipList[cid])
+                    _playbackList.Items.Add(await fileDto.GetPlaybackItem());
+
+                _isPreLoadClip = true;
+            }
+        }
+
         private void InitData(FileGroupDTO groupDto, MusicListSortMembers method, bool? isReverse = null)
         {
             bool hasData = Data.Any();
@@ -218,6 +231,10 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             }
 
             _playbackList.MoveTo(mfId);
+
+            var ui = (trackId + 1) % 10;
+            if (ui == 0)
+                await PreLoad();
         }
 
         private void BeginToPlay()
@@ -246,15 +263,8 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             var cw = CoreApplication.MainView.CoreWindow;
             await cw.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                if (args.Reason == MediaPlaybackItemChangedReason.EndOfStream
-                    && !_isPreLoadClip && sender.Items.Count != 1 && sender.CurrentItemIndex == sender.Items.Count - 1)
-                {
-                    var cid = _clipId < _clipList.Count - 1 ? _clipId + 1 : 0;
-                    foreach (var fileDto in _clipList[cid])
-                        sender.Items.Add(await fileDto.GetPlaybackItem());
-
-                    _isPreLoadClip = true;
-                }
+                if (args.Reason == MediaPlaybackItemChangedReason.EndOfStream)
+                    await PreLoad();
 
                 if (_isPreLoadClip && sender.CurrentItemIndex >= 10)
                 {
