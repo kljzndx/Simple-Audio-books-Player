@@ -246,8 +246,17 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             var cw = CoreApplication.MainView.CoreWindow;
             await cw.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                if (args.Reason == MediaPlaybackItemChangedReason.EndOfStream
-                    && !_isPreLoadClip && sender.Items.Count != 1 && sender.CurrentItemIndex == sender.Items.Count - 1)
+                var itemCount = sender.Items.Count;
+                var currentId = sender.Items.IndexOf(args.NewItem);
+
+                if (_isPreLoadClip && currentId >= 10)
+                {
+                    _isPreLoadClip = false;
+                    _clipId = _clipId < _clipList.Count - 1 ? _clipId + 1 : 0;
+                    for (int i = 0; i < 10; i++)
+                        sender.Items.RemoveAt(0);
+                }
+                else if (itemCount != 1 && currentId == itemCount - 1)
                 {
                     var cid = _clipId < _clipList.Count - 1 ? _clipId + 1 : 0;
                     foreach (var fileDto in _clipList[cid])
@@ -256,15 +265,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
                     _isPreLoadClip = true;
                 }
 
-                if (_isPreLoadClip && sender.CurrentItemIndex >= 10)
-                {
-                    _isPreLoadClip = false;
-                    _clipId = _clipId < _clipList.Count - 1 ? _clipId + 1 : 0;
-                    for (int i = 0; i < 10; i++)
-                        sender.Items.RemoveAt(0);
-                }
-
-                int id = (int) (_clipId * 10 + sender.CurrentItemIndex);
+                int id = _clipId * 10 + currentId;
                 if (id < 0)
                     return;
 
