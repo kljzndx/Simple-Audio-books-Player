@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Media.Playback;
@@ -29,6 +30,8 @@ namespace SimpleAudioBooksPlayer
     sealed partial class App : Application
     {
         public static readonly MediaPlayer MediaPlayer = new MediaPlayer();
+
+        private readonly ResourceLoader _notificationStrings = ResourceLoader.GetForCurrentView("Notifications");
 
         private bool _canRefreshData = true;
         private ApplicationTheme _currentTheme;
@@ -101,18 +104,18 @@ namespace SimpleAudioBooksPlayer
                 {
                     if (_currentTheme != RequestedTheme)
                     {
-                        NotificationNotifier.RequestShow("正在切换主题");
+                        NotificationNotifier.RequestShow(_notificationStrings.GetString("SwitchingTheme"));
                         _currentTheme = RequestedTheme;
                         ThemeChangeEvent.ReportThemeChange(_currentTheme);
                     }
 
-                    NotificationNotifier.RequestShow("正在初始化数据模块");
+                    NotificationNotifier.RequestShow(_notificationStrings.GetString("LoadingData"));
                     await FileGroupDataServer.Current.Init();
                     await MusicFileDataServer.Current.Init();
                     await PlaybackRecordDataServer.Current.Init();
                     await PlaybackListDataServer.Current.Init();
 
-                    NotificationNotifier.RequestShow("正在扫描音乐库");
+                    NotificationNotifier.RequestShow(_notificationStrings.GetString("ScanningFiles"));
                     await MusicLibraryDataServiceManager.Current.ScanFiles();
                     NotificationNotifier.RequestHide();
                 });

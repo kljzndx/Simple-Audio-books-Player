@@ -388,6 +388,12 @@
   <ItemGroup>
     <PRIResource Include="StringResources\zh-CN\Pages\AboutPage.resw" />
   </ItemGroup>
+  <ItemGroup>
+    <PRIResource Include="StringResources\zh-CN\Members\Notifications.resw" />
+  </ItemGroup>
+  <ItemGroup>
+    <PRIResource Include="StringResources\en-US\Members\Notifications.resw" />
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
