@@ -132,6 +132,7 @@
     <Compile Include="ViewModels\DataServer\PlaybackListDataServer.cs" />
     <Compile Include="ViewModels\DataServer\PlaybackRecordDataServer.cs" />
     <Compile Include="ViewModels\Events\GroupListMoreMenuNotifier.cs" />
+    <Compile Include="ViewModels\Events\NotificationNotifier.cs" />
     <Compile Include="ViewModels\Events\PlayerNowPlaybackItemChangeEventArgs.cs" />
     <Compile Include="ViewModels\Events\PlayerPositionChangeEventArgs.cs" />
     <Compile Include="ViewModels\Events\ThemeChangeEvent.cs" />
@@ -154,6 +155,9 @@
       <DependentUpon>CustomMediaPlayerElement.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Controls\AudioPlayer\CustomTransportControls.cs" />
+    <Compile Include="Views\Controls\NotificationBar.xaml.cs">
+      <DependentUpon>NotificationBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\GroupListPage.xaml.cs">
       <DependentUpon>GroupListPage.xaml</DependentUpon>
     </Compile>
@@ -257,6 +261,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Controls\AudioPlayer\CustomMediaPlayerElement.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Controls\NotificationBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

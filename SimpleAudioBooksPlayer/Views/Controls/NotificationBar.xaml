@@ -1,0 +1,30 @@
+﻿<UserControl
+    x:Class="SimpleAudioBooksPlayer.Views.Controls.NotificationBar"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:SimpleAudioBooksPlayer.Views.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400"
+    HorizontalAlignment="Right"
+    VerticalAlignment="Top">
+
+    <UserControl.Resources>
+        <Storyboard x:Name="Extend_Storyboard">
+            <DoubleAnimation To="1" Duration="0:0:0.200" Storyboard.TargetName="RootBorder_Transform" Storyboard.TargetProperty="ScaleX"/>
+        </Storyboard>
+        <Storyboard x:Name="Fold_Storyboard" Completed="Fold_Storyboard_OnCompleted">
+            <DoubleAnimation To="0" Duration="0:0:0.200" Storyboard.TargetName="RootBorder_Transform" Storyboard.TargetProperty="ScaleX"/>
+        </Storyboard>
+    </UserControl.Resources>
+
+    <Border x:Name="Root_Border" Height="30" Background="{ThemeResource SystemControlBackgroundAccentBrush}" CornerRadius="15,0,0,15" RenderTransformOrigin="1,0.5">
+        <Border.RenderTransform>
+            <CompositeTransform x:Name="RootBorder_Transform" ScaleX="0"/>
+        </Border.RenderTransform>
+
+        <TextBlock x:Name="Main_TextBlock" Foreground="White" VerticalAlignment="Center" Margin="12,0,6,0"/>
+    </Border>
+</UserControl>

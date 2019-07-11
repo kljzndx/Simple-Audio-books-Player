@@ -5,6 +5,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using SimpleAudioBooksPlayer.Models.Attributes;
+using SimpleAudioBooksPlayer.ViewModels.Events;
 
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
 
@@ -23,6 +24,9 @@ namespace SimpleAudioBooksPlayer.Views
             TitleBar_Grid.Visibility = Visibility.Collapsed;
             CustomMediaPlayerElement.SetMediaPlayer(App.MediaPlayer);
             _navigationManager.BackRequested += NavigationManager_BackRequested;
+
+            NotificationNotifier.ShowRequested += NotificationNotifier_ShowRequested;
+            NotificationNotifier.HideRequested += NotificationNotifier_HideRequested;
         }
 
         private void NavigationManager_BackRequested(object sender, BackRequestedEventArgs e)
@@ -44,6 +48,16 @@ namespace SimpleAudioBooksPlayer.Views
         private void GoBack_Button_OnClick(object sender, RoutedEventArgs e)
         {
             Main_Frame.GoBack();
+        }
+
+        private void NotificationNotifier_ShowRequested(object sender, string e)
+        {
+            My_NotificationBar.Show(e);
+        }
+
+        private void NotificationNotifier_HideRequested(object sender, object e)
+        {
+            My_NotificationBar.Hide();
         }
     }
 }

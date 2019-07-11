@@ -101,16 +101,20 @@ namespace SimpleAudioBooksPlayer
                 {
                     if (_currentTheme != RequestedTheme)
                     {
+                        NotificationNotifier.RequestShow("正在切换主题");
                         _currentTheme = RequestedTheme;
                         ThemeChangeEvent.ReportThemeChange(_currentTheme);
                     }
 
+                    NotificationNotifier.RequestShow("正在初始化数据模块");
                     await FileGroupDataServer.Current.Init();
                     await MusicFileDataServer.Current.Init();
                     await PlaybackRecordDataServer.Current.Init();
                     await PlaybackListDataServer.Current.Init();
 
+                    NotificationNotifier.RequestShow("正在扫描音乐库");
                     await MusicLibraryDataServiceManager.Current.ScanFiles();
+                    NotificationNotifier.RequestHide();
                 });
 
                 _canRefreshData = true;
