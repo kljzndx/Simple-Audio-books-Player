@@ -142,7 +142,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
         private async Task SetPlayedTime()
         {
-            if (_player.PlaybackSession != null && _currentRecordDto != null)
+            if (_player?.PlaybackSession != null && _currentRecordDto != null)
             {
                 _currentRecordDto.PlayedTime = _player.PlaybackSession.Position;
                 await _recordServer.SetRecord(_currentRecordDto);
