@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
@@ -256,15 +257,18 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
                         sender.Items.RemoveAt(0);
 
                     _isPreLoadClip = false;
+                    itemCount = sender.Items.Count;
+                    currentId = args.NewItem != null ? sender.Items.IndexOf(args.NewItem) : 0;
                 }
 
-                if (!_isPreLoadClip && itemCount != 1 && currentId == itemCount - 1)
+                if (!_isPreLoadClip && itemCount >= 10 && currentId == itemCount - 1)
                 {
                     var cid = _clipId < _clipList.Count - 1 ? _clipId + 1 : 0;
                     foreach (var fileDto in _clipList[cid])
                         sender.Items.Add(await fileDto.GetPlaybackItem());
 
                     _isPreLoadClip = true;
+                    itemCount = sender.Items.Count;
                 }
 
                 int id = _clipId * 10 + currentId;
@@ -276,6 +280,8 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
                 var mfd = Data[id];
                 _currentRecordDto = new PlaybackRecordDTO(mfd.Title, mfd.Group, (uint) id, _currentSortMethod, _musicListSettings.IsReverse);
                 await _recordServer.SetRecord(_currentRecordDto);
+
+                // Debug.WriteLine($"PlayId: {id}, ItemCount: {itemCount}, CurrentIndex: {currentId}, ClipId: {_clipId}, PreLoadClip: {_isPreLoadClip}, ChangeReason: {args.Reason.ToString()}");
             });
         }
 
