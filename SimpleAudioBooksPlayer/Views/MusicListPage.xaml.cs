@@ -1,4 +1,8 @@
-﻿using Windows.UI.Xaml.Controls;
+﻿using System;
+using Windows.System;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 using SimpleAudioBooksPlayer.Models.Attributes;
 using SimpleAudioBooksPlayer.Models.DTO;
@@ -34,6 +38,20 @@ namespace SimpleAudioBooksPlayer.Views
             _vm.RefreshData(groupId);
         }
 
+        private void Goto()
+        {
+            if (!Int32.TryParse(ItemId_TextBox.Text, out var result))
+                return;
+
+            int id = result < 1 ? 1 : (result <= _vm.Data.Count ? result : _vm.Data.Count);
+
+            var item = _vm.Data[id - 1];
+            Main_ListView.ScrollIntoView(item, ScrollIntoViewAlignment.Leading);
+
+            var container = Main_ListView.ContainerFromItem(item);
+            ((Control) container).Focus(FocusState.Keyboard);
+        }
+
         private async void Main_ListView_OnItemClick(object sender, ItemClickEventArgs e)
         {
             var theItem = e.ClickedItem as MusicFileDTO;
@@ -49,6 +67,19 @@ namespace SimpleAudioBooksPlayer.Views
 
             if (_settings.SortMethod != method)
                 _vm.SortData(method);
+        }
+
+        private void Go_Button_OnClick(object sender, RoutedEventArgs e)
+        {
+            Goto();
+        }
+
+        private void ItemId_TextBox_OnKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Enter)
+            {
+                Goto();
+            }
         }
     }
 }

@@ -18,11 +18,29 @@
 
         <Grid>
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <StackPanel Grid.Column="1" Orientation="Horizontal">
+            <Button x:Name="Goto_Button" x:Uid="/MusicListPage/Goto_Button" Style="{StaticResource IconButton_Style}">
+                <Button.Flyout>
+                    <Flyout>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBox x:Name="ItemId_TextBox" KeyDown="ItemId_TextBox_OnKeyDown"/>
+                            <Button x:Name="Go_Button" x:Uid="/MusicListPage/Go_Button" Grid.Column="1" VerticalAlignment="Center" Click="Go_Button_OnClick"/>
+                        </Grid>
+                    </Flyout>
+                </Button.Flyout>
+                <FontIcon Glyph="&#xE122;"/>
+            </Button>
+
+            <StackPanel Grid.Column="2" Orientation="Horizontal">
                 <StackPanel.Resources>
                     <Style TargetType="Button" BasedOn="{StaticResource IconButton_Style}"/>
                 </StackPanel.Resources>
