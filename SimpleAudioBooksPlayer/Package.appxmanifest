@@ -8,15 +8,15 @@
   IgnorableNamespaces="uap mp uap3">
 
   <Identity
-    Name="ec174c2a-6be8-48f4-be63-4d23e8195ab3"
-    Publisher="CN=kljzn"
-    Version="1.0.0.0" />
+    Name="22643.SimpleAudio-booksPlayer"
+    Publisher="CN=7A99FA60-940D-46A9-B3FA-D93317D891AB"
+    Version="1.1.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="ec174c2a-6be8-48f4-be63-4d23e8195ab3" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="db58f7e0-41d7-40b0-926e-876c1100c0d8" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>ms-resource:///App/Name</DisplayName>
-    <PublisherDisplayName>kljzn</PublisherDisplayName>
+    <PublisherDisplayName>快乐工作室</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
