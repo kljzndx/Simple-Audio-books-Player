@@ -247,16 +247,18 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             await cw.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
                 var itemCount = sender.Items.Count;
-                var currentId = sender.Items.IndexOf(args.NewItem);
+                var currentId = args.NewItem != null ? sender.Items.IndexOf(args.NewItem) : 0;
 
                 if (_isPreLoadClip && currentId >= 10)
                 {
-                    _isPreLoadClip = false;
                     _clipId = _clipId < _clipList.Count - 1 ? _clipId + 1 : 0;
                     for (int i = 0; i < 10; i++)
                         sender.Items.RemoveAt(0);
+
+                    _isPreLoadClip = false;
                 }
-                else if (itemCount != 1 && currentId == itemCount - 1)
+
+                if (!_isPreLoadClip && itemCount != 1 && currentId == itemCount - 1)
                 {
                     var cid = _clipId < _clipList.Count - 1 ? _clipId + 1 : 0;
                     foreach (var fileDto in _clipList[cid])
