@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -39,6 +40,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
         {
             Data = new ObservableCollection<MusicFileDTO>();
 
+            Data.CollectionChanged += Data_CollectionChanged;
             App.Current.Suspending += App_Suspending;
             App.Current.EnteredBackground += App_EnteredBackground;
         }
@@ -58,7 +60,6 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
             IsInit = true;
             _player = App.MediaPlayer;
-            _player.Source = _playbackList;
 
             var record = _recordServer.Data.OrderBy(r => r.PlayDate).LastOrDefault();
             if (record != null)
@@ -227,6 +228,15 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
                 _player.PlaybackSession.PlaybackState != MediaPlaybackState.Playing)
             {
                 _player.Play();
+            }
+        }
+
+        private void Data_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (Data.Any() && _player.Source != _playbackList)
+            {
+                _player.Source = _playbackList;
+                Data.CollectionChanged -= Data_CollectionChanged;
             }
         }
 
