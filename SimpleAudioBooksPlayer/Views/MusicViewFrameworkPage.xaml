@@ -40,10 +40,10 @@
                 </Button>
             </Pivot.RightHeader>
 
-            <PivotItem Header="首页">
+            <PivotItem x:Uid="/FrameworkPage/Home_Pivot" Header="首页">
                 <Frame x:Name="GroupView_Frame" SourcePageType="local:GroupListPage" Navigating="Frame_OnNavigating"/>
             </PivotItem>
-            <PivotItem Header="播放记录">
+            <PivotItem x:Uid="/FrameworkPage/PlayRecords_Pivot" Header="播放记录">
                 <Frame x:Name="PlayRecordView_Frame" SourcePageType="local:PlayRecordPage" Navigating="Frame_OnNavigating"/>
             </PivotItem>
         </Pivot>
