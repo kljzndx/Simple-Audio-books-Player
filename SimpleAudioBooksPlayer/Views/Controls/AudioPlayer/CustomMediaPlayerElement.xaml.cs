@@ -16,9 +16,9 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using SimpleAudioBooksPlayer.ViewModels.Events;
 using SimpleAudioBooksPlayer.ViewModels.SettingProperties;
-using System.ComponentModel;
 using System.Threading.Tasks;
 using SimpleAudioBooksPlayer.ViewModels.DataServer;
+using System.ComponentModel;
 
 //https://go.microsoft.com/fwlink/?LinkId=234236 上介绍了“用户控件”项模板
 
@@ -43,6 +43,7 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
             this.InitializeComponent();
 
             MyTransportControls.CoverButton_Click += (s, e) => CoverButton_Click?.Invoke(s, e);
+            _settings.PropertyChanged += Settings_PropertyChanged;
         }
 
         public event RoutedEventHandler CoverButton_Click;
@@ -283,6 +284,15 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
             });
         }
 
+        private async void MyTransportControls_OnRateValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                if (e.NewValue != _settings.PlaybackRate)
+                    _settings.PlaybackRate = e.NewValue;
+            });
+        }
+
         #endregion
         #region Player position controller events
 
@@ -320,5 +330,19 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
         }
 
         #endregion
+
+        private async void Settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                switch (e.PropertyName)
+                {
+                    case nameof(_settings.PlaybackRate):
+                        if (TryGetSession(out var session))
+                            session.PlaybackRate = _settings.PlaybackRate;
+                        break;
+                }
+            });
+        }
     }
 }
