@@ -45,7 +45,7 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <Rectangle Width="20" Height="20" Fill="CornflowerBlue" Grid.RowSpan="2" Visibility="{x:Bind Source.IsPlaying, Mode=OneWay}"/>
+        <Polygon Grid.RowSpan="2" Points="0,0,20,10,0,20" Fill="CornflowerBlue" VerticalAlignment="Center" Visibility="{x:Bind Source.IsPlaying, Mode=OneWay}"/>
 
         <TextBlock x:Name="Title_TextBlock" Grid.Column="1" Text="{x:Bind Source.Title, Mode=OneWay}"/>
         <TextBlock x:Name="Duration_TextBlock" Grid.Column="2" Text="{x:Bind Source.Duration, Mode=OneWay, Converter={StaticResource TimeSpanToSongTimeString}}"/>
