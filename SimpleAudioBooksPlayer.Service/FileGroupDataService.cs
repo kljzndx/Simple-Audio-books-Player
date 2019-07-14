@@ -56,8 +56,8 @@ namespace SimpleAudioBooksPlayer.Service
 
         internal async Task AddRange(IEnumerable<string> folderPaths)
         {
-            var list = folderPaths.Select(p => new FileGroup(p))
-                .Where(g => _source.All(src => src.FolderPath != g.FolderPath)).ToList();
+            var list = folderPaths.Where(p => _source.All(src => src.FolderPath != p))
+                .Select(p => new FileGroup(p)).ToList();
 
             if (!list.Any())
                 return;
