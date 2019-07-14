@@ -120,6 +120,7 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ClassListDataService.cs" />
     <Compile Include="FileGroupDataService.cs" />
     <Compile Include="IDataService.cs" />
     <Compile Include="IObservableDataService.cs" />

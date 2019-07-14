@@ -35,7 +35,7 @@ namespace SimpleAudioBooksPlayer.Models.DTO
 
         public ClassItem ToTableModel()
         {
-            return new ClassItem(Index, Name, CreateDate, String.Empty);
+            return new ClassItem(Index, Name, String.Empty);
         }
     }
 }
