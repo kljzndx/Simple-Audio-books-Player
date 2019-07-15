@@ -26,7 +26,7 @@ namespace SimpleAudioBooksPlayer.Service
             if (_source is null)
                 _source = await _helper.ToList();
 
-            return _source;
+            return _source.ToList();
         }
 
         public async Task Rename(int index, string newName)
