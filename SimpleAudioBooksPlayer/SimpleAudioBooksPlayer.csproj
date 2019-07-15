@@ -133,6 +133,7 @@
     <Compile Include="Models\Sorters\MusicSorterUi.cs" />
     <Compile Include="Models\Sorters\SystemStringSorter.cs" />
     <Compile Include="Models\StringResources.cs" />
+    <Compile Include="ViewModels\DataServer\ClassListDataServer.cs" />
     <Compile Include="ViewModels\DataServer\FileGroupDataServer.cs" />
     <Compile Include="ViewModels\DataServer\IDataServer.cs" />
     <Compile Include="ViewModels\DataServer\IFileDataServer.cs" />
