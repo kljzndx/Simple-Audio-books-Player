@@ -111,6 +111,7 @@ namespace SimpleAudioBooksPlayer
                     }
 
                     NotificationNotifier.RequestShow(_notificationStrings.GetString("LoadingData"));
+                    await ClassListDataServer.Current.Init();
                     await FileGroupDataServer.Current.Init();
                     await MusicFileDataServer.Current.Init();
                     await PlaybackRecordDataServer.Current.Init();

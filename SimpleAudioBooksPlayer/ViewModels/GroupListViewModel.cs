@@ -36,7 +36,7 @@ namespace SimpleAudioBooksPlayer.ViewModels
 
             _server.DataLoaded += Server_DataLoaded;
             _server.DataAdded += Server_DataAdded;
-            _server.DataRenamed += Server_DataRenamed;
+            _server.DataUpdated += Server_DataUpdated;
             _server.DataRemoved += Server_DataRemoved;
         }
 
@@ -100,7 +100,7 @@ namespace SimpleAudioBooksPlayer.ViewModels
                 Reverse();
         }
 
-        private void Server_DataRenamed(object sender, FileGroupDTO e)
+        private void Server_DataUpdated(object sender, FileGroupDTO e)
         {
             if (Settings.SortMethod != GroupListSorterMember.Name)
                 return;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Xaml;
@@ -6,6 +7,7 @@ using Windows.UI.Xaml.Media.Imaging;
 using GalaSoft.MvvmLight;
 using SimpleAudioBooksPlayer.DAL;
 using SimpleAudioBooksPlayer.Models.Sorters;
+using SimpleAudioBooksPlayer.ViewModels.DataServer;
 using SimpleAudioBooksPlayer.ViewModels.Events;
 
 namespace SimpleAudioBooksPlayer.Models.DTO
@@ -28,6 +30,7 @@ namespace SimpleAudioBooksPlayer.Models.DTO
         public FileGroupDTO(FileGroup source)
         {
             Index = source.Index;
+            ClassItem = ClassListDataServer.Current.Data.FirstOrDefault(c => c.Index == source.Index);
             _name = source.Name;
             FolderPath = source.FolderPath;
             _hasCover = source.HasCover;
@@ -39,6 +42,7 @@ namespace SimpleAudioBooksPlayer.Models.DTO
         public event EventHandler<object> CoverChanged;
 
         public int Index { get; }
+        public ClassItemDTO ClassItem { get; set; }
         public string Name
         {
             get => _name;
@@ -92,7 +96,7 @@ namespace SimpleAudioBooksPlayer.Models.DTO
 
         public FileGroup ToTableModel()
         {
-            return new FileGroup(Index, Name, FolderPath, HasCover, CreateTime);
+            return new FileGroup(Index, (ClassItem?.Index) ?? -1, Name, FolderPath, HasCover, CreateTime);
         }
 
         public bool Equals(FileGroupDTO other)
