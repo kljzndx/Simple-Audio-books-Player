@@ -26,7 +26,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
         public event EventHandler<IEnumerable<ClassItemDTO>> DataUpdated;
 
         public bool IsInit { get; private set; }
-        public ObservableCollection<ClassItemDTO> Data { get; }
+        public ObservableCollection<ClassItemDTO> Data { get; } = new ObservableCollection<ClassItemDTO>();
 
         public async Task Init()
         {
@@ -50,6 +50,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
         {
             itemDto.Name = newName;
             await _service.Rename(itemDto.Index, newName);
+            DataUpdated?.Invoke(this, new[] {itemDto});
         }
 
         public async Task Remove(ClassItemDTO itemDto)
