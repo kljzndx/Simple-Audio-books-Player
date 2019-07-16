@@ -17,7 +17,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
         private ClassListDataServer()
         {
-            
+            _service.DataAdded += Service_DataAdded;
         }
 
         public event EventHandler<IEnumerable<ClassItemDTO>> DataLoaded;
@@ -39,11 +39,9 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
                 Data.Add(new ClassItemDTO(item));
 
             if (!Data.Any())
-                await _service.Add("All");
+                await Add("All");
 
             DataLoaded?.Invoke(this, Data.ToList());
-
-            _service.DataAdded += Service_DataAdded;
         }
 
         public async Task Rename(ClassItemDTO itemDto, string newName)
@@ -64,6 +62,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             DataRemoved?.Invoke(this, new[] {itemDto});
         }
 
+        // 因为要获取id号，所以只能用回调来添加项目
         public Task Add(string name) => _service.Add(name);
 
         private void Service_DataAdded(object sender, IEnumerable<ClassItem> e)
