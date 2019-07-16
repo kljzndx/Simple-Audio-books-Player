@@ -133,6 +133,7 @@
     <Compile Include="Models\Sorters\MusicSorterUi.cs" />
     <Compile Include="Models\Sorters\SystemStringSorter.cs" />
     <Compile Include="Models\StringResources.cs" />
+    <Compile Include="ViewModels\ClassListViewModel.cs" />
     <Compile Include="ViewModels\DataServer\ClassListDataServer.cs" />
     <Compile Include="ViewModels\DataServer\FileGroupDataServer.cs" />
     <Compile Include="ViewModels\DataServer\IDataServer.cs" />
@@ -160,6 +161,9 @@
     <Compile Include="ViewModels\ValueConverters\DoubleToPercentage.cs" />
     <Compile Include="ViewModels\ValueConverters\TimeSpanToSongTimeString.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
+    <Compile Include="Views\ClassListPage.xaml.cs">
+      <DependentUpon>ClassListPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Controls\AudioPlayer\CustomMediaPlayerElement.xaml.cs">
       <DependentUpon>CustomMediaPlayerElement.xaml</DependentUpon>
     </Compile>
@@ -271,6 +275,10 @@
     <Page Include="ViewModels\ValueConverters\GlobalValueConverters.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ClassListPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Controls\AudioPlayer\CustomMediaPlayerElement.xaml">
       <SubType>Designer</SubType>
