@@ -28,6 +28,8 @@ namespace SimpleAudioBooksPlayer.Views
         public MusicViewFrameworkPage()
         {
             this.InitializeComponent();
+
+            NavigationCacheMode = NavigationCacheMode.Enabled;
         }
 
         private void Frame_OnNavigating(object sender, NavigatingCancelEventArgs e)
@@ -36,7 +38,7 @@ namespace SimpleAudioBooksPlayer.Views
                 return;
 
             e.Cancel = true;
-            this.Frame.Navigate(e.SourcePageType, e.Parameter);
+            this.Frame.Navigate(e.SourcePageType, e.Parameter, e.NavigationTransitionInfo);
         }
 
         private void More_MenuFlyout_OnOpened(object sender, object e)
