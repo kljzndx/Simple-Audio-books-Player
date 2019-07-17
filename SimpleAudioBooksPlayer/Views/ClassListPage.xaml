@@ -7,7 +7,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    DataContext="{Binding Source={StaticResource Locator}, Path=ClassList}">
+    DataContext="{Binding Source={StaticResource Locator}, Path=ClassList}"
+    SizeChanged="ClassListPage_OnSizeChanged">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -16,7 +17,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <Grid x:Name="ClassList_Grid" Width="{x:Bind _settings.ListWidth, Mode=OneWay}">
+        <Grid x:Name="ClassList_Grid">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>

@@ -31,6 +31,7 @@ namespace SimpleAudioBooksPlayer.Views
 
         private readonly ClassListViewModel _vm;
         private readonly ClassListViewSettings _settings = ClassListViewSettings.Current;
+        private bool _isMiniView;
 
         public ClassListPage()
         {
@@ -41,11 +42,60 @@ namespace SimpleAudioBooksPlayer.Views
 
             AddClass_Grid.Visibility = Visibility.Collapsed;
             RequestAddClass_Button.IsEnabled = false;
+
+            _settings.PropertyChanged += Settings_PropertyChanged;
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            ClassList_Grid.Width = _settings.ListWidth;
+            CheckPageSize();
+        }
+
+
+        private void CheckPageSize()
+        {
+            if (ActualWidth <= 640)
+            {
+                if (GroupList_Frame.Visibility == Visibility.Collapsed)
+                    return;
+
+                Separator_Rectangle.Visibility = Visibility.Collapsed;
+                GroupList_Frame.Visibility = Visibility.Collapsed;
+
+                ClassList_Grid.Width = Double.NaN;
+                Grid.SetColumnSpan(ClassList_Grid, 3);
+
+                _isMiniView = true;
+            }
+            else if (GroupList_Frame.Visibility == Visibility.Collapsed)
+            {
+                Separator_Rectangle.Visibility = Visibility.Visible;
+                GroupList_Frame.Visibility = Visibility.Visible;
+
+                ClassList_Grid.Width = _settings.ListWidth;
+                Grid.SetColumnSpan(ClassList_Grid, 1);
+
+                _isMiniView = false;
+            }
+            else if (_settings.ListWidth > ActualWidth - 400)
+                _settings.ListWidth = ActualWidth - 400;
+        }
+        private void Settings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(_settings.ListWidth):
+                    ClassList_Grid.Width = _settings.ListWidth;
+                    break;
+            }
         }
 
         private void GroupList_Frame_OnNavigating(object sender, NavigatingCancelEventArgs e)
         {
-            if (e.SourcePageType == typeof(GroupListPage))
+            if (e.SourcePageType == typeof(GroupListPage) && !_isMiniView)
                 return;
 
             e.Cancel = true;
@@ -118,6 +168,11 @@ namespace SimpleAudioBooksPlayer.Views
         private void Separator_Rectangle_OnPointerExited(object sender, PointerRoutedEventArgs e)
         {
             Window.Current.CoreWindow.PointerCursor = NormalCursor;
+        }
+
+        private void ClassListPage_OnSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            CheckPageSize();
         }
     }
 }

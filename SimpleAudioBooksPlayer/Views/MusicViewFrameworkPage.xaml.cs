@@ -34,7 +34,7 @@ namespace SimpleAudioBooksPlayer.Views
 
         private void Frame_OnNavigating(object sender, NavigatingCancelEventArgs e)
         {
-            if (e.SourcePageType != typeof(MusicListPage))
+            if (e.SourcePageType != typeof(GroupListPage) && e.SourcePageType != typeof(MusicListPage))
                 return;
 
             e.Cancel = true;
