@@ -16,20 +16,37 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <Grid x:Name="ClassList_Grid" Width="200">
+        <Grid x:Name="ClassList_Grid" Width="{x:Bind _settings.ListWidth, Mode=OneWay}">
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <Button x:Name="AddClass_Button"/>
-            <ListView x:Name="ClassList_ListView" Grid.Row="1">
+            <Button x:Name="ShowAddClassPanel_Button" Content="添加" Margin="0,4" HorizontalAlignment="Stretch" Click="ShowAddClassPanel_Button_OnClick"/>
+            <Grid x:Name="AddClass_Grid" Grid.Row="1" Margin="0,4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
 
+                <TextBox x:Name="ClassName_TextBox" VerticalAlignment="Center" TextChanged="ClassName_TextBox_OnTextChanged" KeyDown="ClassName_TextBox_OnKeyDown"/>
+                <Button x:Name="RequestAddClass_Button" Grid.Column="1" Style="{StaticResource IconButton_Style}" Click="RequestAddClass_Button_OnClick">
+                    <SymbolIcon Symbol="Add"/>
+                </Button>
+            </Grid>
+
+            <ListView x:Name="ClassList_ListView" Grid.Row="2" ItemsSource="{Binding Data}" SelectionChanged="ClassList_ListView_OnSelectionChanged" ContainerContentChanging="ClassList_ListView_ContainerContentChanging">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
             </ListView>
         </Grid>
 
-        <Rectangle x:Name="Separator_Rectangle" Grid.Column="1" Width="12" Fill="{ThemeResource SystemControlBackgroundChromeMediumBrush}"/>
+        <Rectangle x:Name="Separator_Rectangle" Grid.Column="1" Width="12" Fill="{ThemeResource SystemControlBackgroundChromeMediumBrush}" ManipulationMode="TranslateX" ManipulationDelta="Separator_Rectangle_OnManipulationDelta" PointerEntered="Separator_Rectangle_OnPointerEntered" PointerExited="Separator_Rectangle_OnPointerExited"/>
 
-        <Frame x:Name="GroupList_Frame" Grid.Column="2"/>
+        <Frame x:Name="GroupList_Frame" Grid.Column="2" Margin="4,0" Navigating="GroupList_Frame_OnNavigating"/>
     </Grid>
 </Page>

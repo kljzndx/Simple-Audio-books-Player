@@ -151,6 +151,7 @@
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MusicListViewModel.cs" />
     <Compile Include="ViewModels\PlayRecordViewModel.cs" />
+    <Compile Include="ViewModels\SettingProperties\ClassListViewSettings.cs" />
     <Compile Include="ViewModels\SettingProperties\GroupListViewSettings.cs" />
     <Compile Include="ViewModels\SettingProperties\MusicListSettingProperties.cs" />
     <Compile Include="ViewModels\SettingProperties\OtherSettingProperties.cs" />
