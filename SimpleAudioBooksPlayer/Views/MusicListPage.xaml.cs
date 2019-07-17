@@ -22,6 +22,7 @@ namespace SimpleAudioBooksPlayer.Views
     {
         private MusicListSettingProperties _settings = MusicListSettingProperties.Current;
         private MusicListViewModel _vm;
+
         public MusicListPage()
         {
             this.InitializeComponent();
