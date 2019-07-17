@@ -54,7 +54,6 @@ namespace SimpleAudioBooksPlayer.Views
             CheckPageSize();
         }
 
-
         private void CheckPageSize()
         {
             if (ActualWidth <= 640)
@@ -69,6 +68,12 @@ namespace SimpleAudioBooksPlayer.Views
                 Grid.SetColumnSpan(ClassList_Grid, 3);
 
                 _isMiniView = true;
+
+                if (_vm.Data.Any())
+                    if (ClassList_ListView.SelectedIndex >= 0)
+                        GroupList_Frame.Navigate(typeof(GroupListPage), _vm.Data[ClassList_ListView.SelectedIndex]);
+                    else
+                        ClassList_ListView.SelectedIndex = 0;
             }
             else if (GroupList_Frame.Visibility == Visibility.Collapsed)
             {
@@ -79,10 +84,18 @@ namespace SimpleAudioBooksPlayer.Views
                 Grid.SetColumnSpan(ClassList_Grid, 1);
 
                 _isMiniView = false;
+
+                if (_vm.Data.Any())
+                    if (ClassList_ListView.SelectedIndex >= 0)
+                        GroupList_Frame.Navigate(typeof(GroupListPage), _vm.Data[ClassList_ListView.SelectedIndex]);
+                    else
+                        ClassList_ListView.SelectedIndex = 0;
+
             }
             else if (_settings.ListWidth > ActualWidth - 400)
                 _settings.ListWidth = ActualWidth - 400;
         }
+
         private void Settings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
@@ -111,7 +124,8 @@ namespace SimpleAudioBooksPlayer.Views
         {
             if (_vm.Data.Any())
             {
-                ClassList_ListView.SelectedIndex = 0;
+                if (!_isMiniView)
+                    ClassList_ListView.SelectedIndex = 0;
                 ClassList_ListView.ContainerContentChanging -= ClassList_ListView_ContainerContentChanging;
             }
         }

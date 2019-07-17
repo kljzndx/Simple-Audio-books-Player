@@ -8,15 +8,15 @@ namespace SimpleAudioBooksPlayer.ViewModels
 {
     public class ClassListViewModel : ViewModelBase
     {
-        private readonly ClassListDataServer _server = ClassListDataServer.Current;
+        public readonly ClassListDataServer Server = ClassListDataServer.Current;
 
         public ClassListViewModel()
         {
-            Data = _server.Data;
+            Data = Server.Data;
         }
 
         public ObservableCollection<ClassItemDTO> Data { get; }
 
-        public Task Add(string name) => _server.Add(name);
+        public Task Add(string name) => Server.Add(name);
     }
 }
