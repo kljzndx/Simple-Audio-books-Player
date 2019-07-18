@@ -30,7 +30,7 @@ namespace SimpleAudioBooksPlayer.Models.DTO
         public FileGroupDTO(FileGroup source)
         {
             Index = source.Index;
-            ClassItem = ClassListDataServer.Current.Data.FirstOrDefault(c => c.Index == source.Index);
+            ClassItem = ClassListDataServer.Current.Data.FirstOrDefault(c => c.Index == source.ClassId);
             _name = source.Name;
             FolderPath = source.FolderPath;
             _hasCover = source.HasCover;
