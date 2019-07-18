@@ -12,6 +12,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
     public class ClassListDataServer : IDataServer<ClassItemDTO, ClassItemDTO>
     {
         public static readonly ClassListDataServer Current = new ClassListDataServer();
+        public static ClassItemDTO FirstClass { get; private set; }
 
         private readonly ClassListDataService _service = ClassListDataService.Current;
 
@@ -40,6 +41,8 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
             if (!Data.Any())
                 await Add("All");
+
+            FirstClass = Data.First();
 
             DataLoaded?.Invoke(this, Data.ToList());
         }

@@ -52,6 +52,14 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             _service.DataUpdated += Service_DataUpdated;
         }
 
+        public List<FileGroupDTO> GetGroups(ClassItemDTO classItem)
+        {
+            if (classItem == ClassListDataServer.FirstClass)
+                return Data.ToList();
+            else
+                return Data.Where(g => g.ClassItem == classItem).ToList();
+        }
+
         public async Task SetClass(FileGroupDTO groupDto, ClassItemDTO classItem)
         {
             groupDto.ClassItem = classItem;

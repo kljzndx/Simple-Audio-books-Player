@@ -18,6 +18,7 @@ namespace SimpleAudioBooksPlayer.ViewModels
         private readonly FileOpenPicker _coverPicker;
 
         private MusicSorterUi<FileGroupDTO> _currentSorter;
+        private ClassItemDTO _currentClass;
 
         public readonly GroupListViewSettings Settings = GroupListViewSettings.Current;
 
@@ -43,10 +44,13 @@ namespace SimpleAudioBooksPlayer.ViewModels
         public ObservableCollection<FileGroupDTO> Data { get; }
         public List<MusicSorterUi<FileGroupDTO>> SorterMembers { get; }
 
-        public void RefreshData()
+        public void RefreshData(ClassItemDTO classItem)
         {
             Data.Clear();
-            foreach (var groupDto in _server.Data)
+            _currentClass = classItem;
+
+            var source = _server.GetGroups(classItem);
+            foreach (var groupDto in source)
                 Data.Add(groupDto);
 
             Sort(SorterMembers[(int) Settings.SortMethod]);
@@ -86,12 +90,20 @@ namespace SimpleAudioBooksPlayer.ViewModels
 
         private void Server_DataLoaded(object sender, IEnumerable<FileGroupDTO> e)
         {
-            RefreshData();
+            if (_currentClass is null)
+                return;
+            RefreshData(_currentClass);
         }
 
         private void Server_DataAdded(object sender, IEnumerable<FileGroupDTO> e)
         {
-            foreach (var fileGroupDto in e)
+            List<FileGroupDTO> needAdd = null;
+            if (_currentClass == ClassListDataServer.FirstClass)
+                needAdd = e.ToList();
+            else
+                needAdd = e.Where(g => g.ClassItem == _currentClass).ToList();
+
+            foreach (var fileGroupDto in needAdd)
                 Data.Add(fileGroupDto);
 
             Sort(SorterMembers[(int)Settings.SortMethod]);
@@ -113,7 +125,7 @@ namespace SimpleAudioBooksPlayer.ViewModels
 
         private void Server_DataRemoved(object sender, IEnumerable<FileGroupDTO> e)
         {
-            foreach (var fileGroupDto in e)
+            foreach (var fileGroupDto in Data.Where(e.Contains).ToList())
                 Data.Remove(fileGroupDto);
         }
     }

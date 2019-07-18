@@ -44,7 +44,8 @@ namespace SimpleAudioBooksPlayer.Views
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            _vm.RefreshData();
+            if (e.Parameter is ClassItemDTO classItem)
+                _vm.RefreshData(classItem);
         }
 
         private void Main_GridView_OnItemClick(object sender, ItemClickEventArgs e)
