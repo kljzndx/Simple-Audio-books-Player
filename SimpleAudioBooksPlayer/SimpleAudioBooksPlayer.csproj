@@ -172,7 +172,7 @@
     <Compile Include="Views\Controls\NotificationBar.xaml.cs">
       <DependentUpon>NotificationBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Controls\Picker\ClassPicker.xaml.cs">
+    <Compile Include="Views\Controls\Dialog\ClassPicker.xaml.cs">
       <DependentUpon>ClassPicker.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GroupListPage.xaml.cs">
@@ -292,7 +292,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Controls\Picker\ClassPicker.xaml">
+    <Page Include="Views\Controls\Dialog\ClassPicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -422,6 +422,7 @@
   <ItemGroup>
     <PRIResource Include="StringResources\en-US\Members\Notifications.resw" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

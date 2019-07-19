@@ -1,5 +1,5 @@
 ﻿<UserControl
-    x:Class="SimpleAudioBooksPlayer.Views.Controls.Picker.ClassPicker"
+    x:Class="SimpleAudioBooksPlayer.Views.Controls.Dialog.ClassPicker"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:model="using:SimpleAudioBooksPlayer.Models.DTO"

@@ -17,7 +17,7 @@ using SimpleAudioBooksPlayer.Models.DTO;
 using SimpleAudioBooksPlayer.ViewModels;
 using SimpleAudioBooksPlayer.ViewModels.DataServer;
 using SimpleAudioBooksPlayer.ViewModels.Events;
-using SimpleAudioBooksPlayer.Views.Controls.Picker;
+using SimpleAudioBooksPlayer.Views.Controls.Dialog;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
