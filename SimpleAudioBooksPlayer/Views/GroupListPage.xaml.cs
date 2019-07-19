@@ -17,6 +17,7 @@ using SimpleAudioBooksPlayer.Models.DTO;
 using SimpleAudioBooksPlayer.ViewModels;
 using SimpleAudioBooksPlayer.ViewModels.DataServer;
 using SimpleAudioBooksPlayer.ViewModels.Events;
+using SimpleAudioBooksPlayer.Views.Controls.Picker;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -113,6 +114,18 @@ namespace SimpleAudioBooksPlayer.Views
                 Main_GridView.ItemsSource = _vm.Data;
             else
                 Main_GridView.ItemsSource = _vm.Data.Where(g => g.Name.ToLower().Contains(Search_TextBox.Text.ToLower())).ToList();
+        }
+
+        private async void SetClass_MenuFlyoutItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            await MyClassPicker.Show();
+        }
+
+        private async void MyClassPicker_OnPicked(ClassPicker sender, ClassItemDTO args)
+        {
+            if (args != null)
+                await FileGroupDataServer.Current.SetClass(_tempGroup, args);
+            _tempGroup = null;
         }
     }
 }

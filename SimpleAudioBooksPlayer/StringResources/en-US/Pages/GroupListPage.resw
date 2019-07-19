@@ -132,6 +132,9 @@
   <data name="Search_TextBlock.Text" xml:space="preserve">
     <value>Search: </value>
   </data>
+  <data name="SetClass_MenuFlyoutItem.Text" xml:space="preserve">
+    <value>Set class</value>
+  </data>
   <data name="SetCover_MenuFlyoutItem.Text" xml:space="preserve">
     <value>Set cover image</value>
   </data>

@@ -172,6 +172,9 @@
     <Compile Include="Views\Controls\NotificationBar.xaml.cs">
       <DependentUpon>NotificationBar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Controls\Picker\ClassPicker.xaml.cs">
+      <DependentUpon>ClassPicker.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\GroupListPage.xaml.cs">
       <DependentUpon>GroupListPage.xaml</DependentUpon>
     </Compile>
@@ -286,6 +289,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Controls\NotificationBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Controls\Picker\ClassPicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
