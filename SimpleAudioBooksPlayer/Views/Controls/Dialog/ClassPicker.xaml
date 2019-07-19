@@ -9,7 +9,7 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <ContentDialog x:Name="Root_ContentDialog" Width="300" Height="400" SecondaryButtonText="OK" SecondaryButtonClick="Main_ContentDialog_OnSecondaryButtonClick">
+    <ContentDialog x:Name="Root_ContentDialog" x:Uid="/ClassPicker/Root_ContentDialog" Width="300" Height="400" SecondaryButtonText="OK" SecondaryButtonClick="Main_ContentDialog_OnSecondaryButtonClick">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -23,7 +23,7 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBox x:Name="ClassName_TextBox" TextChanged="ClassName_TextBox_OnTextChanged"/>
-                <Button x:Name="AddClass_Button" Grid.Column="1" Content="添加" Click="AddClass_Button_OnClick"/>
+                <Button x:Name="AddClass_Button" x:Uid="/ClassPicker/AddClass_Button" Grid.Column="1" Content="创建" Click="AddClass_Button_OnClick"/>
             </Grid>
 
             <ListView x:Name="Main_ListView" Grid.Row="1" ItemsSource="{x:Bind _server.Data, Mode=OneWay}" Margin="0,4" BorderThickness="1" BorderBrush="{ThemeResource SystemControlBackgroundBaseHighBrush}">
