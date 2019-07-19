@@ -15,7 +15,7 @@
         <MenuFlyout x:Name="RightTap_MenuFlyout">
             <MenuFlyoutItem x:Uid="/GroupListPage/Rename_MenuFlyoutItem" Text="重命名" Click="Rename_MenuFlyoutItem_OnClick"/>
             <MenuFlyoutItem x:Uid="/GroupListPage/SetCover_MenuFlyoutItem" Text="设置封面" Click="SetCover_MenuFlyoutItem_OnClick"/>
-            <MenuFlyoutItem x:Uid="/GroupListPage/SetClass_MenuFlyoutItem" Text="设置分类"  Click="SetClass_MenuFlyoutItem_OnClick"/>
+            <MenuFlyoutItem x:Uid="/GroupListPage/SetClass_MenuFlyoutItem" Text="设置分类" Click="SetClass_MenuFlyoutItem_OnClick"/>
         </MenuFlyout>
     </Page.Resources>
 
