@@ -369,13 +369,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <PRIResource Include="StringResources\en-US\Player.resw" />
+    <PRIResource Include="StringResources\en-US\Control\Player.resw" />
   </ItemGroup>
   <ItemGroup>
     <PRIResource Include="StringResources\zh-CN\App.resw" />
   </ItemGroup>
   <ItemGroup>
-    <PRIResource Include="StringResources\zh-CN\Player.resw" />
+    <PRIResource Include="StringResources\zh-CN\Control\Player.resw" />
   </ItemGroup>
   <ItemGroup>
     <PRIResource Include="StringResources\en-US\App.resw" />
