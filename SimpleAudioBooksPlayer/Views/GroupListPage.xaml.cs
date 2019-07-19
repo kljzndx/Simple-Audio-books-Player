@@ -81,8 +81,7 @@ namespace SimpleAudioBooksPlayer.Views
 
         private async void Rename_MenuFlyoutItem_OnClick(object sender, RoutedEventArgs e)
         {
-            GroupName_TextBox.Text = _tempGroup.Name;
-            await RenameGroup_ContentDialog.ShowAsync();
+            await RenameGroup_Dialog.Show(_tempGroup.Name);
         }
 
         private async void SetCover_MenuFlyoutItem_OnClick(object sender, RoutedEventArgs e)
@@ -91,12 +90,11 @@ namespace SimpleAudioBooksPlayer.Views
             _tempGroup = null;
         }
 
-        private async void RenameGroup_ContentDialog_OnPrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private async void RenameGroup_Dialog_OnSubmitted(RenameDialog sender, string args)
         {
-            if (!String.IsNullOrWhiteSpace(GroupName_TextBox.Text))
-                await FileGroupDataServer.Current.Rename(_tempGroup, GroupName_TextBox.Text);
+            if (!String.IsNullOrWhiteSpace(args))
+                await FileGroupDataServer.Current.Rename(_tempGroup, args);
 
-            GroupName_TextBox.Text = String.Empty;
             _tempGroup = null;
         }
 

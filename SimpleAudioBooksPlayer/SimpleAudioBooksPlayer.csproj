@@ -169,6 +169,9 @@
       <DependentUpon>CustomMediaPlayerElement.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Controls\AudioPlayer\CustomTransportControls.cs" />
+    <Compile Include="Views\Controls\Dialog\RenameDialog.xaml.cs">
+      <DependentUpon>RenameDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Controls\NotificationBar.xaml.cs">
       <DependentUpon>NotificationBar.xaml</DependentUpon>
     </Compile>
@@ -264,6 +267,8 @@
     <Content Include="Assets\Square44x44Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.altform-unplated_targetsize-24.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+    <PRIResource Include="StringResources\en-US\Control\Dialog\RenameDialog.resw" />
+    <PRIResource Include="StringResources\zh-CN\Control\Dialog\RenameDialog.resw" />
     <PRIResource Include="StringResources\en-US\Control\Dialog\ClassPicker.resw" />
     <PRIResource Include="StringResources\zh-CN\Control\Dialog\ClassPicker.resw" />
     <PRIResource Include="StringResources\en-US\Pages\FrameworkPage.resw" />
@@ -287,6 +292,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Controls\AudioPlayer\CustomMediaPlayerElement.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Controls\Dialog\RenameDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

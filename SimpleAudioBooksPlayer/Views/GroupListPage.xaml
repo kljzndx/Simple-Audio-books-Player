@@ -89,9 +89,7 @@
             </GridView.ItemTemplate>
         </GridView>
 
-        <ContentDialog x:Name="RenameGroup_ContentDialog" x:Uid="/GroupListPage/RenameGroup_ContentDialog" Grid.Row="1" PrimaryButtonText="确定" SecondaryButtonText="取消" PrimaryButtonClick="RenameGroup_ContentDialog_OnPrimaryButtonClick">
-            <TextBox x:Name="GroupName_TextBox" x:Uid="/GroupListPage/GroupName_TextBox" Header="新名称" VerticalAlignment="Center"/>
-        </ContentDialog>
+        <dialog:RenameDialog x:Name="RenameGroup_Dialog" Submitted="RenameGroup_Dialog_OnSubmitted"/>
 
         <dialog:ClassPicker x:Name="MyClassPicker" Grid.Row="1" Picked="MyClassPicker_OnPicked"/>
     </Grid>
