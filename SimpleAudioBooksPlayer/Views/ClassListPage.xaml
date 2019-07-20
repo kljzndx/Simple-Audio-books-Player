@@ -12,7 +12,7 @@
 
     <Page.Resources>
         <MenuFlyout x:Name="RightTap_MenuFlyout">
-            <MenuFlyoutItem x:Name="Rename_MenuFlyoutItem" Text="重命名" Click="Rename_MenuFlyoutItem_OnClick"/>
+            <MenuFlyoutItem x:Name="Rename_MenuFlyoutItem" x:Uid="/ClassListPage/Rename_MenuFlyoutItem" Text="重命名" Click="Rename_MenuFlyoutItem_OnClick"/>
         </MenuFlyout>
     </Page.Resources>
 
@@ -31,7 +31,7 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <Button x:Name="ShowAddClassPanel_Button" Content="添加" Margin="0,4" HorizontalAlignment="Stretch" Click="ShowAddClassPanel_Button_OnClick"/>
+            <Button x:Name="ShowAddClassPanel_Button" x:Uid="/ClassListPage/ShowAddClassPanel_Button" Content="添加" Margin="0,4" HorizontalAlignment="Stretch" Click="ShowAddClassPanel_Button_OnClick"/>
             <Grid x:Name="AddClass_Grid" Grid.Row="1" Margin="0,4">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
