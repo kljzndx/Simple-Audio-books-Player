@@ -30,16 +30,16 @@ namespace SimpleAudioBooksPlayer.Service
             return _source.ToList();
         }
 
-        public async Task SetClass(int groupId, int classId)
+        public Task SetClass(int groupId, int classId) => SetClass(new[] {groupId}, classId);
+
+        public async Task SetClass(IEnumerable<int> groupIdes, int classId)
         {
-            var group = _source.FirstOrDefault(src => src.Index == groupId);
-            if (@group == null)
-                return;
+            var needSet = _source.Where(g => groupIdes.Any(t => t == g.Index)).ToList();
+            foreach (var fileGroup in needSet)
+                fileGroup.ClassId = classId;
 
-            group.ClassId = classId;
-
-            await _helper.Update(group);
-            DataUpdated?.Invoke(this, new[] {group});
+            await _helper.UpdateRange(needSet);
+            DataUpdated?.Invoke(this, needSet);
         }
 
         public async Task RenameGroup(int groupId, string newName)

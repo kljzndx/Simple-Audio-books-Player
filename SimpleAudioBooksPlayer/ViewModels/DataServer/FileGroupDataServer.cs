@@ -30,7 +30,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
         public event EventHandler<IEnumerable<FileGroupDTO>> DataLoaded;
         public event EventHandler<IEnumerable<FileGroupDTO>> DataAdded;
         public event EventHandler<IEnumerable<FileGroupDTO>> DataRemoved;
-        public event EventHandler<FileGroupDTO> DataUpdated;
+        public event EventHandler<IEnumerable<FileGroupDTO>> DataUpdated;
 
         public async Task Init()
         {
@@ -50,6 +50,8 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             _service.DataAdded += Service_DataAdded;
             _service.DataRemoved += Service_DataRemoved;
             _service.DataUpdated += Service_DataUpdated;
+
+            ClassListDataServer.Current.DataRemoved += ClassDataServer_DataRemoved;
         }
 
         public List<FileGroupDTO> GetGroups(ClassItemDTO classItem)
@@ -64,14 +66,14 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
         {
             groupDto.ClassItem = classItem;
             await _service.SetClass(groupDto.Index, classItem.Index);
-            DataUpdated?.Invoke(this, groupDto);
+            DataUpdated?.Invoke(this, new[] {groupDto});
         }
 
         public async Task Rename(FileGroupDTO groupDto, string newName)
         {
             groupDto.Name = newName;
             await _service.RenameGroup(groupDto.Index, newName);
-            DataUpdated?.Invoke(this, groupDto);
+            DataUpdated?.Invoke(this, new[] {groupDto});
         }
 
         public async Task SetCover(FileGroupDTO groupDto, StorageFile file)
@@ -92,6 +94,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             groupDto.SetCover(bi);
 
             await _service.SetCover(groupDto.Index);
+            DataUpdated?.Invoke(this, new[] {groupDto});
         }
 
         private void Service_DataAdded(object sender, IEnumerable<FileGroup> e)
@@ -117,6 +120,17 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             var list = e.ToList();
             foreach (var fileGroup in list)
                 Data.First(g => g.Index == fileGroup.Index).Update(fileGroup);
+        }
+
+        private async void ClassDataServer_DataRemoved(object sender, IEnumerable<ClassItemDTO> e)
+        {
+            var needReset = Data.Where(g => e.Any(c => c == g.ClassItem)).ToList();
+            foreach (var groupDto in needReset)
+                groupDto.ClassItem = null;
+
+            await _service.SetClass(needReset.Select(g => g.Index), -1);
+
+            DataUpdated?.Invoke(this, needReset);
         }
     }
 }

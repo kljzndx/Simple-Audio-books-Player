@@ -112,7 +112,7 @@ namespace SimpleAudioBooksPlayer.ViewModels
                 Reverse();
         }
 
-        private void Server_DataUpdated(object sender, FileGroupDTO e)
+        private void Server_DataUpdated(object sender, IEnumerable<FileGroupDTO> e)
         {
             if (Settings.SortMethod != GroupListSorterMember.Name)
                 return;
