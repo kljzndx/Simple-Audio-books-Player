@@ -47,6 +47,8 @@ namespace SimpleAudioBooksPlayer.Views
             AddClass_Grid.Visibility = Visibility.Collapsed;
             RequestAddClass_Button.IsEnabled = false;
 
+            _vm.Server.DataLoaded += Server_DataLoaded;
+
             _settings.PropertyChanged += Settings_PropertyChanged;
         }
 
@@ -100,6 +102,12 @@ namespace SimpleAudioBooksPlayer.Views
                 _settings.ListWidth = ActualWidth - 400;
         }
 
+        private void Server_DataLoaded(object sender, IEnumerable<ClassItemDTO> e)
+        {
+            if (!_isMiniView)
+                ClassList_ListView.SelectedIndex = _settings.CurrentClassId;
+        }
+
         private void Settings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
@@ -121,18 +129,24 @@ namespace SimpleAudioBooksPlayer.Views
 
         private void ClassList_ListView_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            GroupList_Frame.Navigate(typeof(GroupListPage), e.AddedItems.First());
+            if (e.AddedItems.Any())
+            {
+                GroupList_Frame.Navigate(typeof(GroupListPage), e.AddedItems.First());
+                _settings.CurrentClassId = ClassList_ListView.SelectedIndex;
+            }
+            else
+                ClassList_ListView.SelectedIndex = _settings.CurrentClassId - 1;
         }
 
-        private void ClassList_ListView_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
-        {
-            if (_vm.Data.Any())
-            {
-                if (!_isMiniView)
-                    ClassList_ListView.SelectedIndex = 0;
-                ClassList_ListView.ContainerContentChanging -= ClassList_ListView_ContainerContentChanging;
-            }
-        }
+        //private void ClassList_ListView_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
+        //{
+        //    if (_vm.Data.Any())
+        //    {
+        //        if (!_isMiniView)
+        //            ClassList_ListView.SelectedIndex = 0;
+        //        ClassList_ListView.ContainerContentChanging -= ClassList_ListView_ContainerContentChanging;
+        //    }
+        //}
 
         private void ShowAddClassPanel_Button_OnClick(object sender, RoutedEventArgs e)
         {

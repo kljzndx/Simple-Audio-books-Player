@@ -45,7 +45,7 @@
                 </Button>
             </Grid>
 
-            <ListView x:Name="ClassList_ListView" Grid.Row="2" ItemsSource="{Binding Data}" SelectionChanged="ClassList_ListView_OnSelectionChanged" ContainerContentChanging="ClassList_ListView_ContainerContentChanging" RightTapped="ClassList_ListView_OnRightTapped">
+            <ListView x:Name="ClassList_ListView" Grid.Row="2" ItemsSource="{Binding Data}" SelectionChanged="ClassList_ListView_OnSelectionChanged" RightTapped="ClassList_ListView_OnRightTapped">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Name}"/>
