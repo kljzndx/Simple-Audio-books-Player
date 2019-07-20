@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using SimpleAudioBooksPlayer.Models.DTO;
 using SimpleAudioBooksPlayer.ViewModels;
+using SimpleAudioBooksPlayer.ViewModels.DataServer;
 using SimpleAudioBooksPlayer.ViewModels.SettingProperties;
 using SimpleAudioBooksPlayer.Views.Controls.Dialog;
 
@@ -198,6 +199,7 @@ namespace SimpleAudioBooksPlayer.Views
             {
                 _tempClass = classItem;
                 RightTap_MenuFlyout.ShowAt(ClassList_ListView, e.GetPosition(ClassList_ListView));
+                Remove_MenuFlyoutItem.IsEnabled = classItem != ClassListDataServer.FirstClass;
             }
         }
 
