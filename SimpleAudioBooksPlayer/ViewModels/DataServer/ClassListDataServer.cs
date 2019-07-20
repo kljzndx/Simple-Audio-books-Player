@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using SimpleAudioBooksPlayer.DAL;
+using SimpleAudioBooksPlayer.Models;
 using SimpleAudioBooksPlayer.Models.DTO;
 using SimpleAudioBooksPlayer.Service;
 
@@ -12,7 +13,9 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
     public class ClassListDataServer : IDataServer<ClassItemDTO, ClassItemDTO>
     {
         public static readonly ClassListDataServer Current = new ClassListDataServer();
-        public static ClassItemDTO FirstClass { get; private set; }
+
+        public static ClassItemDTO Unspecified_ClassItem { get; private set; }
+        public static ClassItemDTO All_ClassItem { get; private set; }
 
         private readonly ClassListDataService _service = ClassListDataService.Current;
 
@@ -39,10 +42,14 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             foreach (var item in dataSource)
                 Data.Add(new ClassItemDTO(item));
 
-            if (!Data.Any())
-                await Add("All");
+            if (Data.All(c => c.Index != -1))
+                await _service.Add(-1, StringResources.DefaultValues.GetString("Unspecified_ClassItem"));
 
-            FirstClass = Data.First();
+            if (Data.All(c => c.Index != 1))
+                await Add(StringResources.DefaultValues.GetString("All_ClassItem"));
+
+            Unspecified_ClassItem = Data.First(c => c.Index == -1);
+            All_ClassItem = Data.First(c => c.Index == 1);
 
             DataLoaded?.Invoke(this, Data.ToList());
         }
@@ -72,7 +79,10 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
         {
             var source = e.Select(c => new ClassItemDTO(c)).ToList();
             foreach (var dto in source)
-                Data.Add(dto);
+                if (Data.Any() && dto.Index == -1)
+                    Data.Insert(0, dto);
+                else
+                    Data.Add(dto);
 
             DataAdded?.Invoke(this, source);
         }

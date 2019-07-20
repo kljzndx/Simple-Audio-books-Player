@@ -24,7 +24,15 @@ namespace SimpleAudioBooksPlayer.Service
         public async Task<List<ClassItem>> GetData()
         {
             if (_source is null)
+            {
                 _source = await _helper.ToList();
+
+                if (_source.FirstOrDefault(c => c.Index == -1) is ClassItem classItem && _source.First().Index != -1)
+                {
+                    _source.Remove(classItem);
+                    _source.Insert(0, classItem);
+                }
+            }
 
             return _source.ToList();
         }
@@ -51,6 +59,19 @@ namespace SimpleAudioBooksPlayer.Service
             await _helper.Update(item);
 
             DataUpdated?.Invoke(this, new[] {item});
+        }
+
+        public async Task Add(int classId, string name)
+        {
+            var item = new ClassItem(classId, name);
+
+            await _helper.Add(item);
+            if (classId == -1)
+                _source.Insert(0, item);
+            else
+                _source.Add(item);
+
+            DataAdded?.Invoke(this, new[] {item});
         }
 
         public async Task Add(string name)

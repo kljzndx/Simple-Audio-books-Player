@@ -56,7 +56,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
         public List<FileGroupDTO> GetGroups(ClassItemDTO classItem)
         {
-            if (classItem == ClassListDataServer.FirstClass)
+            if (classItem == ClassListDataServer.All_ClassItem)
                 return Data.ToList();
             else
                 return Data.Where(g => g.ClassItem == classItem).ToList();

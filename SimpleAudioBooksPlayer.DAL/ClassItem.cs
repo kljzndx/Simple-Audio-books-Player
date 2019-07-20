@@ -16,6 +16,11 @@ namespace SimpleAudioBooksPlayer.DAL
             CreateDate = DateTime.Now;
         }
 
+        public ClassItem(int index, string name) : this(name)
+        {
+            Index = index;
+        }
+
         public ClassItem(string name, string backgroundColor) : this(name)
         {
             BackgroundColor = backgroundColor;

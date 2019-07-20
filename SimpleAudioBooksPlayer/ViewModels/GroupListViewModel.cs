@@ -98,7 +98,7 @@ namespace SimpleAudioBooksPlayer.ViewModels
         private void Server_DataAdded(object sender, IEnumerable<FileGroupDTO> e)
         {
             List<FileGroupDTO> needAdd = null;
-            if (_currentClass == ClassListDataServer.FirstClass)
+            if (_currentClass == ClassListDataServer.All_ClassItem)
                 needAdd = e.ToList();
             else
                 needAdd = e.Where(g => g.ClassItem == _currentClass).ToList();
