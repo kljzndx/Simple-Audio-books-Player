@@ -31,6 +31,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
         public event EventHandler<IEnumerable<FileGroupDTO>> DataAdded;
         public event EventHandler<IEnumerable<FileGroupDTO>> DataRemoved;
         public event EventHandler<IEnumerable<FileGroupDTO>> DataUpdated;
+        public event EventHandler<IEnumerable<FileGroupDTO>> ClassSeted;
 
         public async Task Init()
         {
@@ -66,7 +67,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
         {
             groupDto.ClassItem = classItem;
             await _service.SetClass(groupDto.Index, classItem.Index);
-            DataUpdated?.Invoke(this, new[] {groupDto});
+            ClassSeted?.Invoke(this, new[] {groupDto});
         }
 
         public async Task Rename(FileGroupDTO groupDto, string newName)

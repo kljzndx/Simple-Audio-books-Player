@@ -38,6 +38,7 @@ namespace SimpleAudioBooksPlayer.ViewModels
             _server.DataLoaded += Server_DataLoaded;
             _server.DataAdded += Server_DataAdded;
             _server.DataUpdated += Server_DataUpdated;
+            _server.ClassSeted += Server_ClassSeted;
             _server.DataRemoved += Server_DataRemoved;
         }
 
@@ -121,6 +122,11 @@ namespace SimpleAudioBooksPlayer.ViewModels
 
             if (Settings.IsReverse)
                 Reverse();
+        }
+
+        private void Server_ClassSeted(object sender, IEnumerable<FileGroupDTO> e)
+        {
+            RefreshData(_currentClass);
         }
 
         private void Server_DataRemoved(object sender, IEnumerable<FileGroupDTO> e)
