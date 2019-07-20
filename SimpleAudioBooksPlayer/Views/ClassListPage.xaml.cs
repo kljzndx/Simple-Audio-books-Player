@@ -14,8 +14,10 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using SimpleAudioBooksPlayer.Models.DTO;
 using SimpleAudioBooksPlayer.ViewModels;
 using SimpleAudioBooksPlayer.ViewModels.SettingProperties;
+using SimpleAudioBooksPlayer.Views.Controls.Dialog;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -32,6 +34,7 @@ namespace SimpleAudioBooksPlayer.Views
         private readonly ClassListViewModel _vm;
         private readonly ClassListViewSettings _settings = ClassListViewSettings.Current;
         private bool _isMiniView;
+        private ClassItemDTO _tempClass;
 
         public ClassListPage()
         {
@@ -187,6 +190,25 @@ namespace SimpleAudioBooksPlayer.Views
         private void ClassListPage_OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
             CheckPageSize();
+        }
+
+        private void ClassList_ListView_OnRightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            if (e.OriginalSource is FrameworkElement element && element.DataContext is ClassItemDTO classItem)
+            {
+                _tempClass = classItem;
+                RightTap_MenuFlyout.ShowAt(ClassList_ListView, e.GetPosition(ClassList_ListView));
+            }
+        }
+
+        private async void Rename_MenuFlyoutItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            await RenameClass_Dialog.Show(_tempClass.Name);
+        }
+
+        private async void RenameClass_Dialog_OnSubmitted(RenameDialog sender, string args)
+        {
+            await _vm.Server.Rename(_tempClass, args);
         }
     }
 }
