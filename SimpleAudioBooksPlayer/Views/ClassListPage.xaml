@@ -13,6 +13,7 @@
     <Page.Resources>
         <MenuFlyout x:Name="RightTap_MenuFlyout">
             <MenuFlyoutItem x:Name="Rename_MenuFlyoutItem" x:Uid="/ClassListPage/Rename_MenuFlyoutItem" Text="重命名" Click="Rename_MenuFlyoutItem_OnClick"/>
+            <MenuFlyoutItem x:Name="Remove_MenuFlyoutItem" x:Uid="/ClassListPage/Remove_MenuFlyoutItem" Click="Remove_MenuFlyoutItem_OnClick"/>
         </MenuFlyout>
     </Page.Resources>
 

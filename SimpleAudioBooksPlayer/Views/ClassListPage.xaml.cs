@@ -206,9 +206,16 @@ namespace SimpleAudioBooksPlayer.Views
             await RenameClass_Dialog.Show(_tempClass.Name);
         }
 
+        private async void Remove_MenuFlyoutItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            await _vm.Server.Remove(_tempClass);
+            _tempClass = null;
+        }
+
         private async void RenameClass_Dialog_OnSubmitted(RenameDialog sender, string args)
         {
             await _vm.Server.Rename(_tempClass, args);
+            _tempClass = null;
         }
     }
 }
