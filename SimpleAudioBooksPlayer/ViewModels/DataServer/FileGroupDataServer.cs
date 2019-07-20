@@ -126,7 +126,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
         {
             var needReset = Data.Where(g => e.Any(c => c == g.ClassItem)).ToList();
             foreach (var groupDto in needReset)
-                groupDto.ClassItem = null;
+                groupDto.ClassItem = ClassListDataServer.Unspecified_ClassItem;
 
             await _service.SetClass(needReset.Select(g => g.Index), -1);
 
