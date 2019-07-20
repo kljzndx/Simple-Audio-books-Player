@@ -199,7 +199,9 @@ namespace SimpleAudioBooksPlayer.Views
             {
                 _tempClass = classItem;
                 RightTap_MenuFlyout.ShowAt(ClassList_ListView, e.GetPosition(ClassList_ListView));
-                Remove_MenuFlyoutItem.IsEnabled = classItem != ClassListDataServer.All_ClassItem;
+                Remove_MenuFlyoutItem.IsEnabled =
+                    classItem != ClassListDataServer.All_ClassItem &&
+                    classItem != ClassListDataServer.Unspecified_ClassItem;
             }
         }
 
