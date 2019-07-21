@@ -45,12 +45,13 @@
                     <TextBlock x:Uid="/AboutPage/SendFeedback_TextBlock" HorizontalAlignment="Center"/>
                 </StackPanel>
             </Button>
-            <Button x:Name="GitHub_Button" x:Uid="/AboutPage/GitHub_AppBarButton" Click="GitHub_AppBarButton_Click">
+
+            <!--<Button x:Name="GitHub_Button" x:Uid="/AboutPage/GitHub_AppBarButton" Click="GitHub_AppBarButton_Click">
                 <StackPanel>
                     <FontIcon Glyph="&#xE12B;" HorizontalAlignment="Center"/>
                     <TextBlock x:Uid="/AboutPage/GitHub_TextBlock" HorizontalAlignment="Center"/>
                 </StackPanel>
-            </Button>
+            </Button>-->
 
             <!--<Button x:Name="OpenLogsFolder_Button" x:Uid="/AboutPage/OpenLogsFolder_AppBarButton" Click="OpenLogsFolder_AppBarButton_Click">
                 <StackPanel>

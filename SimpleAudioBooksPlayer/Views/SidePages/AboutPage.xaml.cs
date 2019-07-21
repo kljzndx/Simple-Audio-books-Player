@@ -44,10 +44,10 @@ namespace SimpleAudioBooksPlayer.Views.SidePages
             await EmailEx.SendAsync("kljzndx@outlook.com", $"{appName} {appVersion} {feedbackEmailTitle}", String.Empty);
         }
 
-        private async void GitHub_AppBarButton_Click(object sender, RoutedEventArgs e)
-        {
-            await Launcher.LaunchUriAsync(new Uri("https://github.com/kljzndx/Simple-Audio-books-Player"));
-        }
+        //private async void GitHub_AppBarButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    await Launcher.LaunchUriAsync(new Uri("https://github.com/kljzndx/Simple-Audio-books-Player"));
+        //}
 
         //private async void OpenLogsFolder_AppBarButton_Click(object sender, RoutedEventArgs e)
         //{
