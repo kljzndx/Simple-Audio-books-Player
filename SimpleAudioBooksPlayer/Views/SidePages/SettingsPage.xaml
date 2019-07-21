@@ -8,8 +8,16 @@
     mc:Ignorable="d"
     DataContext="{Binding Source={StaticResource Locator}, Path=Settings}">
 
+    <Page.Resources>
+        <Style x:Key="Title_Style" TargetType="TextBlock" BasedOn="{StaticResource SubtitleTextBlockStyle}">
+            <Setter Property="Margin" Value="0,4"/>
+        </Style>
+    </Page.Resources>
+
     <StackPanel>
         <StackPanel>
+            <TextBlock x:Uid="/SettingsPage/LocationOfScan_TextBlock" Style="{StaticResource Title_Style}"/>
+
             <Button x:Name="ManageLocationOfScan_Button" x:Uid="/SettingsPage/ManageLocationOfScan_Button" Content="管理扫描位置" Click="ManageLocationOfScan_Button_OnClick"/>
 
             <ContentDialog x:Name="ManageLocationOfScan_ContentDialog" x:Uid="/SettingsPage/ManageLocationOfScan_ContentDialog" Opened="ManageLocationOfScan_ContentDialog_OnOpened">

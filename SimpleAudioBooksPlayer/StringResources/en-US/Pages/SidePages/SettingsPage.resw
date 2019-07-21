@@ -120,6 +120,9 @@
   <data name="AddLocation_Button.Content" xml:space="preserve">
     <value>Add location</value>
   </data>
+  <data name="LocationOfScan_TextBlock.Text" xml:space="preserve">
+    <value>Location of scan</value>
+  </data>
   <data name="ManageLocationOfScan_Button.Content" xml:space="preserve">
     <value>Manage location of scan</value>
   </data>

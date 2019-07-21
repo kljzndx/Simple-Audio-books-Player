@@ -120,6 +120,9 @@
   <data name="AddLocation_Button.Content" xml:space="preserve">
     <value>添加位置</value>
   </data>
+  <data name="LocationOfScan_TextBlock.Text" xml:space="preserve">
+    <value>扫描位置</value>
+  </data>
   <data name="ManageLocationOfScan_Button.Content" xml:space="preserve">
     <value>管理扫描位置</value>
   </data>
