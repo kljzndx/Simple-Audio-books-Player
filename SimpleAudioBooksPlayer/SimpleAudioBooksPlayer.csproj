@@ -420,16 +420,16 @@
     <PRIResource Include="StringResources\en-US\Pages\MusicListPage.resw" />
   </ItemGroup>
   <ItemGroup>
-    <PRIResource Include="StringResources\zh-CN\Pages\SettingsPage.resw" />
+    <PRIResource Include="StringResources\zh-CN\Pages\SidePages\SettingsPage.resw" />
   </ItemGroup>
   <ItemGroup>
-    <PRIResource Include="StringResources\en-US\Pages\SettingsPage.resw" />
+    <PRIResource Include="StringResources\en-US\Pages\SidePages\SettingsPage.resw" />
   </ItemGroup>
   <ItemGroup>
-    <PRIResource Include="StringResources\en-US\Pages\AboutPage.resw" />
+    <PRIResource Include="StringResources\en-US\Pages\SidePages\AboutPage.resw" />
   </ItemGroup>
   <ItemGroup>
-    <PRIResource Include="StringResources\zh-CN\Pages\AboutPage.resw" />
+    <PRIResource Include="StringResources\zh-CN\Pages\SidePages\AboutPage.resw" />
   </ItemGroup>
   <ItemGroup>
     <PRIResource Include="StringResources\zh-CN\Members\Notifications.resw" />
