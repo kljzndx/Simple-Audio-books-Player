@@ -32,7 +32,6 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <Button x:Name="ShowAddClassPanel_Button" x:Uid="/ClassListPage/ShowAddClassPanel_Button" Content="添加" Margin="0,4" HorizontalAlignment="Stretch" Click="ShowAddClassPanel_Button_OnClick"/>
             <Grid x:Name="AddClass_Grid" Grid.Row="1" Margin="0,4">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
@@ -40,7 +39,7 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBox x:Name="ClassName_TextBox" VerticalAlignment="Center" TextChanged="ClassName_TextBox_OnTextChanged" KeyDown="ClassName_TextBox_OnKeyDown"/>
-                <Button x:Name="RequestAddClass_Button" Grid.Column="1" Style="{StaticResource IconButton_Style}" Click="RequestAddClass_Button_OnClick">
+                <Button x:Name="RequestAddClass_Button" x:Uid="/ClassListPage/RequestAddClass_Button" Grid.Column="1" Style="{StaticResource IconButton_Style}" Click="RequestAddClass_Button_OnClick">
                     <SymbolIcon Symbol="Add"/>
                 </Button>
             </Grid>

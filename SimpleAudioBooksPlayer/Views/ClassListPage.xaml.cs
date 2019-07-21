@@ -44,7 +44,6 @@ namespace SimpleAudioBooksPlayer.Views
 
             NavigationCacheMode = NavigationCacheMode.Enabled;
 
-            AddClass_Grid.Visibility = Visibility.Collapsed;
             RequestAddClass_Button.IsEnabled = false;
 
             _vm.Server.DataLoaded += Server_DataLoaded;
@@ -138,36 +137,12 @@ namespace SimpleAudioBooksPlayer.Views
                 ClassList_ListView.SelectedIndex = _settings.CurrentClassId - 1;
         }
 
-        //private void ClassList_ListView_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
-        //{
-        //    if (_vm.Data.Any())
-        //    {
-        //        if (!_isMiniView)
-        //            ClassList_ListView.SelectedIndex = 0;
-        //        ClassList_ListView.ContainerContentChanging -= ClassList_ListView_ContainerContentChanging;
-        //    }
-        //}
-
-        private void ShowAddClassPanel_Button_OnClick(object sender, RoutedEventArgs e)
-        {
-            AddClass_Grid.Visibility = Visibility.Visible;
-            ClassName_TextBox.Focus(FocusState.Pointer);
-
-            ShowAddClassPanel_Button.Visibility = Visibility.Collapsed;
-        }
-
         private void AddClassItem(string name)
         {
             if (String.IsNullOrWhiteSpace(name))
                 return;
 
             _vm.Add(name);
-
-            ShowAddClassPanel_Button.Visibility = Visibility.Visible;
-            ShowAddClassPanel_Button.Focus(FocusState.Pointer);
-
-            AddClass_Grid.Visibility = Visibility.Collapsed;
-            ClassName_TextBox.Text = String.Empty;
         }
 
         private void ClassName_TextBox_OnTextChanged(object sender, TextChangedEventArgs e)

@@ -123,7 +123,7 @@
   <data name="Rename_MenuFlyoutItem.Text" xml:space="preserve">
     <value>Rename</value>
   </data>
-  <data name="ShowAddClassPanel_Button.Content" xml:space="preserve">
+  <data name="RequestAddClass_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Add class</value>
   </data>
 </root>
