@@ -125,5 +125,11 @@ namespace SimpleAudioBooksPlayer.Views
                 await FileGroupDataServer.Current.SetClass(_tempGroup, args);
             _tempGroup = null;
         }
+
+        private void Main_GridView_OnDragItemsStarting(object sender, DragItemsStartingEventArgs e)
+        {
+            var data = (FileGroupDTO) e.Items.First();
+            e.Data.SetText(data.Index.ToString());
+        }
     }
 }

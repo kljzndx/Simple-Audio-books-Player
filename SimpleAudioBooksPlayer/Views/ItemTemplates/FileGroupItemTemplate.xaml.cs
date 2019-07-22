@@ -104,12 +104,17 @@ namespace SimpleAudioBooksPlayer.Views.ItemTemplates
 
         private async void Cover_Image_OnDrop(object sender, DragEventArgs e)
         {
+            if (e.DataView.AvailableFormats.All(s => s != StandardDataFormats.StorageItems))
+                return;
+
+            var deferral = e.GetDeferral();
             var items = await e.DataView.GetStorageItemsAsync();
             var file = items.FirstOrDefault(si => si.IsOfType(StorageItemTypes.File)) as StorageFile;
             if (file is null || (file.FileType.ToLower() != ".jpg" && file.FileType.ToLower() != ".png"))
                 return;
 
             await FileGroupDataServer.Current.SetCover(Source, file);
+            deferral.Complete();
         }
     }
 }

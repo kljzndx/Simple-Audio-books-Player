@@ -75,7 +75,7 @@
             </StackPanel>
         </Grid>
 
-        <GridView x:Name="Main_GridView" Grid.Row="1" IsItemClickEnabled="True" ItemClick="Main_GridView_OnItemClick" RightTapped="Main_GridView_OnRightTapped">
+        <GridView x:Name="Main_GridView" Grid.Row="1" CanDragItems="True" IsItemClickEnabled="True" DragItemsStarting="Main_GridView_OnDragItemsStarting" ItemClick="Main_GridView_OnItemClick" RightTapped="Main_GridView_OnRightTapped">
             <GridView.ItemContainerStyle>
                 <Style TargetType="GridViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>

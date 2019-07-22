@@ -181,6 +181,9 @@
     <Compile Include="Views\GroupListPage.xaml.cs">
       <DependentUpon>GroupListPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ItemTemplates\ClassListItemTemplate.xaml.cs">
+      <DependentUpon>ClassListItemTemplate.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ItemTemplates\FileGroupItemTemplate.xaml.cs">
       <DependentUpon>FileGroupItemTemplate.xaml</DependentUpon>
     </Compile>
@@ -312,6 +315,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\GroupListPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ItemTemplates\ClassListItemTemplate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

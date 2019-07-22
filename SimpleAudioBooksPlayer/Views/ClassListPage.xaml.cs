@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.System;
@@ -209,6 +210,27 @@ namespace SimpleAudioBooksPlayer.Views
         {
             await _vm.Server.Rename(_tempClass, args);
             _tempClass = null;
+        }
+
+        private void ClassListItemTemplate_OnDragOver(object sender, DragEventArgs e)
+        {
+            e.AcceptedOperation = DataPackageOperation.Link;
+        }
+
+        private async void ClassListItemTemplate_OnDrop(object sender, DragEventArgs e)
+        {
+            var element = sender as FrameworkElement;
+            var ci = element?.DataContext as ClassItemDTO;
+            if (ci is null || e.DataView.AvailableFormats.All(s => s != StandardDataFormats.Text))
+                return;
+
+            var deferral = e.GetDeferral();
+
+            var group = await e.DataView.GetTextAsync();
+            int groupId = Int32.Parse(group);
+            await FileGroupDataServer.Current.SetClass(FileGroupDataServer.Current.Data.First(g => g.Index == groupId), ci);
+
+            deferral.Complete();
         }
     }
 }
