@@ -65,6 +65,9 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
         public async Task SetClass(FileGroupDTO groupDto, ClassItemDTO classItem)
         {
+            if (classItem == ClassListDataServer.All_ClassItem)
+                return;
+
             groupDto.ClassItem = classItem;
             await _service.SetClass(groupDto.Index, classItem.Index);
             ClassSeted?.Invoke(this, new[] {groupDto});
