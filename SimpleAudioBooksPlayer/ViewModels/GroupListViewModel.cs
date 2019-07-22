@@ -126,7 +126,8 @@ namespace SimpleAudioBooksPlayer.ViewModels
 
         private void Server_ClassSeted(object sender, IEnumerable<FileGroupDTO> e)
         {
-            RefreshData(_currentClass);
+            if (_currentClass != ClassListDataServer.All_ClassItem)
+                RefreshData(_currentClass);
         }
 
         private void Server_DataRemoved(object sender, IEnumerable<FileGroupDTO> e)

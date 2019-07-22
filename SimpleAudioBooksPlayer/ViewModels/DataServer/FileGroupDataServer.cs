@@ -131,7 +131,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
             await _service.SetClass(needReset.Select(g => g.Index), -1);
 
-            DataUpdated?.Invoke(this, needReset);
+            ClassSeted?.Invoke(this, needReset);
         }
     }
 }
