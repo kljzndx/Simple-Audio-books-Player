@@ -3,6 +3,10 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:SimpleAudioBooksPlayer.Views.SidePages"
+    
+    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:Interactions="using:Microsoft.Xaml.Interactions.Core"
+
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
@@ -37,6 +41,53 @@
                     </ListView>
                 </Grid>
             </ContentDialog>
+        </StackPanel>
+
+        <StackPanel>
+            <TextBlock x:Uid="/SettingsPage/TimedExit_TextBlock" Style="{StaticResource Title_Style}"/>
+
+            <ComboBox x:Name="TimedExitMinutes_ComboBox" x:Uid="/SettingsPage/TimedExitMinutes_ComboBox" SelectedIndex="0" SelectionChanged="TimedExitMinutes_ComboBox_OnSelectionChanged">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate x:DataType="x:Int32">
+                        <TextBlock x:Name="Main_TextBlock">
+                            <Interactivity:Interaction.Behaviors>
+                                <Interactions:DataTriggerBehavior Binding="{Binding}" Value="0" ComparisonCondition="Equal">
+                                    <Interactions:ChangePropertyAction x:Uid="/SettingsPage/Close_ChangePropertyAction" TargetObject="{Binding ElementName=Main_TextBlock}" PropertyName="Text"/>
+                                </Interactions:DataTriggerBehavior>
+                            </Interactivity:Interaction.Behaviors>
+
+                            <Run Text="{x:Bind}"/>
+                            <Run Text=" "/>
+                            <Run x:Uid="/SettingsPage/TimedExitMinutes_Info_Run"/>
+                        </TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+
+                <x:Int32>0</x:Int32>
+                <x:Int32>15</x:Int32>
+                <x:Int32>30</x:Int32>
+                <x:Int32>45</x:Int32>
+                <x:Int32>60</x:Int32>
+                <x:Int32>75</x:Int32>
+                <x:Int32>90</x:Int32>
+                <x:Int32>105</x:Int32>
+                <x:Int32>120</x:Int32>
+            </ComboBox>
+
+            <TextBlock x:Name="TimedExitResult_TextBlock">
+                <Interactivity:Interaction.Behaviors>
+                    <Interactions:DataTriggerBehavior Binding="{Binding ElementName=TimedExitMinutes_ComboBox, Path=SelectedIndex}" Value="0" ComparisonCondition="NotEqual">
+                        <Interactions:ChangePropertyAction TargetObject="{Binding ElementName=TimedExitResult_TextBlock}" PropertyName="Visibility" Value="Visible"/>
+                    </Interactions:DataTriggerBehavior>
+                    <Interactions:DataTriggerBehavior Binding="{Binding ElementName=TimedExitMinutes_ComboBox, Path=SelectedIndex}" Value="0" ComparisonCondition="Equal">
+                        <Interactions:ChangePropertyAction TargetObject="{Binding ElementName=TimedExitResult_TextBlock}" PropertyName="Visibility" Value="Collapsed"/>
+                    </Interactions:DataTriggerBehavior>
+                </Interactivity:Interaction.Behaviors>
+
+                <Run x:Uid="/SettingsPage/TimedExitTimeInfo1_Run"/>
+                <Run x:Name="TimedExitTime_Run"/>
+                <Run x:Uid="/SettingsPage/TimedExitTimeInfo2_Run"/>
+            </TextBlock>
         </StackPanel>
 
     </StackPanel>

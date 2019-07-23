@@ -21,6 +21,8 @@ using Windows.UI.Xaml.Navigation;
 using SimpleAudioBooksPlayer.Service;
 using SimpleAudioBooksPlayer.ViewModels.DataServer;
 using SimpleAudioBooksPlayer.ViewModels.Events;
+using SimpleAudioBooksPlayer.ViewModels.SettingProperties;
+using SimpleAudioBooksPlayer.Views.SidePages;
 
 namespace SimpleAudioBooksPlayer
 {
@@ -89,6 +91,26 @@ namespace SimpleAudioBooksPlayer
                 // 确保当前窗口处于活动状态
                 Window.Current.Activate();
             }
+        }
+
+        protected override void OnBackgroundActivated(BackgroundActivatedEventArgs args)
+        {
+            var deferral = args.TaskInstance.GetDeferral();
+
+            if (args.TaskInstance.Task.Name == SettingsPage.timedExitTaskName
+                && DateTime.Now > OtherSettingProperties.Current.ExitTime)
+            {
+                args.TaskInstance.Task.Unregister(true);
+
+                //Logger.Info("定时退出任务已触发，正在停止播放");
+                if (MediaPlayer.PlaybackSession != null && MediaPlayer.PlaybackSession.PlaybackState != MediaPlaybackState.Paused)
+                    MediaPlayer.Pause();
+
+                //Logger.Info("正在退出应用");
+                Exit();
+            }
+
+            deferral.Complete();
         }
 
         private async void Window_Activated(object sender, WindowActivatedEventArgs e)

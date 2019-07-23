@@ -1,4 +1,5 @@
-﻿using HappyStudio.UwpToolsLibrary.Auxiliarys;
+﻿using System;
+using HappyStudio.UwpToolsLibrary.Auxiliarys;
 using HappyStudio.UwpToolsLibrary.Auxiliarys.Attributes;
 
 namespace SimpleAudioBooksPlayer.ViewModels.SettingProperties
@@ -18,5 +19,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.SettingProperties
             get => _isCreatedCoverFolder;
             set => SetSetting(ref _isCreatedCoverFolder, value);
         }
+
+        public DateTime ExitTime { get; set; }
     }
 }
