@@ -100,6 +100,8 @@ namespace SimpleAudioBooksPlayer.Service
 
                 {
                     var groupData = await _groupService.GetData();
+
+                    // 提取出 groupData 中没有的文件夹
                     var folderPaths = filePaths.Select(p => p.TakeParentFolderPath()).Distinct()
                         .Where(fp => groupData.All(g => g.FolderPath != fp)).ToList();
 
