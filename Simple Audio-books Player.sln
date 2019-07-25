@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAudioBooksPlayer.DAL.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAudioBooksPlayer.Service", "SimpleAudioBooksPlayer.Service\SimpleAudioBooksPlayer.Service.csproj", "{A640913A-EB88-40D4-9DAA-028D7B56E218}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAudioBooksPlayer.Log", "SimpleAudioBooksPlayer.Log\SimpleAudioBooksPlayer.Log.csproj", "{197A805C-9924-46C7-90D1-A9334B4A386D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -133,6 +135,26 @@ Global
 		{A640913A-EB88-40D4-9DAA-028D7B56E218}.Release|x64.Build.0 = Release|x64
 		{A640913A-EB88-40D4-9DAA-028D7B56E218}.Release|x86.ActiveCfg = Release|x86
 		{A640913A-EB88-40D4-9DAA-028D7B56E218}.Release|x86.Build.0 = Release|x86
+		{197A805C-9924-46C7-90D1-A9334B4A386D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{197A805C-9924-46C7-90D1-A9334B4A386D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{197A805C-9924-46C7-90D1-A9334B4A386D}.Debug|ARM.ActiveCfg = Debug|ARM
+		{197A805C-9924-46C7-90D1-A9334B4A386D}.Debug|ARM.Build.0 = Debug|ARM
+		{197A805C-9924-46C7-90D1-A9334B4A386D}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{197A805C-9924-46C7-90D1-A9334B4A386D}.Debug|ARM64.Build.0 = Debug|ARM64
+		{197A805C-9924-46C7-90D1-A9334B4A386D}.Debug|x64.ActiveCfg = Debug|x64
+		{197A805C-9924-46C7-90D1-A9334B4A386D}.Debug|x64.Build.0 = Debug|x64
+		{197A805C-9924-46C7-90D1-A9334B4A386D}.Debug|x86.ActiveCfg = Debug|x86
+		{197A805C-9924-46C7-90D1-A9334B4A386D}.Debug|x86.Build.0 = Debug|x86
+		{197A805C-9924-46C7-90D1-A9334B4A386D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{197A805C-9924-46C7-90D1-A9334B4A386D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{197A805C-9924-46C7-90D1-A9334B4A386D}.Release|ARM.ActiveCfg = Release|ARM
+		{197A805C-9924-46C7-90D1-A9334B4A386D}.Release|ARM.Build.0 = Release|ARM
+		{197A805C-9924-46C7-90D1-A9334B4A386D}.Release|ARM64.ActiveCfg = Release|ARM64
+		{197A805C-9924-46C7-90D1-A9334B4A386D}.Release|ARM64.Build.0 = Release|ARM64
+		{197A805C-9924-46C7-90D1-A9334B4A386D}.Release|x64.ActiveCfg = Release|x64
+		{197A805C-9924-46C7-90D1-A9334B4A386D}.Release|x64.Build.0 = Release|x64
+		{197A805C-9924-46C7-90D1-A9334B4A386D}.Release|x86.ActiveCfg = Release|x86
+		{197A805C-9924-46C7-90D1-A9334B4A386D}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
