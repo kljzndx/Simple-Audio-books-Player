@@ -134,7 +134,6 @@ namespace SimpleAudioBooksPlayer.Service
 
                     // 更新数据
                     {
-                        this.LogByObject("判断文件要不要更新");
                         var basicProp = await file.GetBasicPropertiesAsync();
                         var isNeed = _source.Any(d =>
                             d.FilePath == file.Path && (!d.ModifyTime.Equals(basicProp.DateModified.DateTime) ||
