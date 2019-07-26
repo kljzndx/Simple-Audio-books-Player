@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SimpleAudioBooksPlayer.DAL;
+using SimpleAudioBooksPlayer.Log;
 
 namespace SimpleAudioBooksPlayer.Service
 {
@@ -29,6 +30,7 @@ namespace SimpleAudioBooksPlayer.Service
 
                 if (_source.FirstOrDefault(c => c.Index == -1) is ClassItem classItem && _source.First().Index != -1)
                 {
+                    this.LogByObject("检测到 ‘未指定’ 分类不在顶端，正在移动");
                     _source.Remove(classItem);
                     _source.Insert(0, classItem);
                 }

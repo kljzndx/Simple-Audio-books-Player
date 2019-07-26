@@ -40,6 +40,8 @@ namespace SimpleAudioBooksPlayer.Service
         private async Task AddRange(IEnumerable<PlaybackRecord> source)
         {
             var sl = source.ToList();
+            if (!sl.Any())
+                return;
 
             await _helper.AddRange(sl);
             _source.AddRange(sl);
@@ -53,6 +55,8 @@ namespace SimpleAudioBooksPlayer.Service
         {
             var sl = source.ToList();
             var needRemove = _source.Where(src => sl.Contains(src.GroupId)).ToList();
+            if (!needRemove.Any())
+                return;
 
             await _helper.RemoveRange(needRemove);
             _source.RemoveAll(needRemove.Contains);
@@ -65,6 +69,9 @@ namespace SimpleAudioBooksPlayer.Service
         private async Task UpdateRange(IEnumerable<PlaybackRecord> source)
         {
             var sl = source.ToList();
+            if (!sl.Any())
+                return;
+
             await _helper.UpdateRange(sl);
 
             _source.RemoveAll(src => sl.Any(p => p.GroupId == src.GroupId));

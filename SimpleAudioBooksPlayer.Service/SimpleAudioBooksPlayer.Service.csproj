@@ -148,6 +148,10 @@
       <Project>{1411da69-aec1-41c4-bd1e-8838897f0974}</Project>
       <Name>SimpleAudioBooksPlayer.DAL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SimpleAudioBooksPlayer.Log\SimpleAudioBooksPlayer.Log.csproj">
+      <Project>{197a805c-9924-46c7-90d1-a9334b4a386d}</Project>
+      <Name>SimpleAudioBooksPlayer.Log</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

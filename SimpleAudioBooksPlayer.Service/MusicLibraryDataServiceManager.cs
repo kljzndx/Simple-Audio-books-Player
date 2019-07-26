@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using SimpleAudioBooksPlayer.DAL;
 using SimpleAudioBooksPlayer.DAL.Factory;
+using SimpleAudioBooksPlayer.Log;
 
 namespace SimpleAudioBooksPlayer.Service
 {
@@ -38,11 +39,14 @@ namespace SimpleAudioBooksPlayer.Service
 
         public async Task ScanFiles()
         {
+            this.LogByObject("获取服务");
             var musicService = await GetMusicService();
             var lyricService = await GetLyricService();
 
+            this.LogByObject("开始扫描");
             await musicService.ScanFiles();
             await lyricService.ScanFiles();
+            this.LogByObject("扫描完成");
         }
     }
 }

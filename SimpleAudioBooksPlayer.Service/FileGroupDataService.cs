@@ -35,6 +35,9 @@ namespace SimpleAudioBooksPlayer.Service
         public async Task SetClass(IEnumerable<int> groupIdes, int classId)
         {
             var needSet = _source.Where(g => groupIdes.Any(t => t == g.Index)).ToList();
+            if (!needSet.Any())
+                return;
+
             foreach (var fileGroup in needSet)
                 fileGroup.ClassId = classId;
 
