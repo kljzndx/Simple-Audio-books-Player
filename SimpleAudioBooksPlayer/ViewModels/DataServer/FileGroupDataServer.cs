@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
 using SimpleAudioBooksPlayer.DAL;
+using SimpleAudioBooksPlayer.Log;
 using SimpleAudioBooksPlayer.Models.DTO;
 using SimpleAudioBooksPlayer.Service;
 using SimpleAudioBooksPlayer.ViewModels.SettingProperties;
@@ -40,8 +41,11 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
             IsInit = true;
             _service = FileGroupDataService.Current;
+
+            this.LogByObject("初始化组资源");
             await FileGroupDTO.InitAssets();
 
+            this.LogByObject("初始化分类服务器");
             var source = await _service.GetData();
             var data = source.Select(g => new FileGroupDTO(g)).ToList();
             foreach (var item in data)
@@ -68,6 +72,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             if (classItem == ClassListDataServer.All_ClassItem)
                 return;
 
+            this.LogByObject("正在设置分类");
             groupDto.ClassItem = classItem;
             await _service.SetClass(groupDto.Index, classItem.Index);
             ClassSeted?.Invoke(this, new[] {groupDto});
@@ -75,6 +80,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
         public async Task Rename(FileGroupDTO groupDto, string newName)
         {
+            this.LogByObject("正在重命名 组数据");
             groupDto.Name = newName;
             await _service.RenameGroup(groupDto.Index, newName);
             DataUpdated?.Invoke(this, new[] {groupDto});
@@ -85,12 +91,14 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             if (_coverFolder is null)
                 if (!OtherSettingProperties.Current.IsCreatedCoverFolder)
                 {
+                    this.LogByObject("正在创建封面文件夹");
                     _coverFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("cover");
                     OtherSettingProperties.Current.IsCreatedCoverFolder = true;
                 }
                 else
                     _coverFolder = await ApplicationData.Current.LocalFolder.GetFolderAsync("cover");
 
+            this.LogByObject("正在设置分类");
             var bitmapFile = await file.CopyAsync(_coverFolder, $"{groupDto.Index}.image", NameCollisionOption.ReplaceExisting);
 
             var bi = new BitmapImage();
@@ -103,6 +111,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
         private void Service_DataAdded(object sender, IEnumerable<FileGroup> e)
         {
+            this.LogByObject("正在添加 组数据");
             var needAdd = e.Select(g => new FileGroupDTO(g)).ToList();
             foreach (var group in needAdd)
                 Data.Add(group);
@@ -112,6 +121,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
         private void Service_DataRemoved(object sender, IEnumerable<FileGroup> e)
         {
+            this.LogByObject("正在移除 组数据");
             var needRemove = new List<FileGroupDTO>(Data.Where(src => e.Any(g => g.Index == src.Index)));
             foreach (var groupDto in needRemove)
                 Data.Remove(groupDto);
@@ -121,6 +131,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
         private void Service_DataUpdated(object sender, IEnumerable<FileGroup> e)
         {
+            this.LogByObject("正在更新 组数据");
             var list = e.ToList();
             foreach (var fileGroup in list)
                 Data.First(g => g.Index == fileGroup.Index).Update(fileGroup);
@@ -128,6 +139,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
         private async void ClassDataServer_DataRemoved(object sender, IEnumerable<ClassItemDTO> e)
         {
+            this.LogByObject("正在重置 组数据 的分类设置");
             var needReset = Data.Where(g => e.Any(c => c == g.ClassItem)).ToList();
             foreach (var groupDto in needReset)
                 groupDto.ClassItem = ClassListDataServer.Unspecified_ClassItem;

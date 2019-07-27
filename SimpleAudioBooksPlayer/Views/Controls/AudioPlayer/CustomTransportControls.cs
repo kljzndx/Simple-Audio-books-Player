@@ -10,6 +10,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using SimpleAudioBooksPlayer.Log;
 
 // The Templated Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234235
 
@@ -55,7 +56,7 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
         {
             base.OnApplyTemplate();
 
-            //this.LogByObject("监听进度条的指针事件");
+            this.LogByObject("监听进度条的指针事件");
             {
                 var progressSlider = (Slider)GetTemplateChild("ProgressSlider");
                 progressSlider.AddHandler(PointerPressedEvent, new PointerEventHandler((s, e) => PositionSlider_PointerPressed?.Invoke(s, e)), true);
@@ -65,7 +66,7 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
 
             }
 
-            //this.LogByObject("监听快退按钮的指针事件");
+            this.LogByObject("监听快退按钮的指针事件");
             {
                 var rewindButton = (AppBarButton)GetTemplateChild("Rewind_Button");
                 rewindButton.AddHandler(PointerPressedEvent, new PointerEventHandler((s, e) => RewindButton_PointerPressed?.Invoke(s, e)), true);
@@ -74,7 +75,7 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
                 rewindButton.AddHandler(PointerCaptureLostEvent, new PointerEventHandler((s, e) => RewindButton_PointerReleased?.Invoke(s, e)), true);
             }
 
-            //this.LogByObject("监听快进按钮的指针事件");
+            this.LogByObject("监听快进按钮的指针事件");
             {
                 var fastForwardButton = (AppBarButton)GetTemplateChild("FastForward_Button");
                 fastForwardButton.AddHandler(PointerPressedEvent, new PointerEventHandler((s, e) => FastForwardButton_PointerPressed?.Invoke(s, e)), true);
@@ -83,11 +84,13 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
                 fastForwardButton.AddHandler(PointerCaptureLostEvent, new PointerEventHandler((s, e) => FastForwardButton_PointerReleased?.Invoke(s, e)), true);
             }
 
+            this.LogByObject("监听封面按钮的点击事件");
             {
                 var coverButton = (Button)GetTemplateChild("Cover_Button");
                 coverButton.Click += (s, e) => CoverButton_Click?.Invoke(this, e);
             }
 
+            this.LogByObject("监听播放速率的进度更改事件");
             {
                 playbackRateSlider = (Slider)GetTemplateChild("PlaybackRate_Slider");
                 playbackRateSlider.Value = 1;

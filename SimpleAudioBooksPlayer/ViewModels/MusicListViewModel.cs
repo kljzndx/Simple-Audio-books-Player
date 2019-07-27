@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using GalaSoft.MvvmLight;
+using SimpleAudioBooksPlayer.Log;
 using SimpleAudioBooksPlayer.Models.DTO;
 using SimpleAudioBooksPlayer.Models.Sorters;
 using SimpleAudioBooksPlayer.ViewModels.DataServer;
@@ -19,6 +20,7 @@ namespace SimpleAudioBooksPlayer.ViewModels
 
         public MusicListViewModel()
         {
+            this.LogByObject("初始化排序方法列表");
             SorterMembers.Add(new MusicSorterUi<MusicFileDTO>("TrackNumber", MusicSortDeserialization.Deserialize(MusicListSortMembers.TrackId)));
             SorterMembers.Add(new MusicSorterUi<MusicFileDTO>("Title", MusicSortDeserialization.Deserialize(MusicListSortMembers.Name)));
             SorterMembers.Add(new MusicSorterUi<MusicFileDTO>("ModifyDate", MusicSortDeserialization.Deserialize(MusicListSortMembers.ModifyTime)));
@@ -35,6 +37,7 @@ namespace SimpleAudioBooksPlayer.ViewModels
         {
             if (groupId != _groupId)
             {
+                this.LogByObject("加载并排序数据");
                 _groupId = groupId;
                 _sortMethod = _settings.SortMethod;
 
@@ -57,6 +60,7 @@ namespace SimpleAudioBooksPlayer.ViewModels
 
         public void SortData(MusicListSortMembers method)
         {
+            this.LogByObject("排序数据");
             _sortMethod = method;
             _settings.SortMethod = method;
 
@@ -73,6 +77,7 @@ namespace SimpleAudioBooksPlayer.ViewModels
 
         public void Reverse()
         {
+            this.LogByObject("倒序排序数据");
             _settings.IsReverse = !_settings.IsReverse;
 
             var data = Data.Reverse().ToList();
@@ -82,7 +87,11 @@ namespace SimpleAudioBooksPlayer.ViewModels
 
         private void Server_DataAdded(object sender, IEnumerable<MusicFileDTO> e)
         {
-            foreach (var fileDto in e.Where(m => m.Group.Index == _groupId))
+            var list = e.Where(m => m.Group.Index == _groupId).ToList();
+            if (!list.Any())
+                return;
+
+            foreach (var fileDto in list)
                 Data.Add(fileDto);
 
             SortData(_sortMethod);

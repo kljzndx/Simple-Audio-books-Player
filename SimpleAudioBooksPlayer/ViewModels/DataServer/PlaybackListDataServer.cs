@@ -9,6 +9,7 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Core;
 using Windows.Media.Playback;
 using Windows.UI.Core;
+using SimpleAudioBooksPlayer.Log;
 using SimpleAudioBooksPlayer.Models.DTO;
 using SimpleAudioBooksPlayer.Models.Sorters;
 using SimpleAudioBooksPlayer.ViewModels.SettingProperties;
@@ -76,6 +77,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             if (!Data.Any())
                 return;
 
+            this.LogByObject("上一组播放项");
             _isPreLoadClip = false;
 
             if (_playingId == 0)
@@ -89,6 +91,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             if (!Data.Any())
                 return;
 
+            this.LogByObject("下一组播放项");
             _isPreLoadClip = false;
 
             if (_playingId == Data.Count - 1)
@@ -104,7 +107,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             bool hasData = Data.Any();
 
             await SetPlayedTime();
-            
+
             InitData(record.Group, record.SortMethod, record.IsReverse);
 
             await PlayTo(record.TrackId);
@@ -145,6 +148,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
         {
             if (_player?.PlaybackSession != null && _currentRecordDto != null)
             {
+                this.LogByObject("设置上次播放时间");
                 _currentRecordDto.PlayedTime = _player.PlaybackSession.Position;
                 await _recordServer.SetRecord(_currentRecordDto);
             }
@@ -156,6 +160,8 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
             if (!groupDto.Equals(_currentGroup) || _currentSortMethod != method)
             {
+                this.LogByObject("筛选数据源并排序数据");
+
                 _currentGroup = groupDto;
 
                 var sortSelector = MusicSortDeserialization.Deserialize(method);
@@ -170,6 +176,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
                 if (hasData)
                     DataRemoved?.Invoke(this, Data.ToList());
 
+                this.LogByObject("添加数据");
                 _playbackList.Items.Clear();
                 Data.Clear();
                 foreach (var musicFile in list)
@@ -185,6 +192,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
         private void SplitList(IEnumerable<MusicFileDTO> files)
         {
+            this.LogByObject("分割数据源");
             _clipList.Clear();
             var queue = new Queue<MusicFileDTO>(files);
 
@@ -204,14 +212,18 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
         
         private async Task PlayTo(uint trackId)
         {
+            this.LogByObject("计算各项数据");
             _playingId = trackId;
             var clipId = (int) Math.Ceiling((trackId + 1) / 10D) - 1;
             
             var clip = _clipList[clipId];
             var mfId = (uint) (trackId < 10 ? trackId : trackId - (10 * clipId));
 
+            this.LogByObject($"计算结果： trackId = {trackId} clipId = {clipId} mfId = {mfId}");
+
             if (_clipId != clipId)
             {
+                this.LogByObject("加载播放项");
                 _clipId = clipId;
                 _playbackList.Items.Clear();
 
@@ -219,6 +231,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
                     _playbackList.Items.Add(await fileDto.GetPlaybackItem());
             }
 
+            this.LogByObject("移动播放头");
             _playbackList.MoveTo(mfId);
         }
 
@@ -227,6 +240,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             if (_player.PlaybackSession != null &&
                 _player.PlaybackSession.PlaybackState != MediaPlaybackState.Playing)
             {
+                this.LogByObject("开始播放");
                 _player.Play();
             }
         }
@@ -235,6 +249,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
         {
             if (Data.Any() && _player.Source != _playbackList)
             {
+                this.LogByObject("设置播放源");
                 _player.Source = _playbackList;
                 Data.CollectionChanged -= Data_CollectionChanged;
             }
@@ -242,7 +257,12 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
         private async void MusicServer_DataRemoved(object sender, IEnumerable<MusicFileDTO> e)
         {
-            foreach (var fileDto in Data.Where(src => e.Any(f => f.FilePath == src.FilePath)))
+            var list = Data.Where(src => e.Any(f => f.FilePath == src.FilePath)).ToList();
+            if (!list.Any())
+                return;
+
+            this.LogByObject("移除无效播放项");
+            foreach (var fileDto in list)
             {
                 var pb = await fileDto.GetPlaybackItem();
                 if (_playbackList.Items.Contains(pb))
@@ -250,6 +270,8 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
                 Data.Remove(fileDto);
             }
+
+            DataRemoved?.Invoke(this, list);
         }
 
         private async void PlaybackList_CurrentItemChanged(MediaPlaybackList sender, CurrentMediaPlaybackItemChangedEventArgs args)
@@ -262,6 +284,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
                 if (_isPreLoadClip && currentId >= 10)
                 {
+                    this.LogByObject("开始清理播放项");
                     _clipId = _clipId < _clipList.Count - 1 ? _clipId + 1 : 0;
                     for (int i = 0; i < 10; i++)
                         sender.Items.RemoveAt(0);
@@ -273,6 +296,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
                 if (!_isPreLoadClip && itemCount >= 10 && currentId == itemCount - 1)
                 {
+                    this.LogByObject("开始预加载播放项数据");
                     var cid = _clipId < _clipList.Count - 1 ? _clipId + 1 : 0;
                     foreach (var fileDto in _clipList[cid])
                         sender.Items.Add(await fileDto.GetPlaybackItem());
@@ -281,17 +305,18 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
                     itemCount = sender.Items.Count;
                 }
 
+                this.LogByObject("创建播放记录");
                 int id = _clipId * 10 + currentId;
                 if (id < 0)
                     return;
+
+                this.LogByObject($"PlayId: {id}, ItemCount: {itemCount}, CurrentIndex: {currentId}, ClipId: {_clipId}, PreLoadClip: {_isPreLoadClip}, ChangeReason: {args.Reason.ToString()}");
 
                 _playingId = (uint) id;
 
                 var mfd = Data[id];
                 _currentRecordDto = new PlaybackRecordDTO(mfd.Title, mfd.Group, (uint) id, _currentSortMethod, _musicListSettings.IsReverse);
                 await _recordServer.SetRecord(_currentRecordDto);
-
-                // Debug.WriteLine($"PlayId: {id}, ItemCount: {itemCount}, CurrentIndex: {currentId}, ClipId: {_clipId}, PreLoadClip: {_isPreLoadClip}, ChangeReason: {args.Reason.ToString()}");
             });
         }
 

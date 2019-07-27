@@ -18,6 +18,9 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using NLog;
+using SimpleAudioBooksPlayer.Log;
+using SimpleAudioBooksPlayer.Log.Models;
 using SimpleAudioBooksPlayer.Service;
 using SimpleAudioBooksPlayer.ViewModels.DataServer;
 using SimpleAudioBooksPlayer.ViewModels.Events;
@@ -37,6 +40,8 @@ namespace SimpleAudioBooksPlayer
 
         private bool _canRefreshData = true;
         private ApplicationTheme _currentTheme;
+
+        private readonly Logger _logger;
         
         /// <summary>
         /// 初始化单一实例应用程序对象。这是执行的创作代码的第一行，
@@ -46,6 +51,10 @@ namespace SimpleAudioBooksPlayer
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+
+            _logger = LoggerService.GetLogger(LoggerMembers.App);
+            LogExtension.SetupLogger(typeof(ClassListDataService).Assembly, LoggerMembers.Service);
+            LogExtension.SetupLogger(typeof(App).Assembly, LoggerMembers.Ui);
         }
 
         /// <summary>
@@ -100,13 +109,13 @@ namespace SimpleAudioBooksPlayer
             if (args.TaskInstance.Task.Name == SettingsPage.timedExitTaskName
                 && DateTime.Now > OtherSettingProperties.Current.ExitTime)
             {
+                
+                _logger.Info("定时退出任务已触发，正在退出应用");
                 args.TaskInstance.Task.Unregister(true);
 
-                //Logger.Info("定时退出任务已触发，正在停止播放");
                 if (MediaPlayer.PlaybackSession != null && MediaPlayer.PlaybackSession.PlaybackState != MediaPlaybackState.Paused)
                     MediaPlayer.Pause();
 
-                //Logger.Info("正在退出应用");
                 Exit();
             }
 

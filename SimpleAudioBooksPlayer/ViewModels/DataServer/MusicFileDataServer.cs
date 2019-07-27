@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using SimpleAudioBooksPlayer.DAL;
 using SimpleAudioBooksPlayer.DAL.Factory;
+using SimpleAudioBooksPlayer.Log;
 using SimpleAudioBooksPlayer.Models.DTO;
 using SimpleAudioBooksPlayer.Service;
 
@@ -32,6 +33,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             IsInit = true;
             _service = await MusicLibraryDataServiceManager.Current.GetMusicService();
 
+            this.LogByObject("初始化音乐文件服务器");
             var source = await _service.GetData();
             var data = source.Select(f => new MusicFileDTO(f)).ToList();
             foreach (var fileDto in data)
@@ -45,6 +47,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
         private void Service_DataAdded(object sender, IEnumerable<MusicFile> e)
         {
+            this.LogByObject("正在添加文件");
             var mfdList = e.Select(f => new MusicFileDTO(f)).ToList();
             foreach (var mfd in mfdList)
                 Data.Add(mfd);
@@ -55,6 +58,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
         private void Service_DataRemoved(object sender, IEnumerable<MusicFile> e)
         {
+            this.LogByObject("正在移除文件");
             var needRemove = Data.Where(d => e.Any(f => f.FilePath == d.FilePath)).ToList();
             foreach (var fileDto in needRemove)
                 Data.Remove(fileDto);
@@ -65,6 +69,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
         private void Service_DataUpdated(object sender, IEnumerable<MusicFile> e)
         {
+            this.LogByObject("正在更新文件");
             var list = new List<MusicFileDTO>();
 
             foreach (var musicFile in e)

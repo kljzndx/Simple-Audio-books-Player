@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using SimpleAudioBooksPlayer.Log;
 using SimpleAudioBooksPlayer.Models.DTO;
 using SimpleAudioBooksPlayer.ViewModels;
 using SimpleAudioBooksPlayer.ViewModels.DataServer;
@@ -59,6 +60,7 @@ namespace SimpleAudioBooksPlayer.Views
             if (record == null)
                 return;
 
+            this.LogByObject("点击了一个播放记录项目");
             await PlaybackListDataServer.Current.SetSource(record);
         }
     }

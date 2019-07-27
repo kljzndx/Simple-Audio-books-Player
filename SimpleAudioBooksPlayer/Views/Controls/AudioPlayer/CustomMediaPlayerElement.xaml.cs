@@ -19,6 +19,8 @@ using SimpleAudioBooksPlayer.ViewModels.SettingProperties;
 using System.Threading.Tasks;
 using SimpleAudioBooksPlayer.ViewModels.DataServer;
 using System.ComponentModel;
+using HappyStudio.UwpToolsLibrary.Auxiliarys;
+using SimpleAudioBooksPlayer.Log;
 
 //https://go.microsoft.com/fwlink/?LinkId=234236 上介绍了“用户控件”项模板
 
@@ -26,11 +28,11 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
 {
     public sealed partial class CustomMediaPlayerElement : UserControl
     {
-        private static MediaPlayer player;
-        public static MediaPlaybackItem CurrentItem { get; private set; }
+        private MediaPlayer _player;
+        private MediaPlaybackItem _currentItem;
 
-        public static event TypedEventHandler<CustomMediaPlayerElement, PlayerPositionChangeEventArgs> PositionChanged;
-        public static event TypedEventHandler<CustomMediaPlayerElement, PlayerNowPlaybackItemChangeEventArgs> NowPlaybackItemChanged;
+        public event TypedEventHandler<CustomMediaPlayerElement, PlayerPositionChangeEventArgs> PositionChanged;
+        public event TypedEventHandler<CustomMediaPlayerElement, PlayerNowPlaybackItemChangeEventArgs> NowPlaybackItemChanged;
 
         private readonly PlayerSettingProperties _settings = PlayerSettingProperties.Current;
         private readonly PlaybackListDataServer _dataServer = PlaybackListDataServer.Current;
@@ -48,26 +50,30 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
 
         public event RoutedEventHandler CoverButton_Click;
 
-        private static bool TryGetSession(out MediaPlaybackSession session)
+        private bool TryGetSession(out MediaPlaybackSession session)
         {
-            session = player?.PlaybackSession;
+            session = _player?.PlaybackSession;
             return session != null;
         }
 
         private void Play()
         {
             if (!TryGetSession(out var session) || session.PlaybackState != MediaPlaybackState.Playing)
-                player.Play();
+                _player.Play();
         }
 
         #region Player setup methods
 
         public void SetMediaPlayer(MediaPlayer mediaPlayer)
         {
-            if (player != null)
-                Uninstall(player);
+            if (_player != null)
+            {
+                this.LogByObject("正在卸载旧播放器");
+                Uninstall(_player);
+            }
 
-            player = mediaPlayer;
+            this.LogByObject("正在配置播放器");
+            _player = mediaPlayer;
             Root_MediaPlayerElement.SetMediaPlayer(mediaPlayer);
             Install(mediaPlayer);
         }
@@ -98,10 +104,10 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
 
         private void InitPlayerSettings()
         {
-            var source = player.Source as MediaPlaybackList;
+            var source = _player.Source as MediaPlaybackList;
             // 音量
             {
-                player.Volume = _settings.Volume;
+                _player.Volume = _settings.Volume;
             }
 
             {
@@ -118,18 +124,10 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
             if (TryGetSession(out var session))
             {
                 _isUserChangePosition = true;
+                this.LogByObject("设置播放进度，并触发进度更改事件");
                 session.Position = position;
                 PositionChanged?.Invoke(this, new PlayerPositionChangeEventArgs(true, position));
                 _isUserChangePosition = false;
-            }
-        }
-
-        public static void SetPosition_Global(TimeSpan position)
-        {
-            if (TryGetSession(out var session))
-            {
-                session.Position = position;
-                PositionChanged?.Invoke(null, new PlayerPositionChangeEventArgs(true, position));
             }
         }
 
@@ -145,23 +143,21 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
                 _isPressPositionControlButton = true;
             else return;
 
-            player.Pause();
+            _player.Pause();
 
-            //string optionInfo = isAdd ? "快进" : "快退";
-            //this.LogByObject($"正在执行 {optionInfo} 操作");
-
+            string optionInfo = isAdd ? "快进" : "快退";
             while (_isPressPositionControlButton == true)
             {
                 if (isAdd)
-                    SetPosition(player.PlaybackSession.Position + TimeSpan.FromSeconds(1));
+                    SetPosition(_player.PlaybackSession.Position + TimeSpan.FromSeconds(1));
                 else
-                    SetPosition(player.PlaybackSession.Position - TimeSpan.FromSeconds(1));
-                //this.LogByObject($"已 {optionInfo} 1秒");
+                    SetPosition(_player.PlaybackSession.Position - TimeSpan.FromSeconds(1));
+                this.LogByObject(String.Format("{0} 1秒", optionInfo));
 
                 await Task.Delay(TimeSpan.FromMilliseconds(200));
             }
 
-            //this.LogByObject($"已完成 {optionInfo} 操作");
+            this.LogByObject($"完成 {optionInfo} 操作");
         }
 
         private async Task ReleasePositionButton(bool isNextSong)
@@ -169,10 +165,10 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
             bool? b = _isPressPositionControlButton;
             _isPressPositionControlButton = false;
 
-            if (b == null && player.Source is MediaPlaybackList mpl)
+            if (b == null && _player.Source is MediaPlaybackList mpl)
             {
-                //string optionInfo = isNextSong ? "下一曲" : "上一曲";
-                //this.LogByObject($"正在执行 {optionInfo} 操作");
+                string optionInfo = isNextSong ? "下一曲" : "上一曲";
+                this.LogByObject($"执行 {optionInfo} 操作");
 
                 if (isNextSong)
                 {
@@ -188,11 +184,9 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
                     else
                         await _dataServer.PreviousClip();
                 }
-
-                //this.LogByObject($"完成 {optionInfo} 操作");
             }
             else
-                player.Play();
+                _player.Play();
         }
 
         #endregion
@@ -206,13 +200,15 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
             {
                 if (sender.Source is null)
                 {
-                    NowPlaybackItemChanged?.Invoke(this, new PlayerNowPlaybackItemChangeEventArgs(CurrentItem, null));
-                    CurrentItem = null;
+                    this.LogByObject("重置播放源");
+                    NowPlaybackItemChanged?.Invoke(this, new PlayerNowPlaybackItemChangeEventArgs(_currentItem, null));
+                    _currentItem = null;
 
                     foreach (var fileDto in MusicFileDataServer.Current.Data.Where(m => m.IsPlaying).ToList())
                         fileDto.IsPlaying = false;
                 }
 
+                this.LogByObject("初始化播放器");
                 InitPlayerSettings();
             });
         }
@@ -223,27 +219,30 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
             {
                 if (sender.Source is MediaPlaybackItem mpi)
                 {
-                    NowPlaybackItemChanged?.Invoke(this, new PlayerNowPlaybackItemChangeEventArgs(CurrentItem, mpi));
-                    CurrentItem = mpi;
+                    NowPlaybackItemChanged?.Invoke(this, new PlayerNowPlaybackItemChangeEventArgs(_currentItem, mpi));
+                    _currentItem = mpi;
                 }
             });
         }
 
-        private void Player_MediaFailed(MediaPlayer sender, MediaPlayerFailedEventArgs args)
+        private async void Player_MediaFailed(MediaPlayer sender, MediaPlayerFailedEventArgs args)
         {
-
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            {
+                this.LogByObject("Error: " + args.ErrorMessage);
+                await MessageBox.ShowAsync("Error", args.ErrorMessage, "Close");
+            });
         }
 
         private async void Source_CurrentItemChanged(MediaPlaybackList sender, CurrentMediaPlaybackItemChangedEventArgs args)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                NowPlaybackItemChanged?.Invoke(this, new PlayerNowPlaybackItemChangeEventArgs(CurrentItem, args.NewItem));
-                CurrentItem = args.NewItem;
+                NowPlaybackItemChanged?.Invoke(this, new PlayerNowPlaybackItemChangeEventArgs(_currentItem, args.NewItem));
+                _currentItem = args.NewItem;
 
                 if (TryGetSession(out var session))
                     session.PlaybackRate = _settings.PlaybackRate;
-
 
                 foreach (var fileDto in MusicFileDataServer.Current.Data.Where(m => m.IsPlaying).ToList())
                     fileDto.IsPlaying = false;
@@ -252,6 +251,7 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
                     foreach (var fileDto in PlaybackListDataServer.Current.Data.Where(m => m.HasRead))
                         if (await fileDto.GetPlaybackItem() == args.NewItem)
                         {
+                            this.LogByObject("正在设置封面显示");
                             fileDto.IsPlaying = true;
                             MyTransportControls.CoverSource = await fileDto.Group.GetCover();
                             break;

@@ -53,12 +53,12 @@
                 </StackPanel>
             </Button>-->
 
-            <!--<Button x:Name="OpenLogsFolder_Button" x:Uid="/AboutPage/OpenLogsFolder_AppBarButton" Click="OpenLogsFolder_AppBarButton_Click">
+            <Button x:Name="OpenLogsFolder_Button" x:Uid="/AboutPage/OpenLogsFolder_AppBarButton" Click="OpenLogsFolder_AppBarButton_Click">
                 <StackPanel>
                     <FontIcon Glyph="&#xE2AC;" HorizontalAlignment="Center"/>
                     <TextBlock x:Uid="/AboutPage/OpenLogsFolder_TextBlock" HorizontalAlignment="Center"/>
                 </StackPanel>
-            </Button>-->
+            </Button>
 
             <Button x:Name="Review_Button" x:Uid="/AboutPage/Review_AppBarButton" Click="Review_AppBarButton_Click">
                 <StackPanel>

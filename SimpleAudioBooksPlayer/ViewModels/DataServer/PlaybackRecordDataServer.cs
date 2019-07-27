@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using SimpleAudioBooksPlayer.Log;
 using SimpleAudioBooksPlayer.Models.DTO;
 using SimpleAudioBooksPlayer.Service;
 
@@ -35,6 +36,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
             IsInit = true;
 
+            this.LogByObject("初始化数据");
             var data = await _service.GetData();
             foreach (var record in data)
                 Data.Add(new PlaybackRecordDTO(record));
@@ -49,12 +51,14 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             var pr = Data.FirstOrDefault(r => r.Group.Index == record.Group.Index);
             if (pr is null)
             {
+                this.LogByObject("添加播放记录");
                 await _service.Add(record.ToTableObject());
                 Data.Insert(0, record);
                 DataAdded?.Invoke(this, new[] {record});
             }
             else
             {
+                this.LogByObject("更新播放记录");
                 await _service.Update(record.ToTableObject());
                 pr.Update(record);
 
@@ -67,6 +71,10 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
         private async void GroupDataServer_DataRemoved(object sender, IEnumerable<FileGroupDTO> e)
         {
             var list = Data.Where(r => e.Any(g => g.Index == r.Group.Index)).ToList();
+            if (!list.Any())
+                return;
+
+            this.LogByObject("移除无效播放记录");
             await _service.RemoveRange(list.Select(r => r.Group.Index));
             foreach (var recordDto in list)
                 Data.Remove(recordDto);

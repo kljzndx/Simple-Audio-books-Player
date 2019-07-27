@@ -1,4 +1,5 @@
 ﻿using System;
+using SimpleAudioBooksPlayer.Log;
 
 namespace SimpleAudioBooksPlayer.ViewModels.Events
 {
@@ -9,6 +10,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.Events
 
         public static void RequestShow(string text)
         {
+            typeof(NotificationNotifier).LogByType(text);
             ShowRequested?.Invoke(null, text);
         }
 

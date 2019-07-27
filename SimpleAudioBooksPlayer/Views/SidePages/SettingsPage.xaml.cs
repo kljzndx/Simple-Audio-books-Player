@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
+using Windows.ApplicationModel.Resources;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
@@ -10,8 +11,10 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using HappyStudio.UwpToolsLibrary.Auxiliarys;
+using SimpleAudioBooksPlayer.Log;
 using SimpleAudioBooksPlayer.Models.Attributes;
 using SimpleAudioBooksPlayer.Service;
+using SimpleAudioBooksPlayer.ViewModels.Events;
 using SimpleAudioBooksPlayer.ViewModels.SettingProperties;
 using SimpleAudioBooksPlayer.ViewModels.SidePages;
 
@@ -27,6 +30,7 @@ namespace SimpleAudioBooksPlayer.Views.SidePages
     {
         public const string timedExitTaskName = "TimedExitTask";
 
+        private readonly ResourceLoader _notificationStrings = ResourceLoader.GetForCurrentView("Notifications");
         private readonly SettingsViewModel _viewModel;
         private readonly OtherSettingProperties _settings = OtherSettingProperties.Current;
 
@@ -34,50 +38,6 @@ namespace SimpleAudioBooksPlayer.Views.SidePages
         {
             this.InitializeComponent();
             _viewModel = (SettingsViewModel) DataContext;
-        }
-
-        private async Task<bool> StartTimer()
-        {
-            var task = BackgroundTaskRegistration.AllTasks.Values.FirstOrDefault(t => t.Name is timedExitTaskName);
-            if (task != null)
-            {
-                //this.LogByObject("定时退出任务已创建");
-                return true;
-            }
-
-            //this.LogByObject("开始创建定时退出任务");
-            BackgroundTaskBuilder builder = new BackgroundTaskBuilder
-            {
-                Name = timedExitTaskName,
-            };
-
-            //this.LogByObject("申请注册任务");
-            var b = await BackgroundExecutionManager.RequestAccessAsync();
-            if (b == BackgroundAccessStatus.Unspecified)
-            {
-                //this.LogByObject("申请失败，原因：没权限");
-                await MessageBox.ShowAsync("Cannot create timed Task", "Please Open Background permissions for this app in the Windows Settings --> privacy --> Background App",
-                    new Dictionary<string, UICommandInvokedHandler>
-                    {
-                        { "Open Settings", async u => await Launcher.LaunchUriAsync(new Uri("ms-settings:privacy-backgroundapps")) }
-                    }, "Close");
-                return false;
-            }
-
-            if (b == BackgroundAccessStatus.DeniedBySystemPolicy || b == BackgroundAccessStatus.DeniedByUser)
-            {
-                //this.LogByObject("申请失败，原因：省电方案");
-                await MessageBox.ShowAsync("Cannot create background task", "Close");
-                return false;
-            }
-
-            //this.LogByObject($"申请成功，正在设置 15 分钟循环定时");
-            builder.SetTrigger(new TimeTrigger(15, false));
-            //this.LogByObject("注册定时退出任务");
-            builder.Register();
-
-            //this.LogByObject("注册完成");
-            return true;
         }
 
         #region LocationOfScan
@@ -92,6 +52,7 @@ namespace SimpleAudioBooksPlayer.Views.SidePages
             if (_viewModel.MusicLibrary != null)
                 return;
 
+            this.LogByObject("获取音乐库数据");
             _viewModel.MusicLibrary = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Music);
             _viewModel.MusicLibrary.DefinitionChanged += MusicLibrary_DefinitionChanged;
         }
@@ -114,11 +75,57 @@ namespace SimpleAudioBooksPlayer.Views.SidePages
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
+                NotificationNotifier.RequestShow(_notificationStrings.GetString("ScanningFiles"));
                 await MusicLibraryDataServiceManager.Current.ScanFiles();
+                NotificationNotifier.RequestHide();
             });
         }
 
         #endregion
+
+        private async Task<bool> StartTimer()
+        {
+            var task = BackgroundTaskRegistration.AllTasks.Values.FirstOrDefault(t => t.Name is timedExitTaskName);
+            if (task != null)
+            {
+                this.LogByObject("定时退出任务已创建");
+                return true;
+            }
+
+            this.LogByObject("开始创建定时退出任务");
+            BackgroundTaskBuilder builder = new BackgroundTaskBuilder
+            {
+                Name = timedExitTaskName,
+            };
+
+            this.LogByObject("申请注册任务");
+            var b = await BackgroundExecutionManager.RequestAccessAsync();
+            if (b == BackgroundAccessStatus.Unspecified)
+            {
+                this.LogByObject("申请失败，原因：没权限");
+                await MessageBox.ShowAsync("Cannot create timed Task", "Please Open Background permissions for this app in the Windows Settings --> privacy --> Background App",
+                    new Dictionary<string, UICommandInvokedHandler>
+                    {
+                        { "Open Settings", async u => await Launcher.LaunchUriAsync(new Uri("ms-settings:privacy-backgroundapps")) }
+                    }, "Close");
+                return false;
+            }
+
+            if (b == BackgroundAccessStatus.DeniedBySystemPolicy || b == BackgroundAccessStatus.DeniedByUser)
+            {
+                this.LogByObject("申请失败，原因：省电方案");
+                await MessageBox.ShowAsync("Cannot create background task", "Close");
+                return false;
+            }
+
+            this.LogByObject($"申请成功，正在设置 15 分钟循环定时");
+            builder.SetTrigger(new TimeTrigger(15, false));
+            this.LogByObject("注册定时退出任务");
+            builder.Register();
+
+            this.LogByObject("注册完成");
+            return true;
+        }
 
         private async void TimedExitMinutes_ComboBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -128,7 +135,7 @@ namespace SimpleAudioBooksPlayer.Views.SidePages
                 var task = BackgroundTaskRegistration.AllTasks.Values.FirstOrDefault(t => t.Name is timedExitTaskName);
                 if (task != null)
                 {
-                    //this.LogByObject("取消定时退出任务");
+                    this.LogByObject("取消定时退出任务");
                     task.Unregister(true);
                 }
                 return;
