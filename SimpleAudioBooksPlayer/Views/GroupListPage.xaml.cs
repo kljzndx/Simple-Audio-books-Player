@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using SimpleAudioBooksPlayer.Log;
 using SimpleAudioBooksPlayer.Models.Attributes;
 using SimpleAudioBooksPlayer.Models.DTO;
 using SimpleAudioBooksPlayer.ViewModels;
@@ -103,7 +104,10 @@ namespace SimpleAudioBooksPlayer.Views
             if (Sorter_ListView.SelectedIndex == (int) _vm.Settings.SortMethod)
                 return;
 
-            _vm.Sort(_vm.SorterMembers[Sorter_ListView.SelectedIndex]);
+            var sortMethod = _vm.SorterMembers[Sorter_ListView.SelectedIndex];
+
+            this.LogByObject($"切换排序方法到 {sortMethod.Name}");
+            _vm.Sort(sortMethod);
         }
 
         private void Search_TextBox_OnTextChanged(object sender, TextChangedEventArgs e)
@@ -111,7 +115,10 @@ namespace SimpleAudioBooksPlayer.Views
             if (String.IsNullOrWhiteSpace(Search_TextBox.Text))
                 Main_GridView.ItemsSource = _vm.Data;
             else
+            {
+                this.LogByObject("搜索数据");
                 Main_GridView.ItemsSource = _vm.Data.Where(g => g.Name.ToLower().Contains(Search_TextBox.Text.ToLower())).ToList();
+            }
         }
 
         private async void SetClass_MenuFlyoutItem_OnClick(object sender, RoutedEventArgs e)

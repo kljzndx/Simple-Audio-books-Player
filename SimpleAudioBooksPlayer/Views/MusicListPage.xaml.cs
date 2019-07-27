@@ -4,6 +4,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
+using SimpleAudioBooksPlayer.Log;
 using SimpleAudioBooksPlayer.Models.Attributes;
 using SimpleAudioBooksPlayer.Models.DTO;
 using SimpleAudioBooksPlayer.ViewModels;
@@ -27,6 +28,8 @@ namespace SimpleAudioBooksPlayer.Views
         {
             this.InitializeComponent();
             _vm = (MusicListViewModel) this.DataContext;
+
+            this.LogByObject($"初始化排序方法");
             Sorter_ListView.SelectedIndex = (int) _settings.SortMethod;
         }
 
@@ -45,6 +48,8 @@ namespace SimpleAudioBooksPlayer.Views
                 return;
 
             int id = result < 1 ? 1 : (result <= _vm.Data.Count ? result : _vm.Data.Count);
+
+            this.LogByObject($"跳转到 第 {id} 项");
 
             var item = _vm.Data[id - 1];
             Main_ListView.ScrollIntoView(item, ScrollIntoViewAlignment.Leading);
