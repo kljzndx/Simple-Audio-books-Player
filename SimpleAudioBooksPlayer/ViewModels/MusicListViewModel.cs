@@ -60,11 +60,12 @@ namespace SimpleAudioBooksPlayer.ViewModels
 
         public void SortData(MusicListSortMembers method)
         {
-            this.LogByObject("排序数据");
+            var mu = SorterMembers[(int) method];
+            this.LogByObject($"按 {mu.Name} 排序数据");
             _sortMethod = method;
             _settings.SortMethod = method;
 
-            IEnumerable<MusicFileDTO> source = Data.OrderBy(SorterMembers[(int) method].KeySelector.Invoke);
+            IEnumerable<MusicFileDTO> source = Data.OrderBy(mu.KeySelector.Invoke);
 
             if (_settings.IsReverse)
                 source = source.Reverse();
