@@ -7,7 +7,6 @@ using HappyStudio.UwpToolsLibrary.Auxiliarys;
 using HappyStudio.UwpToolsLibrary.Information;
 using NLog;
 using SimpleAudioBooksPlayer.Log;
-using SimpleAudioBooksPlayer.Log.Models;
 
 namespace SimpleAudioBooksPlayer.ViewModels.Extensions
 {
