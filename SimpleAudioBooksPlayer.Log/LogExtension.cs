@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using NLog;
 using SimpleAudioBooksPlayer.Log.Models;
 
@@ -16,26 +17,26 @@ namespace SimpleAudioBooksPlayer.Log
                 AllLoggers.Add(assembly, LoggerService.GetLogger(member));
         }
 
-        public static void LogByObject(this object obj, string message) => obj.GetType().LogByType(message);
-        public static void LogByObject(this object obj, Exception exception) => obj.GetType().LogByType(exception);
-        public static void LogByObject(this object obj, Exception exception, string extraMessage) => obj.GetType().LogByType(exception, extraMessage);
+        public static void LogByObject(this object obj, string message, [CallerMemberName] string methodName = null) => obj.GetType().LogByType(message, methodName);
+        public static void LogByObject(this object obj, Exception exception, [CallerMemberName] string methodName = null) => obj.GetType().LogByType(exception, methodName);
+        public static void LogByObject(this object obj, Exception exception, string extraMessage, [CallerMemberName] string methodName = null) => obj.GetType().LogByType(exception, extraMessage, methodName);
 
-        public static void LogByType(this Type type, string message)
+        public static void LogByType(this Type type, string message, [CallerMemberName] string methodName = null)
         {
             var logger = AllLoggers[GetAssembly(type)];
-            logger.Info(message);
+            logger.Info($"{message} | {type.Name}.{methodName}");
         }
 
-        public static void LogByType(this Type type, Exception exception)
+        public static void LogByType(this Type type, Exception exception, [CallerMemberName] string methodName = null)
         {
             var logger = AllLoggers[GetAssembly(type)];
-            logger.Info(exception);
+            logger.Info(exception, $" | {type.Name}.{methodName}");
         }
 
-        public static void LogByType(this Type type, Exception exception, string extraMessage)
+        public static void LogByType(this Type type, Exception exception, string extraMessage, [CallerMemberName] string methodName = null)
         {
             var logger = AllLoggers[GetAssembly(type)];
-            logger.Info(exception, extraMessage);
+            logger.Info(exception, $"{extraMessage} | {type.Name}.{methodName}");
         }
 
         private static Assembly GetAssembly(Type type)
