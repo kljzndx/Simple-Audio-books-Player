@@ -146,6 +146,7 @@
     <Compile Include="ViewModels\Events\PlayerNowPlaybackItemChangeEventArgs.cs" />
     <Compile Include="ViewModels\Events\PlayerPositionChangeEventArgs.cs" />
     <Compile Include="ViewModels\Events\ThemeChangeEvent.cs" />
+    <Compile Include="ViewModels\Extensions\ExceptionExtension.cs" />
     <Compile Include="ViewModels\Extensions\TimespanExtension.cs" />
     <Compile Include="ViewModels\GroupListViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
@@ -271,6 +272,12 @@
     <Content Include="Assets\Square44x44Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.altform-unplated_targetsize-24.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+    <PRIResource Include="StringResources\en-US\Members\ErrorTable.resw" />
+    <PRIResource Include="StringResources\en-US\Dialog.resw" />
+    <PRIResource Include="StringResources\en-US\ErrorDialog.resw" />
+    <PRIResource Include="StringResources\zh-CN\Members\ErrorTable.resw" />
+    <PRIResource Include="StringResources\zh-CN\ErrorDialog.resw" />
+    <PRIResource Include="StringResources\zh-CN\Dialog.resw" />
     <PRIResource Include="StringResources\en-US\Members\DefaultValues.resw" />
     <PRIResource Include="StringResources\zh-CN\Members\DefaultValues.resw" />
     <PRIResource Include="StringResources\en-US\Pages\ClassListPage.resw" />

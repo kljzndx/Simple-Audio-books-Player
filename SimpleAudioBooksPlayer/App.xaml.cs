@@ -24,6 +24,7 @@ using SimpleAudioBooksPlayer.Log.Models;
 using SimpleAudioBooksPlayer.Service;
 using SimpleAudioBooksPlayer.ViewModels.DataServer;
 using SimpleAudioBooksPlayer.ViewModels.Events;
+using SimpleAudioBooksPlayer.ViewModels.Extensions;
 using SimpleAudioBooksPlayer.ViewModels.SettingProperties;
 using SimpleAudioBooksPlayer.Views.SidePages;
 
@@ -51,6 +52,7 @@ namespace SimpleAudioBooksPlayer
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            this.UnhandledException += App_UnhandledException;
 
             _logger = LoggerService.GetLogger(LoggerMembers.App);
             LogExtension.SetupLogger(typeof(ClassListDataService).Assembly, LoggerMembers.Service);
@@ -179,6 +181,13 @@ namespace SimpleAudioBooksPlayer
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: 保存应用程序状态并停止任何后台活动
             deferral.Complete();
+        }
+
+        private async void App_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
+        {
+            e.Handled = true;
+
+            await e.Exception.ShowErrorDialog(_logger);
         }
     }
 }
