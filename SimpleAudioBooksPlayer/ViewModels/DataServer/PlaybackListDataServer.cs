@@ -305,15 +305,15 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
                     itemCount = sender.Items.Count;
                 }
 
-                this.LogByObject("创建播放记录");
                 int id = _clipId * 10 + currentId;
                 if (id < 0)
                     return;
 
-                this.LogByObject($"PlayId: {id}, ItemCount: {itemCount}, CurrentIndex: {currentId}, ClipId: {_clipId}, PreLoadClip: {_isPreLoadClip}, ChangeReason: {args.Reason.ToString()}");
+                this.LogByObject($"播放轨道信息： PlayId: {id}, ItemCount: {itemCount}, CurrentIndex: {currentId}, ClipId: {_clipId}, PreLoadClip: {_isPreLoadClip}, ChangeReason: {args.Reason.ToString()}");
 
                 _playingId = (uint) id;
 
+                this.LogByObject("创建播放记录");
                 var mfd = Data[id];
                 _currentRecordDto = new PlaybackRecordDTO(mfd.Title, mfd.Group, (uint) id, _currentSortMethod, _musicListSettings.IsReverse);
                 await _recordServer.SetRecord(_currentRecordDto);
