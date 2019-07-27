@@ -36,7 +36,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
             IsInit = true;
 
-            this.LogByObject("初始化数据");
+            this.LogByObject("初始化播放记录服务器");
             var data = await _service.GetData();
             foreach (var record in data)
                 Data.Add(new PlaybackRecordDTO(record));

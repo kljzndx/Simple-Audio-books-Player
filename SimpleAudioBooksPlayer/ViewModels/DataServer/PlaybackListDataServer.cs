@@ -62,6 +62,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             IsInit = true;
             _player = App.MediaPlayer;
 
+            this.LogByObject("初始化播放列表服务器");
             var record = _recordServer.Data.OrderBy(r => r.PlayDate).LastOrDefault();
             if (record != null)
                 await SetSource(record);

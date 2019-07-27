@@ -45,7 +45,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             this.LogByObject("初始化组资源");
             await FileGroupDTO.InitAssets();
 
-            this.LogByObject("初始化分类服务器");
+            this.LogByObject("初始化文件组服务器");
             var source = await _service.GetData();
             var data = source.Select(g => new FileGroupDTO(g)).ToList();
             foreach (var item in data)
