@@ -95,7 +95,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             this.LogByObject("正在设置背景颜色");
             itemDto.BackgroundColor = backgroundColor;
             await _service.SetBackgroundColor(itemDto.Index, backgroundColor.ToArgbString());
-            DataUpdated.Invoke(this, new[] {itemDto});
+            DataUpdated?.Invoke(this, new[] {itemDto});
         }
 
         // 因为要获取id号，所以只能用事件回调来添加项目
