@@ -2,6 +2,7 @@
 using Windows.UI;
 using GalaSoft.MvvmLight;
 using SimpleAudioBooksPlayer.DAL;
+using SimpleAudioBooksPlayer.ViewModels.Extensions;
 
 namespace SimpleAudioBooksPlayer.Models.DTO
 {
@@ -15,6 +16,14 @@ namespace SimpleAudioBooksPlayer.Models.DTO
             Index = source.Index;
             Name = source.Name;
             CreateDate = source.CreateDate;
+
+            if (String.IsNullOrWhiteSpace(source.BackgroundColor))
+                _backgroundColor = Colors.Transparent;
+            else
+            {
+                var argb = source.BackgroundColor.Split(',');
+                _backgroundColor = Color.FromArgb(Byte.Parse(argb[0]), Byte.Parse(argb[1]), Byte.Parse(argb[2]), Byte.Parse(argb[3]));
+            }
         }
 
         public int Index { get; }
@@ -35,7 +44,7 @@ namespace SimpleAudioBooksPlayer.Models.DTO
 
         public ClassItem ToTableModel()
         {
-            return new ClassItem(Index, Name, String.Empty);
+            return new ClassItem(Index, Name, BackgroundColor == Colors.Transparent ? String.Empty : BackgroundColor.ToArgbString());
         }
     }
 }

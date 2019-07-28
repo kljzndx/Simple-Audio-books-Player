@@ -146,6 +146,7 @@
     <Compile Include="ViewModels\Events\PlayerNowPlaybackItemChangeEventArgs.cs" />
     <Compile Include="ViewModels\Events\PlayerPositionChangeEventArgs.cs" />
     <Compile Include="ViewModels\Events\ThemeChangeEvent.cs" />
+    <Compile Include="ViewModels\Extensions\ColorExtension.cs" />
     <Compile Include="ViewModels\Extensions\ExceptionExtension.cs" />
     <Compile Include="ViewModels\Extensions\TimespanExtension.cs" />
     <Compile Include="ViewModels\GroupListViewModel.cs" />

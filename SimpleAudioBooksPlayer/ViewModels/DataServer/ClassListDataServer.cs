@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.UI;
 using SimpleAudioBooksPlayer.DAL;
 using SimpleAudioBooksPlayer.Log;
 using SimpleAudioBooksPlayer.Models;
 using SimpleAudioBooksPlayer.Models.DTO;
 using SimpleAudioBooksPlayer.Service;
+using SimpleAudioBooksPlayer.ViewModels.Extensions;
 
 namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 {
@@ -62,14 +64,6 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             DataLoaded?.Invoke(this, Data.ToList());
         }
 
-        public async Task Rename(ClassItemDTO itemDto, string newName)
-        {
-            this.LogByObject("正在重命名分类");
-            itemDto.Name = newName;
-            await _service.Rename(itemDto.Index, newName);
-            DataUpdated?.Invoke(this, new[] {itemDto});
-        }
-
         public async Task Remove(ClassItemDTO itemDto)
         {
             if (!Data.Contains(itemDto))
@@ -80,6 +74,28 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             await _service.Remove(itemDto.Index);
 
             DataRemoved?.Invoke(this, new[] {itemDto});
+        }
+
+        public async Task Rename(ClassItemDTO itemDto, string newName)
+        {
+            if (!Data.Contains(itemDto))
+                return;
+
+            this.LogByObject("正在重命名分类");
+            itemDto.Name = newName;
+            await _service.Rename(itemDto.Index, newName);
+            DataUpdated?.Invoke(this, new[] {itemDto});
+        }
+
+        public async Task SetBackgroundColor(ClassItemDTO itemDto, Color backgroundColor)
+        {
+            if (!Data.Contains(itemDto))
+                return;
+
+            this.LogByObject("正在设置背景颜色");
+            itemDto.BackgroundColor = backgroundColor;
+            await _service.SetBackgroundColor(itemDto.Index, backgroundColor.ToArgbString());
+            DataUpdated.Invoke(this, new[] {itemDto});
         }
 
         // 因为要获取id号，所以只能用事件回调来添加项目
