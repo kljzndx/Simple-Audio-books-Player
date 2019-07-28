@@ -44,8 +44,8 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
 
-                            <Button x:Name="Submit_Button" x:Uid="/ClassListPage/Submit_Button" HorizontalAlignment="Stretch"/>
-                            <Button x:Name="Clear_Button" x:Uid="/ClassListPage/Clear_Button" Grid.Column="2" HorizontalAlignment="Stretch"/>
+                            <Button x:Name="Submit_Button" x:Uid="/ClassListPage/Submit_Button" HorizontalAlignment="Stretch" Click="Submit_Button_OnClick"/>
+                            <Button x:Name="Clear_Button" x:Uid="/ClassListPage/Clear_Button" Grid.Column="2" HorizontalAlignment="Stretch" Click="Clear_Button_OnClick"/>
                         </Grid>
                     </Grid>
                 </Flyout>

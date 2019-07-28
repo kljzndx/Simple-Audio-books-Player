@@ -1,18 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+﻿using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 using SimpleAudioBooksPlayer.Models.DTO;
+using SimpleAudioBooksPlayer.ViewModels.DataServer;
+using SimpleAudioBooksPlayer.ViewModels.Events;
 
 //https://go.microsoft.com/fwlink/?LinkId=234236 上介绍了“用户控件”项模板
 
@@ -34,5 +25,14 @@ namespace SimpleAudioBooksPlayer.Views.ItemTemplates
             set => SetValue(SourceProperty, value);
         }
 
+        private async void Submit_Button_OnClick(object sender, RoutedEventArgs e)
+        {
+            await ClassListDataServer.Current.SetBackgroundColor(Source, Background_ColorPicker.Color);
+        }
+
+        private async void Clear_Button_OnClick(object sender, RoutedEventArgs e)
+        {
+            await ClassListDataServer.Current.SetBackgroundColor(Source, Colors.Transparent);
+        }
     }
 }
