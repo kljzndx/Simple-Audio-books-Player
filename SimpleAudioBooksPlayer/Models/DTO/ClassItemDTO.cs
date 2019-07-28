@@ -44,7 +44,7 @@ namespace SimpleAudioBooksPlayer.Models.DTO
 
         public ClassItem ToTableModel()
         {
-            return new ClassItem(Index, Name, BackgroundColor == Colors.Transparent ? String.Empty : BackgroundColor.ToArgbString());
+            return new ClassItem(Index, Name, BackgroundColor.ToArgbString());
         }
     }
 }
