@@ -9,7 +9,47 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <Border Background="Transparent" Padding="12,0">
-        <TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
-    </Border>
+    <Grid Padding="8,0" Margin="2">
+        <Grid.Background>
+            <SolidColorBrush Color="{x:Bind Source.BackgroundColor, Mode=OneWay}"/>
+        </Grid.Background>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Text="{x:Bind Source.Name, Mode=OneWay}" VerticalAlignment="Center"/>
+
+        <Button x:Name="ShowPicker_Button" x:Uid="/ClassListPage/ShowPicker_Button" Grid.Column="1" Padding="0" VerticalAlignment="Center">
+            <Border Width="30" Height="30" BorderBrush="White" BorderThickness="2">
+                <Border.Background>
+                    <SolidColorBrush Color="{x:Bind Source.BackgroundColor, Mode=OneWay}"/>
+                </Border.Background>
+            </Border>
+
+            <Button.Flyout>
+                <Flyout>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <ColorPicker x:Name="Background_ColorPicker"/>
+                        <Grid Grid.Row="1" Margin="0,12,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="12"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <Button x:Name="Submit_Button" x:Uid="/ClassListPage/Submit_Button" HorizontalAlignment="Stretch"/>
+                            <Button x:Name="Clear_Button" x:Uid="/ClassListPage/Clear_Button" Grid.Column="2" HorizontalAlignment="Stretch"/>
+                        </Grid>
+                    </Grid>
+                </Flyout>
+            </Button.Flyout>
+        </Button>
+    </Grid>
 </UserControl>

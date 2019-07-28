@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using SimpleAudioBooksPlayer.Models.DTO;
 
 //https://go.microsoft.com/fwlink/?LinkId=234236 上介绍了“用户控件”项模板
 
@@ -19,9 +20,19 @@ namespace SimpleAudioBooksPlayer.Views.ItemTemplates
 {
     public sealed partial class ClassListItemTemplate : UserControl
     {
+        public static readonly DependencyProperty SourceProperty = DependencyProperty.Register(
+            nameof(Source), typeof(ClassItemDTO), typeof(ClassListItemTemplate), new PropertyMetadata(null));
+
         public ClassListItemTemplate()
         {
             this.InitializeComponent();
         }
+
+        public ClassItemDTO Source
+        {
+            get => (ClassItemDTO) GetValue(SourceProperty);
+            set => SetValue(SourceProperty, value);
+        }
+
     }
 }

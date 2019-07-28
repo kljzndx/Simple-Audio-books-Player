@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:dialog="using:SimpleAudioBooksPlayer.Views.Controls.Dialog"
     xmlns:temp="using:SimpleAudioBooksPlayer.Views.ItemTemplates"
+    xmlns:model="using:SimpleAudioBooksPlayer.Models.DTO"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
@@ -43,10 +44,10 @@
                 <Button x:Name="RequestAddClass_Button" x:Uid="/ClassListPage/RequestAddClass_Button" Grid.Column="1" Click="RequestAddClass_Button_OnClick"/>
             </Grid>
 
-            <ListView x:Name="ClassList_ListView" Grid.Row="2" ItemsSource="{Binding Data}" SelectionChanged="ClassList_ListView_OnSelectionChanged" RightTapped="ClassList_ListView_OnRightTapped">
+            <ListView x:Name="ClassList_ListView" Grid.Row="2" ItemsSource="{x:Bind _vm.Data, Mode=OneWay}" SelectionChanged="ClassList_ListView_OnSelectionChanged" RightTapped="ClassList_ListView_OnRightTapped">
                 <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <temp:ClassListItemTemplate AllowDrop="True" DragOver="ClassListItemTemplate_OnDragOver" Drop="ClassListItemTemplate_OnDrop"/>
+                    <DataTemplate x:DataType="model:ClassItemDTO">
+                        <temp:ClassListItemTemplate Source="{x:Bind}" AllowDrop="True" DragOver="ClassListItemTemplate_OnDragOver" Drop="ClassListItemTemplate_OnDrop"/>
                     </DataTemplate>
                 </ListView.ItemTemplate>
 
