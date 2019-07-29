@@ -129,9 +129,14 @@ namespace SimpleAudioBooksPlayer.Views
 
         private void ClassList_ListView_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            foreach (var classItem in _vm.Data.Where(c => c.IsSelected))
+                classItem.IsSelected = false;
+
             if (e.AddedItems.Any())
             {
-                GroupList_Frame.Navigate(typeof(GroupListPage), e.AddedItems.First());
+                var item = (ClassItemDTO) e.AddedItems.First();
+                item.IsSelected = true;
+                GroupList_Frame.Navigate(typeof(GroupListPage), item);
                 _settings.CurrentClassId = ClassList_ListView.SelectedIndex;
             }
             else

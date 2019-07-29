@@ -21,7 +21,7 @@
 
         <TextBlock Text="{x:Bind Source.Name, Mode=OneWay}" VerticalAlignment="Center"/>
 
-        <Button x:Name="ShowPicker_Button" x:Uid="/ClassListPage/ShowPicker_Button" Grid.Column="1" Padding="0" VerticalAlignment="Center">
+        <Button x:Name="ShowPicker_Button" x:Uid="/ClassListPage/ShowPicker_Button" Grid.Column="1" Padding="0" Visibility="{x:Bind Source.IsSelected, Mode=OneWay}" VerticalAlignment="Center">
             <Border Width="30" Height="30" BorderBrush="White" BorderThickness="2">
                 <Border.Background>
                     <SolidColorBrush Color="{x:Bind Source.BackgroundColor, Mode=OneWay}"/>

@@ -8,6 +8,7 @@ namespace SimpleAudioBooksPlayer.Models.DTO
 {
     public class ClassItemDTO : ObservableObject
     {
+        private bool _isSelected;
         private string _name;
         private Color _backgroundColor;
 
@@ -24,6 +25,12 @@ namespace SimpleAudioBooksPlayer.Models.DTO
                 var argb = source.BackgroundColor.Split(',');
                 _backgroundColor = Color.FromArgb(Byte.Parse(argb[0]), Byte.Parse(argb[1]), Byte.Parse(argb[2]), Byte.Parse(argb[3]));
             }
+        }
+
+        public bool IsSelected
+        {
+            get => _isSelected;
+            set => Set(ref _isSelected, value);
         }
 
         public int Index { get; }
