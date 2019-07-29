@@ -9,7 +9,7 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <Grid Padding="8,0" Margin="2">
+    <Grid Padding="4,0" Margin="8,4">
         <Grid.Background>
             <SolidColorBrush Color="{x:Bind Source.BackgroundColor, Mode=OneWay}"/>
         </Grid.Background>
