@@ -157,6 +157,7 @@
     <Compile Include="ViewModels\SettingProperties\GroupListViewSettings.cs" />
     <Compile Include="ViewModels\SettingProperties\MusicListSettingProperties.cs" />
     <Compile Include="ViewModels\SettingProperties\OtherSettingProperties.cs" />
+    <Compile Include="ViewModels\SettingProperties\PlaybackViewSettingProperties.cs" />
     <Compile Include="ViewModels\SettingProperties\PlayerSettingProperties.cs" />
     <Compile Include="ViewModels\SettingProperties\SubtitlePreviewSettingProperties.cs" />
     <Compile Include="ViewModels\SidePages\SettingsViewModel.cs" />
@@ -213,6 +214,9 @@
     </Compile>
     <Compile Include="Views\MusicViewFrameworkPage.xaml.cs">
       <DependentUpon>MusicViewFrameworkPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PlaybackListPage.xaml.cs">
+      <DependentUpon>PlaybackListPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PlayRecordPage.xaml.cs">
       <DependentUpon>PlayRecordPage.xaml</DependentUpon>
@@ -367,6 +371,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MusicViewFrameworkPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PlaybackListPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

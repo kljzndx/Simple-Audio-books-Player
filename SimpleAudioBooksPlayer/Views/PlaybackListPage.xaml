@@ -1,0 +1,40 @@
+﻿<Page
+    x:Class="SimpleAudioBooksPlayer.Views.PlaybackListPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:model="using:SimpleAudioBooksPlayer.Models.DTO"
+    xmlns:ctrl="using:SimpleAudioBooksPlayer.Views.Controls.SubtitlePreview"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Grid x:Name="PlaybackList_Grid" Width="{x:Bind _settings.ListWidth, Mode=OneWay}">
+            <ListView x:Name="PlaybackList_ListView">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="model:MusicFileDTO">
+                        <TextBlock Text="{x:Bind Title, Mode=OneWay}"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+
+        <Rectangle x:Name="Separator_Rectangle" Grid.Column="1" Width="12" Fill="{ThemeResource SystemControlBackgroundChromeMediumBrush}" ManipulationMode="TranslateX" ManipulationDelta="Separator_Rectangle_OnManipulationDelta" PointerEntered="Separator_Rectangle_OnPointerEntered" PointerExited="Separator_Rectangle_OnPointerExited"/>
+
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <ctrl:ScrollSubtitlePreview Grid.Row="1"/>
+        </Grid>
+    </Grid>
+</Page>
