@@ -166,6 +166,7 @@ namespace SimpleAudioBooksPlayer.Views
         {
             AddClassItem(ClassName_TextBox.Text);
         }
+
         private void Separator_Rectangle_OnManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
             var newWidth = _settings.ListWidth + e.Delta.Translation.X;
