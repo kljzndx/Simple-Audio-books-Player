@@ -27,6 +27,8 @@ namespace SimpleAudioBooksPlayer.Views
 
             NotificationNotifier.ShowRequested += NotificationNotifier_ShowRequested;
             NotificationNotifier.HideRequested += NotificationNotifier_HideRequested;
+
+            PlayerNotifier.PositionChangeRequested += PlayerNotifier_PositionChangeRequested;
         }
 
         private void NavigationManager_BackRequested(object sender, BackRequestedEventArgs e)
@@ -58,6 +60,11 @@ namespace SimpleAudioBooksPlayer.Views
         private void NotificationNotifier_HideRequested(object sender, object e)
         {
             My_NotificationBar.Hide();
+        }
+
+        private void PlayerNotifier_PositionChangeRequested(object sender, TimeSpan e)
+        {
+            CustomMediaPlayerElement.SetPosition(e);
         }
 
         private void CustomMediaPlayerElement_OnCoverButton_Click(object sender, RoutedEventArgs e)
