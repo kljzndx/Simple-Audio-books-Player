@@ -59,5 +59,10 @@ namespace SimpleAudioBooksPlayer.Views
         {
             My_NotificationBar.Hide();
         }
+
+        private void CustomMediaPlayerElement_OnCoverButton_Click(object sender, RoutedEventArgs e)
+        {
+            Main_Frame.Navigate(typeof(PlaybackListPage));
+        }
     }
 }

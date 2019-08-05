@@ -16,6 +16,7 @@ namespace SimpleAudioBooksPlayer.ViewModels
             SimpleIoc.Default.Register<GroupListViewModel>();
             SimpleIoc.Default.Register<PlayRecordViewModel>();
             SimpleIoc.Default.Register<SettingsViewModel>();
+            SimpleIoc.Default.Register<PlaybackListViewModel>();
         }
 
         public MainViewModel Main => SimpleIoc.Default.GetInstance<MainViewModel>();
@@ -24,5 +25,6 @@ namespace SimpleAudioBooksPlayer.ViewModels
         public MusicListViewModel MusicList => SimpleIoc.Default.GetInstance<MusicListViewModel>();
         public PlayRecordViewModel PlayRecord => SimpleIoc.Default.GetInstance<PlayRecordViewModel>();
         public SettingsViewModel Settings => SimpleIoc.Default.GetInstance<SettingsViewModel>();
+        public PlaybackListViewModel PlaybackList => SimpleIoc.Default.GetInstance<PlaybackListViewModel>();
     }
 }

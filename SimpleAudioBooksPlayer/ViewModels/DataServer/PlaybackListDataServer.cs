@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
@@ -12,6 +11,7 @@ using Windows.UI.Core;
 using SimpleAudioBooksPlayer.Log;
 using SimpleAudioBooksPlayer.Models.DTO;
 using SimpleAudioBooksPlayer.Models.Sorters;
+using SimpleAudioBooksPlayer.ViewModels.Events;
 using SimpleAudioBooksPlayer.ViewModels.SettingProperties;
 
 namespace SimpleAudioBooksPlayer.ViewModels.DataServer
@@ -49,6 +49,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
         public bool IsInit { get; private set; }
 
         public ObservableCollection<MusicFileDTO> Data { get; }
+        public MusicFileDTO CurrentMusic { get; private set; }
 
         public event EventHandler<IEnumerable<MusicFileDTO>> DataLoaded;
         public event EventHandler<IEnumerable<MusicFileDTO>> DataAdded;
@@ -236,6 +237,12 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             _playbackList.MoveTo(mfId);
         }
 
+        public async Task PlayTo(int trackId)
+        {
+            this.LogByObject("外部版 PlayTo 方法被调用");
+            await PlayTo((uint) trackId);
+        }
+
         private void BeginToPlay()
         {
             if (_player.PlaybackSession != null &&
@@ -318,6 +325,9 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
                 var mfd = Data[id];
                 _currentRecordDto = new PlaybackRecordDTO(mfd.Title, mfd.Group, (uint) id, _currentSortMethod, _musicListSettings.IsReverse);
                 await _recordServer.SetRecord(_currentRecordDto);
+
+                CurrentMusic = mfd;
+                PlayerNotifier.RaiseItem(mfd);
             });
         }
 
