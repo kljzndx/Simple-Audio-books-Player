@@ -112,7 +112,7 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
         #endregion
         #region Player position methods
 
-        private void SetPosition(TimeSpan position)
+        public void SetPosition(TimeSpan position)
         {
             if (TryGetSession(out var session))
             {
