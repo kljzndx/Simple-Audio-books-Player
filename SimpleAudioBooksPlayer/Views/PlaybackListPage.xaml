@@ -7,7 +7,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    DataContext="{Binding Source={StaticResource Locator}, Path=PlaybackList}"
+    Loaded="PlaybackListPage_OnLoaded">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -17,7 +19,7 @@
         </Grid.ColumnDefinitions>
 
         <Grid x:Name="PlaybackList_Grid" Width="{x:Bind _settings.ListWidth, Mode=OneWay}">
-            <ListView x:Name="PlaybackList_ListView">
+            <ListView x:Name="PlaybackList_ListView" ItemsSource="{x:Bind _vm.PlaybackListSource, Mode=OneWay}" SelectionMode="Single" IsItemClickEnabled="True" SelectionChanged="PlaybackList_ListView_OnSelectionChanged" ItemClick="PlaybackList_ListView_OnItemClick">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="model:MusicFileDTO">
                         <TextBlock Text="{x:Bind Title, Mode=OneWay}"/>

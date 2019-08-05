@@ -241,6 +241,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
         {
             this.LogByObject("外部版 PlayTo 方法被调用");
             await PlayTo((uint) trackId);
+            BeginToPlay();
         }
 
         private void BeginToPlay()

@@ -13,6 +13,11 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using SimpleAudioBooksPlayer.Models.Attributes;
+using SimpleAudioBooksPlayer.Models.DTO;
+using SimpleAudioBooksPlayer.ViewModels;
+using SimpleAudioBooksPlayer.ViewModels.DataServer;
+using SimpleAudioBooksPlayer.ViewModels.Events;
 using SimpleAudioBooksPlayer.ViewModels.SettingProperties;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
@@ -22,6 +27,7 @@ namespace SimpleAudioBooksPlayer.Views
     /// <summary>
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
+    [PageTitle("PlaybackListPage")]
     public sealed partial class PlaybackListPage : Page
     {
         private static readonly CoreCursor NormalCursor = new CoreCursor(CoreCursorType.Arrow, 1);
@@ -29,9 +35,22 @@ namespace SimpleAudioBooksPlayer.Views
 
         private readonly PlaybackViewSettingProperties _settings = PlaybackViewSettingProperties.Current;
 
+        private readonly PlaybackListViewModel _vm;
+        private readonly PlaybackListDataServer _listServer = PlaybackListDataServer.Current;
+
         public PlaybackListPage()
         {
             this.InitializeComponent();
+            _vm = (PlaybackListViewModel) this.DataContext;
+        }
+
+        private void PlaybackListPage_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            if (_vm.CurrentMusic != null)
+                PlaybackList_ListView.SelectedItem = _vm.CurrentMusic;
+
+            PlayerNotifier.CurrentItemChanged -= PlayerNotifier_CurrentItemChanged;
+            PlayerNotifier.CurrentItemChanged += PlayerNotifier_CurrentItemChanged;
         }
 
         private void Separator_Rectangle_OnManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
@@ -49,6 +68,27 @@ namespace SimpleAudioBooksPlayer.Views
         private void Separator_Rectangle_OnPointerExited(object sender, PointerRoutedEventArgs e)
         {
             Window.Current.CoreWindow.PointerCursor = NormalCursor;
+        }
+
+        private async void PlaybackList_ListView_OnItemClick(object sender, ItemClickEventArgs e)
+        {
+            await _listServer.PlayTo(_vm.PlaybackListSource.IndexOf((MusicFileDTO) e.ClickedItem));
+        }
+
+        private void PlaybackList_ListView_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (!e.AddedItems.Any())
+                return;
+
+            PlaybackList_ListView.ScrollIntoView(e.AddedItems.First());
+        }
+
+        private void PlayerNotifier_CurrentItemChanged(object sender, MusicFileDTO e)
+        {
+            if (e is null)
+                return;
+
+            PlaybackList_ListView.SelectedItem = e;
         }
     }
 }
