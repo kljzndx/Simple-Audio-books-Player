@@ -37,8 +37,6 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
         {
             this.InitializeComponent();
 
-            PositionChanged += (s, e) => PlayerNotifier.RaisePosition(e);
-
             MyTransportControls.CoverButton_Click += (s, e) => CoverButton_Click?.Invoke(s, e);
             _settings.PropertyChanged += Settings_PropertyChanged;
         }

@@ -28,6 +28,7 @@ namespace SimpleAudioBooksPlayer.Views
             NotificationNotifier.ShowRequested += NotificationNotifier_ShowRequested;
             NotificationNotifier.HideRequested += NotificationNotifier_HideRequested;
 
+            CustomMediaPlayerElement.PositionChanged += (s, e) => PlayerNotifier.RaisePosition(e);
             PlayerNotifier.PositionChangeRequested += PlayerNotifier_PositionChangeRequested;
         }
 
