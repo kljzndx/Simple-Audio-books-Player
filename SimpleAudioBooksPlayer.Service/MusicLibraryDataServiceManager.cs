@@ -8,12 +8,12 @@ namespace SimpleAudioBooksPlayer.Service
     public class MusicLibraryDataServiceManager
     {
         private const string MusicExtensionNames = "mp3 aac flac alac m4a wav";
-        private const string LyricExtensionNames = "lrc";
+        private const string SubtitleExtensionNames = "lrc srt";
 
         public static readonly MusicLibraryDataServiceManager Current;
 
         private MusicLibraryDataService<MusicFile, MusicFileFactory> _musicService;
-        private MusicLibraryDataService<SubtitleFile, SubtitleFileFactory> _lyricService;
+        private MusicLibraryDataService<SubtitleFile, SubtitleFileFactory> _subtitleService;
 
         static MusicLibraryDataServiceManager()
         {
@@ -31,21 +31,23 @@ namespace SimpleAudioBooksPlayer.Service
 
         public async Task<MusicLibraryDataService<SubtitleFile, SubtitleFileFactory>> GetLyricService()
         {
-            if (_lyricService is null)
-                _lyricService = await MusicLibraryDataService<SubtitleFile, SubtitleFileFactory>.GetService(LyricExtensionNames);
+            if (_subtitleService is null)
+                _subtitleService =
+                    await MusicLibraryDataService<SubtitleFile, SubtitleFileFactory>.GetService(
+                        SubtitleExtensionNames.Split(' '));
 
-            return _lyricService;
+            return _subtitleService;
         }
 
         public async Task ScanFiles()
         {
             this.LogByObject("获取服务");
             var musicService = await GetMusicService();
-            var lyricService = await GetLyricService();
+            var subtitleService = await GetLyricService();
 
             this.LogByObject("开始扫描");
             await musicService.ScanFiles();
-            await lyricService.ScanFiles();
+            await subtitleService.ScanFiles();
             this.LogByObject("扫描完成");
         }
     }
