@@ -7,8 +7,8 @@ namespace SimpleAudioBooksPlayer.Service
 {
     public class MusicLibraryDataServiceManager
     {
-        private const string MusicExtensionNames = "mp3 aac flac alac m4a wav";
-        private const string SubtitleExtensionNames = "lrc srt";
+        public const string MusicExtensionNames = "mp3 aac flac alac m4a wav";
+        public const string SubtitleExtensionNames = "lrc srt";
 
         public static readonly MusicLibraryDataServiceManager Current;
 
