@@ -29,9 +29,7 @@ namespace SimpleAudioBooksPlayer.Service
             return _source.ToList();
         }
 
-        public Task Add(SubtitleFileIndex source) => AddRange(new[] { source });
-
-        private async Task AddRange(IEnumerable<SubtitleFileIndex> source)
+        public async Task AddRange(IEnumerable<SubtitleFileIndex> source)
         {
             var sl = source.ToList();
             if (!sl.Any())
@@ -42,8 +40,6 @@ namespace SimpleAudioBooksPlayer.Service
 
             DataAdded?.Invoke(this, sl);
         }
-
-        public Task Remove(int source) => RemoveRange(new[] { source });
 
         public async Task RemoveRange(IEnumerable<int> source)
         {
@@ -58,9 +54,7 @@ namespace SimpleAudioBooksPlayer.Service
             DataRemoved?.Invoke(this, needRemove);
         }
 
-        public Task Update(SubtitleFileIndex source) => UpdateRange(new[] { source });
-
-        private async Task UpdateRange(IEnumerable<SubtitleFileIndex> source)
+        public async Task UpdateRange(IEnumerable<SubtitleFileIndex> source)
         {
             var sl = source.ToList();
             if (!sl.Any())
