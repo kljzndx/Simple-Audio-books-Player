@@ -11,6 +11,12 @@
     <Compile Remove="Migrations\20190618001623_AddTable_PlaybackRecords.Designer.cs" />
     <Compile Remove="Migrations\20190715042253_AddColumn_ClassId.cs" />
     <Compile Remove="Migrations\20190715042253_AddColumn_ClassId.Designer.cs" />
+    <Compile Remove="Migrations\20190806081357_AddTable_SubtitleIndex.cs" />
+    <Compile Remove="Migrations\20190806081357_AddTable_SubtitleIndex.Designer.cs" />
+    <Compile Remove="Migrations\20190806081653_AddTable_SubtitleIndex.cs" />
+    <Compile Remove="Migrations\20190806081653_AddTable_SubtitleIndex.Designer.cs" />
+    <Compile Remove="Migrations\20190806081832_AddTable_SubtitleIndex.cs" />
+    <Compile Remove="Migrations\20190806081832_AddTable_SubtitleIndex.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
