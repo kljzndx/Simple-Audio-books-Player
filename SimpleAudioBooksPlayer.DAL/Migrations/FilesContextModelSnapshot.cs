@@ -122,20 +122,6 @@ namespace SimpleAudioBooksPlayer.DAL.Migrations
 
                     b.ToTable("SubtitleFiles");
                 });
-
-            modelBuilder.Entity("SimpleAudioBooksPlayer.DAL.SubtitleFileIndex", b =>
-                {
-                    b.Property<int>("Index")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("MusicFilePath");
-
-                    b.Property<string>("SubtitleFilePath");
-
-                    b.HasKey("Index");
-
-                    b.ToTable("SubtitleFileIndexes");
-                });
 #pragma warning restore 612, 618
         }
     }

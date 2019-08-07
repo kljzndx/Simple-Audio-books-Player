@@ -7,7 +7,6 @@ namespace SimpleAudioBooksPlayer.DAL
     {
         public DbSet<MusicFile> MusicFiles { get; set; }
         public DbSet<SubtitleFile> SubtitleFiles { get; set; }
-        public DbSet<SubtitleFileIndex> SubtitleFileIndexes { get; set; }
         public DbSet<FileGroup> FileGroups { get; set; }
         public DbSet<ClassItem> ClassList { get; set; }
         public DbSet<PlaybackRecord> PlaybackRecords { get; set; }
