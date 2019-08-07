@@ -129,7 +129,6 @@
     <Compile Include="MusicLibraryDataServiceManager.cs" />
     <Compile Include="PlaybackRecordDataService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SubtitleFileIndexDataService.cs" />
     <EmbeddedResource Include="Properties\SimpleAudioBooksPlayer.Service.rd.xml" />
   </ItemGroup>
   <ItemGroup>
