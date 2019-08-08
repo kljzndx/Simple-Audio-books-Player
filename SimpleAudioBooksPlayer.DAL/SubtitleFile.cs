@@ -22,12 +22,9 @@ namespace SimpleAudioBooksPlayer.DAL
             ParentFolderName = filePath.TakeParentFolderName();
             ParentFolderPath = filePath.TakeParentFolderPath();
 
-            if (String.IsNullOrWhiteSpace(DisplayName))
-            {
-                var pathParagraph = FileName.Split('.').ToList();
-                pathParagraph.Remove(pathParagraph.Last());
-                DisplayName = pathParagraph.Count == 1 ? pathParagraph.First() : String.Join(".", pathParagraph);
-            }
+            var pathParagraph = FileName.Split('.').ToList();
+            pathParagraph.Remove(pathParagraph.Last());
+            DisplayName = pathParagraph.Count == 1 ? pathParagraph.First() : String.Join(".", pathParagraph);
         }
 
         public int GroupId { get; set; }

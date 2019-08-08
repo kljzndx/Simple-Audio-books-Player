@@ -24,12 +24,12 @@ namespace SimpleAudioBooksPlayer.DAL
             ParentFolderName = filePath.TakeParentFolderName();
             ParentFolderPath = filePath.TakeParentFolderPath();
 
+            var pathParagraph = FileName.Split('.').ToList();
+            pathParagraph.Remove(pathParagraph.Last());
+            DisplayName = pathParagraph.Count == 1 ? pathParagraph.First() : String.Join(".", pathParagraph);
+
             if (String.IsNullOrWhiteSpace(Title))
-            {
-                var pathParagraph = FileName.Split('.').ToList();
-                pathParagraph.Remove(pathParagraph.Last());
-                Title = pathParagraph.Count == 1 ? pathParagraph.First() : String.Join(".", pathParagraph);
-            }
+                Title = DisplayName;
         }
 
         public int GroupId { get; set; }
@@ -38,6 +38,7 @@ namespace SimpleAudioBooksPlayer.DAL
         public string Title { get; set; }
         public TimeSpan Duration { get; set; }
 
+        public string DisplayName { get; set; }
         public string FileName { get; set; }
         [Key]
         public string FilePath { get; set; }

@@ -11,6 +11,8 @@
     <Compile Remove="Migrations\20190618001623_AddTable_PlaybackRecords.Designer.cs" />
     <Compile Remove="Migrations\20190715042253_AddColumn_ClassId.cs" />
     <Compile Remove="Migrations\20190715042253_AddColumn_ClassId.Designer.cs" />
+    <Compile Remove="Migrations\20190808015833_AddColumn_DisplayName.cs" />
+    <Compile Remove="Migrations\20190808015833_AddColumn_DisplayName.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -59,6 +59,8 @@ namespace SimpleAudioBooksPlayer.DAL.Migrations
 
                     b.Property<int>("DbVersion");
 
+                    b.Property<string>("DisplayName");
+
                     b.Property<TimeSpan>("Duration");
 
                     b.Property<string>("FileName");

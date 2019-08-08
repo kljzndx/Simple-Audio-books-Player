@@ -9,7 +9,7 @@ using SimpleAudioBooksPlayer.DAL;
 namespace SimpleAudioBooksPlayer.DAL.Migrations
 {
     [DbContext(typeof(FilesContext))]
-    [Migration("20190808015833_AddColumn_DisplayName")]
+    [Migration("20190808081839_AddColumn_DisplayName")]
     partial class AddColumn_DisplayName
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -60,6 +60,8 @@ namespace SimpleAudioBooksPlayer.DAL.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("DbVersion");
+
+                    b.Property<string>("DisplayName");
 
                     b.Property<TimeSpan>("Duration");
 

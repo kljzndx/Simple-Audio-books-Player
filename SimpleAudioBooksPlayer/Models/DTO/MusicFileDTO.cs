@@ -32,6 +32,7 @@ namespace SimpleAudioBooksPlayer.Models.DTO
             _trackNumber = source.TrackNumber;
             _title = source.Title;
             _duration = source.Duration;
+            DisplayName = source.DisplayName;
             FileName = source.FileName;
             FilePath = source.FilePath;
             _modifyTime = source.ModifyTime;
@@ -63,6 +64,7 @@ namespace SimpleAudioBooksPlayer.Models.DTO
             private set => Set(ref _duration, value);
         }
 
+        public string DisplayName { get; }
         public string FileName { get; }
         public string FilePath { get; }
         public DateTime ModifyTime

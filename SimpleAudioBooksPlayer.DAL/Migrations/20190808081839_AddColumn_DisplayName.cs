@@ -10,6 +10,11 @@ namespace SimpleAudioBooksPlayer.DAL.Migrations
                 name: "DisplayName",
                 table: "SubtitleFiles",
                 nullable: true);
+
+            migrationBuilder.AddColumn<string>(
+                name: "DisplayName",
+                table: "MusicFiles",
+                nullable: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -17,6 +22,10 @@ namespace SimpleAudioBooksPlayer.DAL.Migrations
             migrationBuilder.DropColumn(
                 name: "DisplayName",
                 table: "SubtitleFiles");
+
+            migrationBuilder.DropColumn(
+                name: "DisplayName",
+                table: "MusicFiles");
         }
     }
 }
