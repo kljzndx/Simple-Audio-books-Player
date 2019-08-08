@@ -17,11 +17,13 @@ namespace SimpleAudioBooksPlayer.Models.DTO
 
         public SubtitleFileDTO(SubtitleFile source)
         {
+            DisplayName = source.DisplayName;
             FileName = source.FileName;
             FilePath = source.FilePath;
             ModifyDate = source.ModifyTime;
         }
 
+        public string DisplayName { get; }
         public string FileName { get; }
         public string FilePath { get; }
         public DateTime ModifyDate { get; private set; }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 using HappyStudio.UwpToolsLibrary.Auxiliarys;
@@ -13,7 +12,7 @@ namespace SimpleAudioBooksPlayer.Service
 {
     public class MusicLibraryDataService<TFile, TFileFactory>: IObservableDataService<TFile> where TFile: class, ILibraryFile where TFileFactory: class, IFileFactory<TFile>, new()
     {
-        private const int DbVersion = 1;
+        private const int DbVersion = 2;
         private static MusicLibraryDataService<TFile, TFileFactory> _theService;
 
         private readonly FileGroupDataService _groupService = FileGroupDataService.Current;

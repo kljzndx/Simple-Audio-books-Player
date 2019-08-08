@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace SimpleAudioBooksPlayer.DAL
 {
@@ -20,10 +21,20 @@ namespace SimpleAudioBooksPlayer.DAL
             FileName = filePath.TakeFileName();
             ParentFolderName = filePath.TakeParentFolderName();
             ParentFolderPath = filePath.TakeParentFolderPath();
+
+            if (String.IsNullOrWhiteSpace(DisplayName))
+            {
+                var pathParagraph = FileName.Split('.').ToList();
+                pathParagraph.Remove(pathParagraph.Last());
+                DisplayName = pathParagraph.Count == 1 ? pathParagraph.First() : String.Join(".", pathParagraph);
+            }
         }
 
         public int GroupId { get; set; }
+
+        public string DisplayName { get; set; }
         public string FileName { get; set; }
+
         [Key]
         public string FilePath { get; set; }
         public DateTime ModifyTime { get; set; }
