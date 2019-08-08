@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using HappyStudio.Subtitle.Control.UWP.Models;
 using SimpleAudioBooksPlayer.Models.Attributes;
 using SimpleAudioBooksPlayer.Models.DTO;
 using SimpleAudioBooksPlayer.ViewModels;
@@ -44,13 +45,22 @@ namespace SimpleAudioBooksPlayer.Views
             _vm = (PlaybackListViewModel) this.DataContext;
         }
 
-        private void PlaybackListPage_OnLoaded(object sender, RoutedEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            base.OnNavigatedTo(e);
             if (_vm.CurrentMusic != null)
-                PlaybackList_ListView.SelectedItem = _vm.CurrentMusic;
+                PlayerNotifier_CurrentItemChanged(null, _vm.CurrentMusic);
+
+            PlayerNotifier.CurrentItemChanged += PlayerNotifier_CurrentItemChanged;
+            PlayerNotifier.PositionChanged += PlayerNotifier_PositionChanged;
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
 
             PlayerNotifier.CurrentItemChanged -= PlayerNotifier_CurrentItemChanged;
-            PlayerNotifier.CurrentItemChanged += PlayerNotifier_CurrentItemChanged;
+            PlayerNotifier.PositionChanged -= PlayerNotifier_PositionChanged;
         }
 
         private void Separator_Rectangle_OnManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
@@ -83,12 +93,33 @@ namespace SimpleAudioBooksPlayer.Views
             PlaybackList_ListView.ScrollIntoView(e.AddedItems.First());
         }
 
-        private void PlayerNotifier_CurrentItemChanged(object sender, MusicFileDTO e)
+        private async void PlayerNotifier_CurrentItemChanged(object sender, MusicFileDTO e)
         {
             if (e is null)
                 return;
 
             PlaybackList_ListView.SelectedItem = e;
+
+            var lines = await _vm.GetSubtitleLines();
+            if (lines != null)
+                My_ScrollSubtitlePreview.SetSubtitle(lines);
+        }
+
+        private void PlayerNotifier_PositionChanged(object sender, PlayerPositionChangeEventArgs e)
+        {
+            if (e.IsUser)
+                My_ScrollSubtitlePreview.Reposition(e.Position);
+            else
+                My_ScrollSubtitlePreview.Refresh(e.Position);
+        }
+
+        private void My_ScrollSubtitlePreview_OnItemClick(object sender, ItemClickEventArgs e)
+        {
+            var item = e.ClickedItem as SubtitleLineUi;
+            if (item is null)
+                return;
+
+            PlayerNotifier.RequestChangePosition(item.StartTime);
         }
     }
 }
