@@ -101,8 +101,18 @@ namespace SimpleAudioBooksPlayer.Views
             PlaybackList_ListView.SelectedItem = e;
 
             var lines = await _vm.GetSubtitleLines();
-            if (lines != null)
+            if (lines == null)
+            {
+                My_ScrollSubtitlePreview.Visibility = Visibility.Collapsed;
+                CannotFindSubtitle_TextBlock.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                My_ScrollSubtitlePreview.Visibility = Visibility.Visible;
+                CannotFindSubtitle_TextBlock.Visibility = Visibility.Collapsed;
+
                 My_ScrollSubtitlePreview.SetSubtitle(lines);
+            }
         }
 
         private void PlayerNotifier_PositionChanged(object sender, PlayerPositionChangeEventArgs e)
