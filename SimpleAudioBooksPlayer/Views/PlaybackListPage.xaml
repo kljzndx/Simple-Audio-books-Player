@@ -4,20 +4,46 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:model="using:SimpleAudioBooksPlayer.Models.DTO"
     xmlns:ctrl="using:SimpleAudioBooksPlayer.Views.Controls.SubtitlePreview"
+    xmlns:pctrl="using:HappyStudio.UwpToolsLibrary.Control"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    DataContext="{Binding Source={StaticResource Locator}, Path=PlaybackList}">
+    DataContext="{Binding Source={StaticResource Locator}, Path=PlaybackList}"
+    SizeChanged="PlaybackListPage_OnSizeChanged">
 
     <Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="Mobile">
+                    <VisualState.Setters>
+                        <Setter Target="PlaybackList_Grid.(Grid.ColumnSpan)" Value="3"/>
+                        <Setter Target="PlaybackList_Grid.Visibility" Value="Collapsed"/>
+                        <Setter Target="Separator_Rectangle.Visibility" Value="Collapsed"/>
+                        <Setter Target="ShowElementButtons_Grid.Visibility" Value="Visible"/>
+                    </VisualState.Setters>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="PC">
+                    <VisualState.Setters>
+                        <Setter Target="PlaybackList_Grid.(Grid.ColumnSpan)" Value="1"/>
+                        <Setter Target="PlaybackList_Grid.Visibility" Value="Visible"/>
+                    </VisualState.Setters>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="641"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <Grid x:Name="PlaybackList_Grid" Width="{x:Bind _settings.ListWidth, Mode=OneWay}">
+        <Grid x:Name="PlaybackList_Grid">
             <ListView x:Name="PlaybackList_ListView" ItemsSource="{x:Bind _vm.PlaybackListSource, Mode=OneWay}" SelectionMode="Single" IsItemClickEnabled="True" SelectionChanged="PlaybackList_ListView_OnSelectionChanged" ItemClick="PlaybackList_ListView_OnItemClick">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="model:MusicFileDTO">
@@ -29,7 +55,7 @@
 
         <Rectangle x:Name="Separator_Rectangle" Grid.Column="1" Width="12" Fill="{ThemeResource SystemControlBackgroundChromeMediumBrush}" ManipulationMode="TranslateX" ManipulationDelta="Separator_Rectangle_OnManipulationDelta" PointerEntered="Separator_Rectangle_OnPointerEntered" PointerExited="Separator_Rectangle_OnPointerExited"/>
 
-        <Grid Grid.Column="2">
+        <Grid x:Name="SubtitlePreview_Grid" Grid.Column="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition/>
@@ -39,6 +65,11 @@
                 <TextBlock x:Name="CannotFindSubtitle_TextBlock" x:Uid="/PlaybackListPage/CannotFindSubtitle_TextBlock" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 <ctrl:ScrollSubtitlePreview x:Name="My_ScrollSubtitlePreview" Visibility="Collapsed" ItemClick="My_ScrollSubtitlePreview_OnItemClick"/>
             </Grid>
+        </Grid>
+
+        <Grid x:Name="ShowElementButtons_Grid" Grid.ColumnSpan="3" Visibility="Collapsed" VerticalAlignment="Center">
+            <pctrl:FloatingActionButton x:Name="ShowList_Button" Content="&#xE00F;" HorizontalAlignment="Left" Visibility="{x:Bind SubtitlePreview_Grid.Visibility, Mode=OneWay}" Click="ShowList_Button_OnClick"/>
+            <pctrl:FloatingActionButton x:Name="ShowPreview_Button" Content="&#xE00E;" HorizontalAlignment="Right" Visibility="{x:Bind PlaybackList_Grid.Visibility, Mode=OneWay}" Click="ShowPreview_Button_OnClick"/>
         </Grid>
     </Grid>
 </Page>

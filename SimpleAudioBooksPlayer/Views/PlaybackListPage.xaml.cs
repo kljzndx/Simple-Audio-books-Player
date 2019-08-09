@@ -51,6 +51,7 @@ namespace SimpleAudioBooksPlayer.Views
             if (_vm.CurrentMusic != null)
                 PlayerNotifier_CurrentItemChanged(null, _vm.CurrentMusic);
 
+            _settings.PropertyChanged += Settings_PropertyChanged;
             PlayerNotifier.CurrentItemChanged += PlayerNotifier_CurrentItemChanged;
             PlayerNotifier.PositionChanged += PlayerNotifier_PositionChanged;
         }
@@ -59,8 +60,19 @@ namespace SimpleAudioBooksPlayer.Views
         {
             base.OnNavigatedFrom(e);
 
+            _settings.PropertyChanged -= Settings_PropertyChanged;
             PlayerNotifier.CurrentItemChanged -= PlayerNotifier_CurrentItemChanged;
             PlayerNotifier.PositionChanged -= PlayerNotifier_PositionChanged;
+        }
+
+        private void Settings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(_settings.ListWidth):
+                    PlaybackList_Grid.Width = _settings.ListWidth;
+                    break;
+            }
         }
 
         private void Separator_Rectangle_OnManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
@@ -130,6 +142,26 @@ namespace SimpleAudioBooksPlayer.Views
                 return;
 
             PlayerNotifier.RequestChangePosition(item.StartTime);
+        }
+
+        private void ShowList_Button_OnClick(object sender, RoutedEventArgs e)
+        {
+            PlaybackList_Grid.Visibility = Visibility.Visible;
+            SubtitlePreview_Grid.Visibility = Visibility.Collapsed;
+        }
+
+        private void ShowPreview_Button_OnClick(object sender, RoutedEventArgs e)
+        {
+            PlaybackList_Grid.Visibility = Visibility.Collapsed;
+            SubtitlePreview_Grid.Visibility = Visibility.Visible;
+        }
+
+        private void PlaybackListPage_OnSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (e.NewSize.Width > 640)
+                PlaybackList_Grid.Width = _settings.ListWidth;
+            else
+                PlaybackList_Grid.Width = Double.NaN;
         }
     }
 }
