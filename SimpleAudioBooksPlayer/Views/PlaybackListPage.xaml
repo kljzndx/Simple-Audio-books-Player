@@ -68,8 +68,8 @@
         </Grid>
 
         <Grid x:Name="ShowElementButtons_Grid" Grid.ColumnSpan="3" Visibility="Collapsed" VerticalAlignment="Center">
-            <pctrl:FloatingActionButton x:Name="ShowList_Button" Content="&#xE00F;" HorizontalAlignment="Left" Visibility="{x:Bind SubtitlePreview_Grid.Visibility, Mode=OneWay}" Click="ShowList_Button_OnClick"/>
-            <pctrl:FloatingActionButton x:Name="ShowPreview_Button" Content="&#xE00E;" HorizontalAlignment="Right" Visibility="{x:Bind PlaybackList_Grid.Visibility, Mode=OneWay}" Click="ShowPreview_Button_OnClick"/>
+            <pctrl:FloatingActionButton x:Name="ShowList_Button" x:Uid="/PlaybackListPage/ShowList_Button" Content="&#xE00F;" HorizontalAlignment="Left" Visibility="{x:Bind SubtitlePreview_Grid.Visibility, Mode=OneWay}" Click="ShowList_Button_OnClick"/>
+            <pctrl:FloatingActionButton x:Name="ShowPreview_Button" x:Uid="/PlaybackListPage/ShowPreview_Button" Content="&#xE00E;" HorizontalAlignment="Right" Visibility="{x:Bind PlaybackList_Grid.Visibility, Mode=OneWay}" Click="ShowPreview_Button_OnClick"/>
         </Grid>
     </Grid>
 </Page>
