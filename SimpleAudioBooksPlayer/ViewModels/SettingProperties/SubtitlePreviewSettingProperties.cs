@@ -18,5 +18,13 @@ namespace SimpleAudioBooksPlayer.ViewModels.SettingProperties
             get => _fontSize;
             set => SetSetting(ref _fontSize, value);
         }
+
+        [SettingFieldByNormal(nameof(FontOpacity), 0.4D)] private double _fontOpacity;
+
+        public double FontOpacity
+        {
+            get => _fontOpacity;
+            set => SetSetting(ref _fontOpacity, value);
+        }
     }
 }

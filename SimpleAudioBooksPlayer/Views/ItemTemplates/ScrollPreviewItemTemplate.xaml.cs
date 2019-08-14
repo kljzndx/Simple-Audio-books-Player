@@ -25,6 +25,7 @@ namespace SimpleAudioBooksPlayer.Views.ItemTemplates
         {
             this.InitializeComponent();
             Main_TextBlock.FontSize = _settings.FontSize;
+            Main_TextBlock.Opacity = _settings.FontOpacity;
         }
 
         public SubtitleLineUi Source
@@ -70,11 +71,13 @@ namespace SimpleAudioBooksPlayer.Views.ItemTemplates
                     {
                         Main_TextBlock.FontWeight = FontWeights.Bold;
                         Main_TextBlock.FontSize = _settings.FontSize + 2;
+                        Main_TextBlock.Opacity = 1;
                     }
                     else
                     {
                         Main_TextBlock.FontWeight = FontWeights.Normal;
                         Main_TextBlock.FontSize = _settings.FontSize;
+                        Main_TextBlock.Opacity = _settings.FontOpacity;
                     }
                     break;
             }
@@ -90,6 +93,10 @@ namespace SimpleAudioBooksPlayer.Views.ItemTemplates
                     else
                         Main_TextBlock.FontSize = _settings.FontSize;
                     
+                    break;
+                case nameof(_settings.FontOpacity):
+                    if (!Source.IsSelected)
+                        Main_TextBlock.Opacity = _settings.FontOpacity;
                     break;
             }
         }
