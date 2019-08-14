@@ -1,17 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using HappyStudio.Subtitle.Control.UWP.Models;
 using SimpleAudioBooksPlayer.Models.Attributes;
@@ -38,6 +31,7 @@ namespace SimpleAudioBooksPlayer.Views
 
         private readonly PlaybackListViewModel _vm;
         private readonly PlaybackListDataServer _listServer = PlaybackListDataServer.Current;
+        private bool _needReposition;
 
         public PlaybackListPage()
         {
@@ -129,10 +123,18 @@ namespace SimpleAudioBooksPlayer.Views
 
         private void PlayerNotifier_PositionChanged(object sender, PlayerPositionChangeEventArgs e)
         {
-            if (e.IsUser)
+            if (e.IsUser || _needReposition)
+            {
                 My_ScrollSubtitlePreview.Reposition(e.Position);
+                _needReposition = false;
+            }
             else
                 My_ScrollSubtitlePreview.Refresh(e.Position);
+        }
+
+        private void My_ScrollSubtitlePreview_OnSourceChanged(object sender, List<SubtitleLineUi> e)
+        {
+            _needReposition = true;
         }
 
         private void My_ScrollSubtitlePreview_OnItemClick(object sender, ItemClickEventArgs e)

@@ -63,7 +63,7 @@
 
             <Grid Grid.Row="1">
                 <TextBlock x:Name="CannotFindSubtitle_TextBlock" x:Uid="/PlaybackListPage/CannotFindSubtitle_TextBlock" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                <ctrl:ScrollSubtitlePreview x:Name="My_ScrollSubtitlePreview" Visibility="Collapsed" ItemClick="My_ScrollSubtitlePreview_OnItemClick"/>
+                <ctrl:ScrollSubtitlePreview x:Name="My_ScrollSubtitlePreview" Visibility="Collapsed" SourceChanged="My_ScrollSubtitlePreview_OnSourceChanged" ItemClick="My_ScrollSubtitlePreview_OnItemClick"/>
             </Grid>
         </Grid>
 
