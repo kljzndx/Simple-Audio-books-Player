@@ -9,6 +9,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.SettingProperties
         public static readonly OtherSettingProperties Current = new OtherSettingProperties();
 
         [SettingFieldByNormal(nameof(IsCreatedCoverFolder), false)] private bool _isCreatedCoverFolder;
+        [SettingFieldByNormal(nameof(IsPaid), false)] private bool _isPaid;
 
         private OtherSettingProperties() : base("Other")
         {
@@ -21,5 +22,11 @@ namespace SimpleAudioBooksPlayer.ViewModels.SettingProperties
         }
 
         public DateTime ExitTime { get; set; }
+
+        public bool IsPaid
+        {
+            get => _isPaid;
+            set => SetSetting(ref _isPaid, value);
+        }
     }
 }
