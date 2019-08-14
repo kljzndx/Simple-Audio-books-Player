@@ -61,6 +61,36 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
+            <StackPanel x:Name="SubtitleToolBar_StackPanel" Orientation="Horizontal" HorizontalAlignment="Center">
+                <StackPanel.Resources>
+                    <Style TargetType="Button" BasedOn="{StaticResource IconButton_Style}">
+                        <Setter Property="Margin" Value="4,0"/>
+                    </Style>
+                </StackPanel.Resources>
+
+                <Button x:Name="FontSize_Button">
+                    <Button.Flyout>
+                        <Flyout>
+                            <Slider Width="100" Minimum="10" Maximum="32" Value="{x:Bind _subtitleSettings.FontSize, Mode=TwoWay}"/>
+                        </Flyout>
+                    </Button.Flyout>
+
+                    <FontIcon Glyph="&#xE185;"/>
+                </Button>
+
+                <Button x:Name="FontOpacity_Button">
+                    <Button.Flyout>
+                        <Flyout>
+                            <StackPanel>
+                                <Slider Width="200" Value="{x:Bind _subtitleSettings.FontOpacity, Mode=TwoWay, Converter={StaticResource DoubleToPercentage}}"/>
+                            </StackPanel>
+                        </Flyout>
+                    </Button.Flyout>
+
+                    <FontIcon Glyph="&#xE052;"/>
+                </Button>
+            </StackPanel>
+
             <Grid Grid.Row="1">
                 <TextBlock x:Name="CannotFindSubtitle_TextBlock" x:Uid="/PlaybackListPage/CannotFindSubtitle_TextBlock" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 <ctrl:ScrollSubtitlePreview x:Name="My_ScrollSubtitlePreview" Visibility="Collapsed" SourceChanged="My_ScrollSubtitlePreview_OnSourceChanged" ItemClick="My_ScrollSubtitlePreview_OnItemClick"/>

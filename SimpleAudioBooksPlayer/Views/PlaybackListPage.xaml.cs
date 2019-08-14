@@ -28,6 +28,8 @@ namespace SimpleAudioBooksPlayer.Views
         private static readonly CoreCursor BothArrowCursor = new CoreCursor(CoreCursorType.SizeWestEast, 1);
 
         private readonly PlaybackViewSettingProperties _settings = PlaybackViewSettingProperties.Current;
+        private readonly SubtitlePreviewSettingProperties _subtitleSettings = SubtitlePreviewSettingProperties.Current;
+        private readonly OtherSettingProperties _otherSettings = OtherSettingProperties.Current;
 
         private readonly PlaybackListViewModel _vm;
         private readonly PlaybackListDataServer _listServer = PlaybackListDataServer.Current;
