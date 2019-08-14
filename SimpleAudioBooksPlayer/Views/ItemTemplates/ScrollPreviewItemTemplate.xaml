@@ -11,5 +11,5 @@
     Loaded="ScrollPreviewItemTemplate_OnLoaded"
     Unloaded="ScrollPreviewItemTemplate_OnUnloaded">
 
-    <TextBlock x:Name="Main_TextBlock" Text="{x:Bind Source.Content, Mode=OneWay}" IsTextSelectionEnabled="True" SelectionChanged="Main_TextBlock_OnSelectionChanged"/>
+    <TextBlock x:Name="Main_TextBlock" Text="{x:Bind Source.Content, Mode=OneWay}" TextWrapping="Wrap" IsTextSelectionEnabled="True" SelectionChanged="Main_TextBlock_OnSelectionChanged"/>
 </UserControl>

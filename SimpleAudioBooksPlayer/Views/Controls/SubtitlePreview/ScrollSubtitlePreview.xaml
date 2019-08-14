@@ -15,7 +15,7 @@
         <ListView x:Name="Main_ListView" ItemsSource="{x:Bind Source, Mode=OneWay}" SelectionMode="Extended" IsItemClickEnabled="True" ItemClick="Main_ListView_OnItemClick">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="model:SubtitleLineUi">
-                    <temp:ScrollPreviewItemTemplate Source="{x:Bind}" SelectionChanged="ScrollPreviewItemTemplate_OnSelectionChanged"/>
+                    <temp:ScrollPreviewItemTemplate Source="{x:Bind}" Margin="30,4" SelectionChanged="ScrollPreviewItemTemplate_OnSelectionChanged"/>
                 </DataTemplate>
             </ListView.ItemTemplate>
             <ListView.ItemContainerStyle>
