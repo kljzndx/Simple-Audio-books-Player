@@ -61,62 +61,64 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <StackPanel x:Name="SubtitleToolBar_StackPanel" Orientation="Horizontal" HorizontalAlignment="Center">
-                <StackPanel.Resources>
-                    <Style TargetType="Button" BasedOn="{StaticResource IconButton_Style}">
-                        <Setter Property="Margin" Value="4,0"/>
-                    </Style>
-                </StackPanel.Resources>
+            <Border Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+                <StackPanel x:Name="SubtitleToolBar_StackPanel" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <StackPanel.Resources>
+                        <Style TargetType="Button" BasedOn="{StaticResource IconButton_Style}">
+                            <Setter Property="Margin" Value="4,0"/>
+                        </Style>
+                    </StackPanel.Resources>
 
-                <Button x:Name="FontSize_Button">
-                    <Button.Flyout>
-                        <Flyout>
-                            <Slider Width="100" Minimum="10" Maximum="32" Value="{x:Bind _subtitleSettings.FontSize, Mode=TwoWay}"/>
-                        </Flyout>
-                    </Button.Flyout>
+                    <Button x:Name="FontSize_Button">
+                        <Button.Flyout>
+                            <Flyout>
+                                <Slider Width="100" Minimum="10" Maximum="32" Value="{x:Bind _subtitleSettings.FontSize, Mode=TwoWay}"/>
+                            </Flyout>
+                        </Button.Flyout>
 
-                    <FontIcon Glyph="&#xE185;"/>
-                </Button>
+                        <FontIcon Glyph="&#xE185;"/>
+                    </Button>
 
-                <Button x:Name="FontOpacity_Button">
-                    <Button.Flyout>
-                        <Flyout>
-                            <StackPanel>
-                                <Slider Width="200" Value="{x:Bind _subtitleSettings.FontOpacity, Mode=TwoWay, Converter={StaticResource DoubleToPercentage}}"/>
-                            </StackPanel>
-                        </Flyout>
-                    </Button.Flyout>
-
-                    <FontIcon Glyph="&#xE052;"/>
-                </Button>
-
-                <Button x:Name="AutoSplit_Button">
-                    <Button.Flyout>
-                        <Flyout>
-                            <StackPanel>
-                                <TextBox Width="100" Text="{x:Bind _subtitleSettings.SplitSymbols, Mode=TwoWay}" IsEnabled="{x:Bind _otherSettings.IsPaid, Mode=OneWay}"/>
-                            </StackPanel>
-                        </Flyout>
-                    </Button.Flyout>
-
-                    <FontIcon Glyph="&#xE12C;"/>
-                </Button>
-
-                <Button x:Name="RereadingMode_Button">
-                    <Button.Flyout>
-                        <Flyout>
-                            <StackPanel>
-                                <ToggleSwitch x:Name="RereadingModeEnable_ToggleSwitch" IsOn="{x:Bind _subtitleSettings.IsRereadingModeEnable, Mode=TwoWay}" />
-
-                                <StackPanel Visibility="{x:Bind RereadingModeEnable_ToggleSwitch.IsOn, Mode=OneWay}">
-                                    <Slider Minimum="1" Maximum="10" Value="{x:Bind _subtitleSettings.RereadingTimes, Mode=TwoWay}" IsEnabled="{x:Bind _otherSettings.IsPaid, Mode=OneWay}"/>
+                    <Button x:Name="FontOpacity_Button">
+                        <Button.Flyout>
+                            <Flyout>
+                                <StackPanel>
+                                    <Slider Width="200" Value="{x:Bind _subtitleSettings.FontOpacity, Mode=TwoWay, Converter={StaticResource DoubleToPercentage}}"/>
                                 </StackPanel>
-                            </StackPanel>
-                        </Flyout>
-                    </Button.Flyout>
-                    <FontIcon Glyph="&#xE777;"/>
-                </Button>
-            </StackPanel>
+                            </Flyout>
+                        </Button.Flyout>
+
+                        <FontIcon Glyph="&#xE052;"/>
+                    </Button>
+
+                    <Button x:Name="AutoSplit_Button">
+                        <Button.Flyout>
+                            <Flyout>
+                                <StackPanel>
+                                    <TextBox Width="100" Text="{x:Bind _subtitleSettings.SplitSymbols, Mode=TwoWay}" IsEnabled="{x:Bind _otherSettings.IsPaid, Mode=OneWay}"/>
+                                </StackPanel>
+                            </Flyout>
+                        </Button.Flyout>
+
+                        <FontIcon Glyph="&#xE12C;"/>
+                    </Button>
+
+                    <Button x:Name="RereadingMode_Button">
+                        <Button.Flyout>
+                            <Flyout>
+                                <StackPanel>
+                                    <ToggleSwitch x:Name="RereadingModeEnable_ToggleSwitch" IsOn="{x:Bind _subtitleSettings.IsRereadingModeEnable, Mode=TwoWay}" />
+
+                                    <StackPanel Visibility="{x:Bind RereadingModeEnable_ToggleSwitch.IsOn, Mode=OneWay}">
+                                        <Slider Minimum="1" Maximum="10" Value="{x:Bind _subtitleSettings.RereadingTimes, Mode=TwoWay}" IsEnabled="{x:Bind _otherSettings.IsPaid, Mode=OneWay}"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Flyout>
+                        </Button.Flyout>
+                        <FontIcon Glyph="&#xE777;"/>
+                    </Button>
+                </StackPanel>
+            </Border>
 
             <Grid Grid.Row="1">
                 <TextBlock x:Name="CannotFindSubtitle_TextBlock" x:Uid="/PlaybackListPage/CannotFindSubtitle_TextBlock" HorizontalAlignment="Center" VerticalAlignment="Center"/>
