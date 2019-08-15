@@ -117,14 +117,38 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AutoSplit_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>自动分割</value>
+  </data>
   <data name="CannotFindSubtitle_TextBlock.Text" xml:space="preserve">
     <value>找不到匹配的字幕文件</value>
+  </data>
+  <data name="FontOpacity_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>字体不透明度</value>
+  </data>
+  <data name="FontOpacity_Slider.Header" xml:space="preserve">
+    <value>字体不透明度</value>
+  </data>
+  <data name="FontSize_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>字体大小</value>
+  </data>
+  <data name="FontSize_Slider.Header" xml:space="preserve">
+    <value>字体大小</value>
+  </data>
+  <data name="RereadingModeEnable_ToggleSwitch.Header" xml:space="preserve">
+    <value>复读模式</value>
+  </data>
+  <data name="RereadingTimes_Slider.Header" xml:space="preserve">
+    <value>复读次数</value>
   </data>
   <data name="ShowList_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>显示播放列表</value>
   </data>
   <data name="ShowPreview_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>显示字幕预览</value>
+  </data>
+  <data name="SplitSymbols_TextBox.Header" xml:space="preserve">
+    <value>分割符</value>
   </data>
   <data name="Title" xml:space="preserve">
     <value>播放详情</value>

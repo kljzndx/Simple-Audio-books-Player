@@ -69,21 +69,21 @@
                         </Style>
                     </StackPanel.Resources>
 
-                    <Button x:Name="FontSize_Button">
+                    <Button x:Name="FontSize_Button" x:Uid="/PlaybackListPage/FontSize_Button">
                         <Button.Flyout>
                             <Flyout>
-                                <Slider Width="100" Minimum="10" Maximum="32" Value="{x:Bind _subtitleSettings.FontSize, Mode=TwoWay}"/>
+                                <Slider x:Uid="/PlaybackListPage/FontSize_Slider" Width="100" Minimum="10" Maximum="32" Value="{x:Bind _subtitleSettings.FontSize, Mode=TwoWay}"/>
                             </Flyout>
                         </Button.Flyout>
 
                         <FontIcon Glyph="&#xE185;"/>
                     </Button>
 
-                    <Button x:Name="FontOpacity_Button">
+                    <Button x:Name="FontOpacity_Button" x:Uid="/PlaybackListPage/FontOpacity_Button">
                         <Button.Flyout>
                             <Flyout>
                                 <StackPanel>
-                                    <Slider Width="200" Value="{x:Bind _subtitleSettings.FontOpacity, Mode=TwoWay, Converter={StaticResource DoubleToPercentage}}"/>
+                                    <Slider x:Uid="/PlaybackListPage/FontOpacity_Slider" Width="200" Value="{x:Bind _subtitleSettings.FontOpacity, Mode=TwoWay, Converter={StaticResource DoubleToPercentage}}"/>
                                 </StackPanel>
                             </Flyout>
                         </Button.Flyout>
@@ -91,11 +91,11 @@
                         <FontIcon Glyph="&#xE052;"/>
                     </Button>
 
-                    <Button x:Name="AutoSplit_Button">
+                    <Button x:Name="AutoSplit_Button" x:Uid="/PlaybackListPage/AutoSplit_Button">
                         <Button.Flyout>
                             <Flyout>
                                 <StackPanel>
-                                    <TextBox Width="100" Text="{x:Bind _subtitleSettings.SplitSymbols, Mode=TwoWay}" IsEnabled="{x:Bind _otherSettings.IsPaid, Mode=OneWay}"/>
+                                    <TextBox x:Uid="/PlaybackListPage/SplitSymbols_TextBox" Width="100" Text="{x:Bind _subtitleSettings.SplitSymbols, Mode=TwoWay}" IsEnabled="{x:Bind _otherSettings.IsPaid, Mode=OneWay}"/>
                                 </StackPanel>
                             </Flyout>
                         </Button.Flyout>
@@ -107,10 +107,10 @@
                         <Button.Flyout>
                             <Flyout>
                                 <StackPanel>
-                                    <ToggleSwitch x:Name="RereadingModeEnable_ToggleSwitch" IsOn="{x:Bind _subtitleSettings.IsRereadingModeEnable, Mode=TwoWay}" />
+                                    <ToggleSwitch x:Name="RereadingModeEnable_ToggleSwitch" x:Uid="/PlaybackListPage/RereadingModeEnable_ToggleSwitch" IsOn="{x:Bind _subtitleSettings.IsRereadingModeEnable, Mode=TwoWay}" />
 
                                     <StackPanel Visibility="{x:Bind RereadingModeEnable_ToggleSwitch.IsOn, Mode=OneWay}">
-                                        <Slider Minimum="1" Maximum="10" Value="{x:Bind _subtitleSettings.RereadingTimes, Mode=TwoWay}" IsEnabled="{x:Bind _otherSettings.IsPaid, Mode=OneWay}"/>
+                                        <Slider x:Uid="/PlaybackListPage/RereadingTimes_Slider" Minimum="1" Maximum="10" Value="{x:Bind _subtitleSettings.RereadingTimes, Mode=TwoWay}" IsEnabled="{x:Bind _otherSettings.IsPaid, Mode=OneWay}"/>
                                     </StackPanel>
                                 </StackPanel>
                             </Flyout>
