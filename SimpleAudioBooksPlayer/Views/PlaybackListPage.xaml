@@ -89,6 +89,33 @@
 
                     <FontIcon Glyph="&#xE052;"/>
                 </Button>
+
+                <Button x:Name="AutoSplit_Button">
+                    <Button.Flyout>
+                        <Flyout>
+                            <StackPanel>
+                                <TextBox Width="100" Text="{x:Bind _subtitleSettings.SplitSymbols, Mode=TwoWay}" IsEnabled="{x:Bind _otherSettings.IsPaid, Mode=OneWay}"/>
+                            </StackPanel>
+                        </Flyout>
+                    </Button.Flyout>
+
+                    <FontIcon Glyph="&#xE12C;"/>
+                </Button>
+
+                <Button x:Name="RereadingMode_Button">
+                    <Button.Flyout>
+                        <Flyout>
+                            <StackPanel>
+                                <ToggleSwitch x:Name="RereadingModeEnable_ToggleSwitch" IsOn="{x:Bind _subtitleSettings.IsRereadingModeEnable, Mode=TwoWay}" />
+
+                                <StackPanel Visibility="{x:Bind RereadingModeEnable_ToggleSwitch.IsOn, Mode=OneWay}">
+                                    <Slider Minimum="1" Maximum="10" Value="{x:Bind _subtitleSettings.RereadingTimes, Mode=TwoWay}" IsEnabled="{x:Bind _otherSettings.IsPaid, Mode=OneWay}"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Flyout>
+                    </Button.Flyout>
+                    <FontIcon Glyph="&#xE777;"/>
+                </Button>
             </StackPanel>
 
             <Grid Grid.Row="1">
