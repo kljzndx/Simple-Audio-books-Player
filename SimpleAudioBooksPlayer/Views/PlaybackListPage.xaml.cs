@@ -157,9 +157,9 @@ namespace SimpleAudioBooksPlayer.Views
         {
             if (e.IsUser || _needReposition)
             {
-                My_ScrollSubtitlePreview.Reposition(e.Position);
                 _needReposition = false;
                 _needRereading = false;
+                My_ScrollSubtitlePreview.Reposition(e.Position);
             }
             else
                 My_ScrollSubtitlePreview.Refresh(e.Position);
@@ -217,7 +217,7 @@ namespace SimpleAudioBooksPlayer.Views
                 _readingTimes++;
                 PlayerNotifier.RequestChangePosition(_currentLineTime);
             }
-            else
+            else if (e.StartTime != _currentLineTime)
             {
                 _readingTimes = 0;
                 _currentLineTime = e.StartTime;
