@@ -95,7 +95,7 @@
                         <Button.Flyout>
                             <Flyout>
                                 <StackPanel>
-                                    <TextBox x:Uid="/PlaybackListPage/SplitSymbols_TextBox" Width="100" Text="{x:Bind _subtitleSettings.SplitSymbols, Mode=TwoWay}" IsEnabled="{x:Bind _otherSettings.IsPaid, Mode=OneWay}"/>
+                                    <TextBox x:Name="SplitSymbols_TextBox" x:Uid="/PlaybackListPage/SplitSymbols_TextBox" Width="100" Text="{x:Bind _subtitleSettings.SplitSymbols, Mode=TwoWay}" IsEnabled="{x:Bind _otherSettings.IsPaid, Mode=OneWay}" TextChanged="SplitSymbols_TextBox_OnTextChanged"/>
                                 </StackPanel>
                             </Flyout>
                         </Button.Flyout>
@@ -122,7 +122,7 @@
 
             <Grid Grid.Row="1">
                 <TextBlock x:Name="CannotFindSubtitle_TextBlock" x:Uid="/PlaybackListPage/CannotFindSubtitle_TextBlock" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                <ctrl:ScrollSubtitlePreview x:Name="My_ScrollSubtitlePreview" Visibility="Collapsed" SourceChanged="My_ScrollSubtitlePreview_OnSourceChanged" ItemClick="My_ScrollSubtitlePreview_OnItemClick"/>
+                <ctrl:ScrollSubtitlePreview x:Name="My_ScrollSubtitlePreview" Visibility="Collapsed" SourceChanged="My_ScrollSubtitlePreview_OnSourceChanged" ItemClick="My_ScrollSubtitlePreview_OnItemClick" Refreshed="My_ScrollSubtitlePreview_OnRefreshed"/>
             </Grid>
         </Grid>
 

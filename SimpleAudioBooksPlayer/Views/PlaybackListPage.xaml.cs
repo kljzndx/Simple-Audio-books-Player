@@ -4,8 +4,10 @@ using System.Linq;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
+using HappyStudio.Parsing.Subtitle.Interfaces;
 using HappyStudio.Subtitle.Control.UWP.Models;
 using SimpleAudioBooksPlayer.Models.Attributes;
 using SimpleAudioBooksPlayer.Models.DTO;
@@ -35,6 +37,10 @@ namespace SimpleAudioBooksPlayer.Views
         private readonly PlaybackListDataServer _listServer = PlaybackListDataServer.Current;
         private bool _needReposition;
 
+        private int _readingTimes;
+        private TimeSpan _currentLineTime;
+        private bool _needRereading;
+
         public PlaybackListPage()
         {
             this.InitializeComponent();
@@ -48,6 +54,7 @@ namespace SimpleAudioBooksPlayer.Views
                 PlayerNotifier_CurrentItemChanged(null, _vm.CurrentMusic);
 
             _settings.PropertyChanged += Settings_PropertyChanged;
+            _subtitleSettings.PropertyChanged += SubtitleSettings_PropertyChanged;
             PlayerNotifier.CurrentItemChanged += PlayerNotifier_CurrentItemChanged;
             PlayerNotifier.PositionChanged += PlayerNotifier_PositionChanged;
         }
@@ -57,8 +64,21 @@ namespace SimpleAudioBooksPlayer.Views
             base.OnNavigatedFrom(e);
 
             _settings.PropertyChanged -= Settings_PropertyChanged;
+            _subtitleSettings.PropertyChanged -= SubtitleSettings_PropertyChanged;
             PlayerNotifier.CurrentItemChanged -= PlayerNotifier_CurrentItemChanged;
             PlayerNotifier.PositionChanged -= PlayerNotifier_PositionChanged;
+        }
+
+        private void AutoSplit()
+        {
+            if (String.IsNullOrEmpty(SplitSymbols_TextBox.Text))
+                return;
+
+            foreach (var lineUi in My_ScrollSubtitlePreview.Source)
+            {
+                var contents = lineUi.Content.Split(SplitSymbols_TextBox.Text.ToArray());
+                lineUi.Content = String.Join("\r\n", contents);
+            }
         }
 
         private void Settings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -67,6 +87,16 @@ namespace SimpleAudioBooksPlayer.Views
             {
                 case nameof(_settings.ListWidth):
                     PlaybackList_Grid.Width = _settings.ListWidth;
+                    break;
+            }
+        }
+
+        private void SubtitleSettings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(_subtitleSettings.IsRereadingModeEnable):
+                    _needRereading = false;
                     break;
             }
         }
@@ -129,6 +159,7 @@ namespace SimpleAudioBooksPlayer.Views
             {
                 My_ScrollSubtitlePreview.Reposition(e.Position);
                 _needReposition = false;
+                _needRereading = false;
             }
             else
                 My_ScrollSubtitlePreview.Refresh(e.Position);
@@ -137,6 +168,8 @@ namespace SimpleAudioBooksPlayer.Views
         private void My_ScrollSubtitlePreview_OnSourceChanged(object sender, List<SubtitleLineUi> e)
         {
             _needReposition = true;
+            _needRereading = false;
+            AutoSplit();
         }
 
         private void My_ScrollSubtitlePreview_OnItemClick(object sender, ItemClickEventArgs e)
@@ -145,6 +178,7 @@ namespace SimpleAudioBooksPlayer.Views
             if (item is null)
                 return;
 
+            _needRereading = false;
             PlayerNotifier.RequestChangePosition(item.StartTime);
         }
 
@@ -166,6 +200,29 @@ namespace SimpleAudioBooksPlayer.Views
                 PlaybackList_Grid.Width = _settings.ListWidth;
             else
                 PlaybackList_Grid.Width = Double.NaN;
+        }
+
+        private void SplitSymbols_TextBox_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            AutoSplit();
+        }
+
+        private void My_ScrollSubtitlePreview_OnRefreshed(object sender, ISubtitleLine e)
+        {
+            if (!_subtitleSettings.IsRereadingModeEnable || e is null)
+                return;
+
+            if (_needRereading && _readingTimes < _subtitleSettings.RereadingTimes)
+            {
+                _readingTimes++;
+                PlayerNotifier.RequestChangePosition(_currentLineTime);
+            }
+            else
+            {
+                _readingTimes = 0;
+                _currentLineTime = e.StartTime;
+                _needRereading = true;
+            }
         }
     }
 }
