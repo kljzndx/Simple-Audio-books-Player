@@ -10,7 +10,7 @@
     d:DesignWidth="400">
 
     <StackPanel>
-        <TextBlock x:Name="ToolTip_TextBlock">
+        <TextBlock x:Name="ToolTip_TextBlock" TextWrapping="Wrap" Margin="0,4">
             <Run Text="{x:Bind FeatureName, Mode=OneWay}"/>
             <Run x:Uid="/BuyToolTip/Tip_Run"/>
         </TextBlock>
