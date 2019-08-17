@@ -11,10 +11,10 @@
 
     <StackPanel>
         <TextBlock x:Name="ToolTip_TextBlock">
-            <Run Text="{x:Bind FunctionName, Mode=OneWay}"/>
+            <Run Text="{x:Bind FeatureName, Mode=OneWay}"/>
             <Run x:Uid="/BuyToolTip/Tip_Run"/>
         </TextBlock>
 
-        <Button x:Name="BuyNow_Button" x:Uid="/BuyToolTip/BuyNow_Button" HorizontalAlignment="Right"/>
+        <Button x:Name="BuyNow_Button" x:Uid="/BuyToolTip/BuyNow_Button" HorizontalAlignment="Right" Click="BuyNow_Button_OnClick"/>
     </StackPanel>
 </UserControl>

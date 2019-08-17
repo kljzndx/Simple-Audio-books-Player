@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using SimpleAudioBooksPlayer.ViewModels.Events;
 
 //https://go.microsoft.com/fwlink/?LinkId=234236 上介绍了“用户控件”项模板
 
@@ -19,18 +20,23 @@ namespace SimpleAudioBooksPlayer.Views.Controls
 {
     public sealed partial class BuyToolTip : UserControl
     {
-        public static readonly DependencyProperty FunctionNameProperty = DependencyProperty.Register(
-            nameof(FunctionName), typeof(string), typeof(BuyToolTip), new PropertyMetadata(String.Empty));
+        public static readonly DependencyProperty FeatureNameProperty = DependencyProperty.Register(
+            nameof(FeatureName), typeof(string), typeof(BuyToolTip), new PropertyMetadata(String.Empty));
 
         public BuyToolTip()
         {
             this.InitializeComponent();
         }
 
-        public string FunctionName
+        public string FeatureName
         {
-            get => (string) GetValue(FunctionNameProperty);
-            set => SetValue(FunctionNameProperty, value);
+            get => (string) GetValue(FeatureNameProperty);
+            set => SetValue(FeatureNameProperty, value);
+        }
+
+        private void BuyNow_Button_OnClick(object sender, RoutedEventArgs e)
+        {
+            BuyToolNotifier.RequestBuy();
         }
     }
 }

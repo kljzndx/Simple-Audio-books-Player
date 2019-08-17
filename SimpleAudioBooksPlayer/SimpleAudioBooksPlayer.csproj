@@ -143,6 +143,7 @@
     <Compile Include="ViewModels\DataServer\PlaybackListDataServer.cs" />
     <Compile Include="ViewModels\DataServer\PlaybackRecordDataServer.cs" />
     <Compile Include="ViewModels\DataServer\SubtitleFileDataServer.cs" />
+    <Compile Include="ViewModels\Events\BuyToolNotifier.cs" />
     <Compile Include="ViewModels\Events\GroupListMoreMenuNotifier.cs" />
     <Compile Include="ViewModels\Events\NotificationNotifier.cs" />
     <Compile Include="ViewModels\Events\PlayerNotifier.cs" />
