@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
-using HappyStudio.Subtitle.Control.UWP.Models;
+using HappyStudio.Parsing.Subtitle.Interfaces;
 using SimpleAudioBooksPlayer.Models.DTO;
 using SimpleAudioBooksPlayer.ViewModels.DataServer;
 
@@ -17,7 +17,7 @@ namespace SimpleAudioBooksPlayer.ViewModels
 
         public MusicFileDTO CurrentMusic => PlaybackListDataServer.Current.CurrentMusic;
 
-        public async Task<List<SubtitleLineUi>> GetSubtitleLines()
+        public async Task<List<ISubtitleLine>> GetSubtitleLines()
         {
             if (CurrentMusic is null)
                 return null;

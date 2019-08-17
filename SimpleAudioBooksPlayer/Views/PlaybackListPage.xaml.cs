@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -69,15 +70,17 @@ namespace SimpleAudioBooksPlayer.Views
             PlayerNotifier.PositionChanged -= PlayerNotifier_PositionChanged;
         }
 
-        private void AutoSplit()
+        private async Task AutoSplit()
         {
             if (String.IsNullOrEmpty(SplitSymbols_TextBox.Text))
-                return;
-
-            foreach (var lineUi in My_ScrollSubtitlePreview.Source)
+                My_ScrollSubtitlePreview.SetSubtitle(await _vm.GetSubtitleLines());
+            else
             {
-                var contents = lineUi.Content.Split(SplitSymbols_TextBox.Text.ToArray());
-                lineUi.Content = String.Join("\r\n", contents);
+                foreach (var lineUi in My_ScrollSubtitlePreview.Source)
+                {
+                    var contents = lineUi.Content.Split(SplitSymbols_TextBox.Text.ToArray());
+                    lineUi.Content = String.Join("\r\n", contents);
+                }
             }
         }
 
@@ -165,11 +168,13 @@ namespace SimpleAudioBooksPlayer.Views
                 My_ScrollSubtitlePreview.Refresh(e.Position);
         }
 
-        private void My_ScrollSubtitlePreview_OnSourceChanged(object sender, List<SubtitleLineUi> e)
+        private async void My_ScrollSubtitlePreview_OnSourceChanged(object sender, List<SubtitleLineUi> e)
         {
             _needReposition = true;
             _needRereading = false;
-            AutoSplit();
+
+            if (!String.IsNullOrEmpty(SplitSymbols_TextBox.Text))
+                await AutoSplit();
         }
 
         private void My_ScrollSubtitlePreview_OnItemClick(object sender, ItemClickEventArgs e)
@@ -202,9 +207,9 @@ namespace SimpleAudioBooksPlayer.Views
                 PlaybackList_Grid.Width = Double.NaN;
         }
 
-        private void SplitSymbols_TextBox_OnTextChanged(object sender, TextChangedEventArgs e)
+        private async void SplitSymbols_TextBox_OnTextChanged(object sender, TextChangedEventArgs e)
         {
-            AutoSplit();
+            await AutoSplit();
         }
 
         private void My_ScrollSubtitlePreview_OnRefreshed(object sender, ISubtitleLine e)
