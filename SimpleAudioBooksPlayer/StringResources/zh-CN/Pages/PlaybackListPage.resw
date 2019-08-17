@@ -120,6 +120,9 @@
   <data name="AutoSplit_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>自动分割</value>
   </data>
+  <data name="AutoSplit_BuyToolTip.FeatureName" xml:space="preserve">
+    <value>自动分割</value>
+  </data>
   <data name="CannotFindSubtitle_TextBlock.Text" xml:space="preserve">
     <value>找不到匹配的字幕文件</value>
   </data>
@@ -137,6 +140,9 @@
   </data>
   <data name="RereadingModeEnable_ToggleSwitch.Header" xml:space="preserve">
     <value>复读模式</value>
+  </data>
+  <data name="RereadingTimes_BuyToolTip.FeatureName" xml:space="preserve">
+    <value>复读次数设置</value>
   </data>
   <data name="RereadingTimes_Slider.Header" xml:space="preserve">
     <value>复读次数</value>

@@ -5,6 +5,7 @@
     xmlns:model="using:SimpleAudioBooksPlayer.Models.DTO"
     xmlns:ctrl="using:SimpleAudioBooksPlayer.Views.Controls.SubtitlePreview"
     xmlns:pctrl="using:HappyStudio.UwpToolsLibrary.Control"
+    xmlns:buyctrl="using:SimpleAudioBooksPlayer.Views.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
@@ -94,8 +95,9 @@
                     <Button x:Name="AutoSplit_Button" x:Uid="/PlaybackListPage/AutoSplit_Button">
                         <Button.Flyout>
                             <Flyout>
-                                <StackPanel>
-                                    <TextBox x:Name="SplitSymbols_TextBox" x:Uid="/PlaybackListPage/SplitSymbols_TextBox" Width="100" Text="{x:Bind _subtitleSettings.SplitSymbols, Mode=TwoWay}" IsEnabled="{x:Bind _otherSettings.IsPaid, Mode=OneWay}" TextChanged="SplitSymbols_TextBox_OnTextChanged"/>
+                                <StackPanel Width="200">
+                                    <TextBox x:Name="SplitSymbols_TextBox" x:Uid="/PlaybackListPage/SplitSymbols_TextBox" Text="{x:Bind _subtitleSettings.SplitSymbols, Mode=TwoWay}" IsEnabled="{x:Bind _otherSettings.IsPaid, Mode=OneWay}" TextChanged="SplitSymbols_TextBox_OnTextChanged"/>
+                                    <buyctrl:BuyToolTip x:Uid="/PlaybackListPage/AutoSplit_BuyToolTip"/>
                                 </StackPanel>
                             </Flyout>
                         </Button.Flyout>
@@ -109,8 +111,9 @@
                                 <StackPanel>
                                     <ToggleSwitch x:Name="RereadingModeEnable_ToggleSwitch" x:Uid="/PlaybackListPage/RereadingModeEnable_ToggleSwitch" IsOn="{x:Bind _subtitleSettings.IsRereadingModeEnable, Mode=TwoWay}" />
 
-                                    <StackPanel Visibility="{x:Bind RereadingModeEnable_ToggleSwitch.IsOn, Mode=OneWay}">
+                                    <StackPanel Width="200" Visibility="{x:Bind RereadingModeEnable_ToggleSwitch.IsOn, Mode=OneWay}">
                                         <Slider x:Uid="/PlaybackListPage/RereadingTimes_Slider" Minimum="1" Maximum="10" Value="{x:Bind _subtitleSettings.RereadingTimes, Mode=TwoWay}" IsEnabled="{x:Bind _otherSettings.IsPaid, Mode=OneWay}"/>
+                                        <buyctrl:BuyToolTip x:Uid="/PlaybackListPage/RereadingTimes_BuyToolTip"/>
                                     </StackPanel>
                                 </StackPanel>
                             </Flyout>
