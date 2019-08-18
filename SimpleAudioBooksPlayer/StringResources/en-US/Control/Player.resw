@@ -120,6 +120,15 @@
   <data name="FastForward_AppBarButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Fast forward / Next song</value>
   </data>
+  <data name="LoopingMode_AppBarButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Looping mode</value>
+  </data>
+  <data name="LoppingTimes_BuyToolTip.FeatureName" xml:space="preserve">
+    <value>Looping times setting</value>
+  </data>
+  <data name="LoppingTimes_Slider.Header" xml:space="preserve">
+    <value>Looping times</value>
+  </data>
   <data name="PlaybackRate_AppBarButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Playback rate</value>
   </data>
@@ -137,5 +146,8 @@
   </data>
   <data name="Rewind_AppBarButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Rewind / Previous song</value>
+  </data>
+  <data name="SingleLooping_ToggleSwitch.Header" xml:space="preserve">
+    <value>Looping mode</value>
   </data>
 </root>
