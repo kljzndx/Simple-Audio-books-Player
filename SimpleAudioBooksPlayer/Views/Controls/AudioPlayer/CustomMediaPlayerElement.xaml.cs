@@ -230,7 +230,7 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
 
         private async void Player_MediaEnded(MediaPlayer sender, object args)
         {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
                 if (_settings.SingleLoopingModeEnable)
                 {
@@ -251,6 +251,8 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
                         return;
                     }
                 }
+
+                await _dataServer.NextClip();
             });
         }
 
