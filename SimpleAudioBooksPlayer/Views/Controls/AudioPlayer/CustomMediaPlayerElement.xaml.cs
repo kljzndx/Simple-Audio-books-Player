@@ -23,6 +23,7 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
     {
         private MediaPlayer _player;
         private MediaPlaybackItem _currentItem;
+        private int _loopingTimes;
 
         public event TypedEventHandler<CustomMediaPlayerElement, PlayerPositionChangeEventArgs> PositionChanged;
         public event TypedEventHandler<CustomMediaPlayerElement, PlayerNowPlaybackItemChangeEventArgs> NowPlaybackItemChanged;
@@ -76,6 +77,7 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
             player.SourceChanged += Player_SourceChanged;
             player.MediaOpened += Player_MediaOpened;
             player.MediaFailed += Player_MediaFailed;
+            player.MediaEnded += Player_MediaEnded;
             player.VolumeChanged += Player_VolumeChanged;
 
             var session = player.PlaybackSession;
@@ -88,6 +90,7 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
             player.SourceChanged -= Player_SourceChanged;
             player.MediaOpened -= Player_MediaOpened;
             player.MediaFailed -= Player_MediaFailed;
+            player.MediaEnded -= Player_MediaEnded;
             player.VolumeChanged -= Player_VolumeChanged;
 
             var session = player.PlaybackSession;
@@ -225,10 +228,58 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
             });
         }
 
+        private async void Player_MediaEnded(MediaPlayer sender, object args)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                if (_settings.SingleLoopingModeEnable)
+                {
+                    if (_settings.LoopingTimes >= 1)
+                    {
+                        if (_loopingTimes < _settings.LoopingTimes)
+                        {
+                            _loopingTimes++;
+                            Play();
+                            return;
+                        }
+                        else
+                            _loopingTimes = 0;
+                    }
+                    else
+                    {
+                        Play();
+                        return;
+                    }
+                }
+            });
+        }
+
         private async void Source_CurrentItemChanged(MediaPlaybackList sender, CurrentMediaPlaybackItemChangedEventArgs args)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
+                if (args.Reason == MediaPlaybackItemChangedReason.EndOfStream &&
+                    _settings.SingleLoopingModeEnable)
+                {
+                    if (_settings.LoopingTimes >= 1)
+                    {
+                        if (_loopingTimes < _settings.LoopingTimes)
+                        {
+                            _loopingTimes++;
+                            sender.MovePrevious();
+                            return;
+                        }
+                        else
+                            _loopingTimes = 0;
+                    }
+                    else
+                    {
+                        sender.MovePrevious();
+                        return;
+                    }
+                }
+
+
                 NowPlaybackItemChanged?.Invoke(this, new PlayerNowPlaybackItemChangeEventArgs(_currentItem, args.NewItem));
                 _currentItem = args.NewItem;
 
