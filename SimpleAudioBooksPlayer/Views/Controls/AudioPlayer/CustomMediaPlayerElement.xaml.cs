@@ -284,6 +284,17 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
             });
         }
 
+        private void MyTransportControls_OnSingleLoopingToggled(object sender, RoutedEventArgs e)
+        {
+            var the = (ToggleSwitch)sender;
+            _settings.SingleLoopingModeEnable = the.IsOn;
+        }
+
+        private void MyTransportControls_OnLoopingTimesValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            _settings.LoopingTimes = e.NewValue;
+        }
+
         #endregion
         #region Player position controller events
 
