@@ -11,6 +11,7 @@ using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using SimpleAudioBooksPlayer.Log;
+using SimpleAudioBooksPlayer.ViewModels.SettingProperties;
 
 // The Templated Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234235
 
@@ -18,7 +19,8 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
 {
     public sealed class CustomTransportControls : MediaTransportControls
     {
-        private Slider playbackRateSlider;
+        private Slider _playbackRateSlider;
+        private Slider _loopingTimesSlider;
 
         public CustomTransportControls()
         {
@@ -36,8 +38,8 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
 
         public double PlaybackRate
         {
-            get => playbackRateSlider.Value;
-            set => playbackRateSlider.Value = value;
+            get => _playbackRateSlider.Value;
+            set => _playbackRateSlider.Value = value;
         }
 
         public event PointerEventHandler PositionSlider_PointerPressed;
@@ -52,9 +54,17 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
         public event RoutedEventHandler CoverButton_Click;
         public event RangeBaseValueChangedEventHandler RateValueChanged;
 
+        public event RoutedEventHandler SingleLoopingToggled;
+        public event RangeBaseValueChangedEventHandler LoopingTimesValueChanged;
+
         protected override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
+
+            var setting = PlayerSettingProperties.Current;
+
+            if (!OtherSettingProperties.Current.IsPaid)
+                OtherSettingProperties.Current.PropertyChanged += OtherSetting_PropertyChanged;
 
             this.LogByObject("监听进度条的指针事件");
             {
@@ -92,9 +102,38 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
 
             this.LogByObject("监听播放速率的进度更改事件");
             {
-                playbackRateSlider = (Slider)GetTemplateChild("PlaybackRate_Slider");
-                playbackRateSlider.Value = 1;
-                playbackRateSlider.ValueChanged += (s, e) => RateValueChanged?.Invoke(this, e);
+                _playbackRateSlider = (Slider)GetTemplateChild("PlaybackRate_Slider");
+                _playbackRateSlider.Value = 1;
+                _playbackRateSlider.ValueChanged += (s, e) => RateValueChanged?.Invoke(this, e);
+            }
+
+            this.LogByObject("监听单曲循环开关的切换事件");
+            {
+                var loopingToggle = (ToggleSwitch) GetTemplateChild("SingleLooping_ToggleSwitch");
+                loopingToggle.IsOn = setting.SingleLoopingModeEnable;
+                loopingToggle.Toggled += (s, e) => SingleLoopingToggled?.Invoke(s, e);
+            }
+
+            this.LogByObject("监听循环次数的进度更改事件");
+            {
+                _loopingTimesSlider = (Slider) GetTemplateChild("LoppingTimes_Slider");
+                _loopingTimesSlider.Value = setting.LoopingTimes;
+                _loopingTimesSlider.IsEnabled = OtherSettingProperties.Current.IsPaid;
+                _loopingTimesSlider.ValueChanged += (s, e) => LoopingTimesValueChanged?.Invoke(s, e);
+            }
+        }
+
+        private void OtherSetting_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            OtherSettingProperties settings = (OtherSettingProperties) sender;
+            switch (e.PropertyName)
+            {
+                case nameof(settings.IsPaid):
+                    _loopingTimesSlider.IsEnabled = settings.IsPaid;
+
+                    if (settings.IsPaid)
+                        settings.PropertyChanged -= OtherSetting_PropertyChanged;
+                    break;
             }
         }
     }

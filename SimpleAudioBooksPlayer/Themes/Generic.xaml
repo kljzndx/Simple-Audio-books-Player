@@ -563,6 +563,20 @@
                                 <Border x:Name="MediaTransportControls_Command_Border" Grid.Column="2" Grid.Row="2">
                                     <CommandBar x:Name="MediaControlsCommandBar" Style="{StaticResource CommandBarStyle}" IsDynamicOverflowEnabled="False">
                                         <CommandBar.PrimaryCommands>
+                                            <AppBarButton x:Name="LoopingMode_AppBarButton" Style='{StaticResource AppBarButtonStyle}'>
+                                                <AppBarButton.Flyout>
+                                                    <Flyout>
+                                                        <StackPanel>
+                                                            <ToggleSwitch x:Name="SingleLooping_ToggleSwitch"/>
+                                                            <Slider x:Name="LoppingTimes_Slider" Maximum="10" Margin="0,4"/>
+                                                        </StackPanel>
+                                                    </Flyout>
+                                                </AppBarButton.Flyout>
+
+                                                <AppBarButton.Icon>
+                                                    <FontIcon Glyph="&#xE14A;"/>
+                                                </AppBarButton.Icon>
+                                            </AppBarButton>
                                             <AppBarButton x:Name='VolumeMuteButton' Style='{StaticResource AppBarButtonStyle}' MediaTransportControlsHelper.DropoutOrder='19'>
                                                 <AppBarButton.Flyout>
                                                     <Flyout x:Name='VolumeFlyout' FlyoutPresenterStyle="{StaticResource FlyoutStyle}">
