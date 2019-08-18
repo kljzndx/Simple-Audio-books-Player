@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using SimpleAudioBooksPlayer.ViewModels.Events;
+using SimpleAudioBooksPlayer.ViewModels.SettingProperties;
 
 //https://go.microsoft.com/fwlink/?LinkId=234236 上介绍了“用户控件”项模板
 
@@ -22,6 +23,8 @@ namespace SimpleAudioBooksPlayer.Views.Controls
     {
         public static readonly DependencyProperty FeatureNameProperty = DependencyProperty.Register(
             nameof(FeatureName), typeof(string), typeof(BuyToolTip), new PropertyMetadata(String.Empty));
+
+        private OtherSettingProperties _settings = OtherSettingProperties.Current;
 
         public BuyToolTip()
         {

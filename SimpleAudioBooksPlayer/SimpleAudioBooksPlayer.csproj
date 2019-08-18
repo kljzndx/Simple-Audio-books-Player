@@ -167,6 +167,7 @@
     <Compile Include="ViewModels\SettingProperties\SubtitlePreviewSettingProperties.cs" />
     <Compile Include="ViewModels\SidePages\SettingsViewModel.cs" />
     <Compile Include="ViewModels\ValueConverters\BoolToVisibility.cs" />
+    <Compile Include="ViewModels\ValueConverters\BoolToVisibilityReverse.cs" />
     <Compile Include="ViewModels\ValueConverters\CollectionToString.cs" />
     <Compile Include="ViewModels\ValueConverters\DoubleToPercentage.cs" />
     <Compile Include="ViewModels\ValueConverters\TimeSpanToSongTimeString.cs" />

@@ -9,7 +9,7 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <StackPanel>
+    <StackPanel Visibility="{x:Bind _settings.IsPaid, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverse}}">
         <TextBlock x:Name="ToolTip_TextBlock" TextWrapping="Wrap" Margin="0,4">
             <Run Text="{x:Bind FeatureName, Mode=OneWay}"/>
             <Run x:Uid="/BuyToolTip/Tip_Run"/>

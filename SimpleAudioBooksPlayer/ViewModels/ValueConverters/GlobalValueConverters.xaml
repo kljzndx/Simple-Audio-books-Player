@@ -6,5 +6,6 @@
     <valueConverters:TimeSpanToSongTimeString x:Key="TimeSpanToSongTimeString"/>
     <valueConverters:DoubleToPercentage x:Key="DoubleToPercentage"/>
     <valueConverters:BoolToVisibility x:Key="BoolToVisibility"/>
+    <valueConverters:BoolToVisibilityReverse x:Key="BoolToVisibilityReverse"/>
     
 </ResourceDictionary>
