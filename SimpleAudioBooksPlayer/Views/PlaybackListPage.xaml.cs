@@ -41,6 +41,7 @@ namespace SimpleAudioBooksPlayer.Views
         private int _readingTimes;
         private TimeSpan _currentLineTime;
         private bool _needRereading;
+        private List<string> _SubtitleStringList;
 
         public PlaybackListPage()
         {
@@ -70,15 +71,21 @@ namespace SimpleAudioBooksPlayer.Views
             PlayerNotifier.PositionChanged -= PlayerNotifier_PositionChanged;
         }
 
-        private async Task AutoSplit()
+        private void AutoSplit()
         {
-            if (String.IsNullOrEmpty(SplitSymbols_TextBox.Text))
-                My_ScrollSubtitlePreview.SetSubtitle(await _vm.GetSubtitleLines());
-            else
+            bool b = String.IsNullOrEmpty(SplitSymbols_TextBox.Text);
+
+            for (int i = 0; i < My_ScrollSubtitlePreview.Source.Count; i++)
             {
-                foreach (var lineUi in My_ScrollSubtitlePreview.Source)
+                var lineUi = My_ScrollSubtitlePreview.Source[i];
+                var str = _SubtitleStringList[i];
+                if (b)
                 {
-                    var contents = lineUi.Content.Split(SplitSymbols_TextBox.Text.ToArray());
+                    lineUi.Content = str;
+                }
+                else
+                {
+                    var contents = str.Split(SplitSymbols_TextBox.Text.ToArray());
                     lineUi.Content = String.Join("\r\n", contents);
                 }
             }
@@ -168,13 +175,15 @@ namespace SimpleAudioBooksPlayer.Views
                 My_ScrollSubtitlePreview.Refresh(e.Position);
         }
 
-        private async void My_ScrollSubtitlePreview_OnSourceChanged(object sender, List<SubtitleLineUi> e)
+        private void My_ScrollSubtitlePreview_OnSourceChanged(object sender, List<SubtitleLineUi> e)
         {
             _needReposition = true;
             _needRereading = false;
 
+            _SubtitleStringList = My_ScrollSubtitlePreview.Source.Select(l => l.Content).ToList();
+
             if (!String.IsNullOrEmpty(SplitSymbols_TextBox.Text))
-                await AutoSplit();
+                AutoSplit();
         }
 
         private void My_ScrollSubtitlePreview_OnItemClick(object sender, ItemClickEventArgs e)
@@ -207,9 +216,9 @@ namespace SimpleAudioBooksPlayer.Views
                 PlaybackList_Grid.Width = Double.NaN;
         }
 
-        private async void SplitSymbols_TextBox_OnTextChanged(object sender, TextChangedEventArgs e)
+        private void SplitSymbols_TextBox_OnTextChanged(object sender, TextChangedEventArgs e)
         {
-            await AutoSplit();
+            AutoSplit();
         }
 
         private void My_ScrollSubtitlePreview_OnRefreshed(object sender, ISubtitleLine e)
