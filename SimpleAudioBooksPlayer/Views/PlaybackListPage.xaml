@@ -112,7 +112,14 @@
                                     <ToggleSwitch x:Name="RereadingModeEnable_ToggleSwitch" x:Uid="/PlaybackListPage/RereadingModeEnable_ToggleSwitch" IsOn="{x:Bind _subtitleSettings.IsRereadingModeEnable, Mode=TwoWay}" />
 
                                     <StackPanel Width="200" Visibility="{x:Bind RereadingModeEnable_ToggleSwitch.IsOn, Mode=OneWay}">
-                                        <Slider x:Uid="/PlaybackListPage/RereadingTimes_Slider" Minimum="1" Maximum="10" Value="{x:Bind _subtitleSettings.RereadingTimes, Mode=TwoWay}" IsEnabled="{x:Bind _otherSettings.IsPaid, Mode=OneWay}"/>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Slider x:Name="RereadingTimes_Slider" x:Uid="/PlaybackListPage/RereadingTimes_Slider" Minimum="1" Maximum="10" Value="{x:Bind _subtitleSettings.RereadingTimes, Mode=TwoWay}" IsEnabled="{x:Bind _otherSettings.IsPaid, Mode=OneWay}"/>
+                                            <TextBlock Grid.Column="1" Text="{x:Bind RereadingTimes_Slider.Value, Mode=OneWay}" VerticalAlignment="Center" Margin="4,0"/>
+                                        </Grid>
                                         <buyctrl:BuyToolTip x:Uid="/PlaybackListPage/RereadingTimes_BuyToolTip"/>
                                     </StackPanel>
                                 </StackPanel>

@@ -569,7 +569,15 @@
                                                         <StackPanel Width="150">
                                                             <ToggleSwitch x:Name="SingleLooping_ToggleSwitch" x:Uid="/Player/SingleLooping_ToggleSwitch"/>
                                                             <StackPanel Visibility="{Binding ElementName=SingleLooping_ToggleSwitch, Path=IsOn, Mode=OneWay}">
-                                                                <Slider x:Name="LoppingTimes_Slider" x:Uid="/Player/LoppingTimes_Slider" Maximum="10" Margin="0,4"/>
+                                                                <Grid>
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition/>
+                                                                        <ColumnDefinition Width="Auto"/>
+                                                                    </Grid.ColumnDefinitions>
+
+                                                                    <Slider x:Name="LoppingTimes_Slider" x:Uid="/Player/LoppingTimes_Slider" Maximum="10" Margin="0,4"/>
+                                                                    <TextBlock x:Name="LoppingTimes_TextBlock" Grid.Column="1" VerticalAlignment="Center" Margin="4,0"/>
+                                                                </Grid>
                                                                 <ctrl:BuyToolTip x:Uid="/Player/LoppingTimes_BuyToolTip"/>
                                                             </StackPanel>
                                                         </StackPanel>

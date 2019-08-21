@@ -116,10 +116,19 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
 
             this.LogByObject("监听循环次数的进度更改事件");
             {
+                var loppingTimesTextBlock = (TextBlock) GetTemplateChild("LoppingTimes_TextBlock");
+                var loopingTimes = (int) setting.LoopingTimes;
+                loppingTimesTextBlock.Text = loopingTimes > 0 ? loopingTimes.ToString() : "∞";
+
                 _loopingTimesSlider = (Slider) GetTemplateChild("LoppingTimes_Slider");
                 _loopingTimesSlider.Value = setting.LoopingTimes;
                 _loopingTimesSlider.IsEnabled = OtherSettingProperties.Current.IsPaid;
-                _loopingTimesSlider.ValueChanged += (s, e) => LoopingTimesValueChanged?.Invoke(s, e);
+                _loopingTimesSlider.ValueChanged += (s, e) =>
+                {
+                    var value = (int) e.NewValue;
+                    loppingTimesTextBlock.Text = value > 0 ? value.ToString() : "∞";
+                    LoopingTimesValueChanged?.Invoke(s, e);
+                };
             }
         }
 
