@@ -207,7 +207,7 @@ namespace SimpleAudioBooksPlayer.Views
 
         private void My_ScrollSubtitlePreview_OnRefreshed(object sender, SubtitlePreviewRefreshedEventArgs e)
         {
-            if (!_subtitleSettings.IsRereadingModeEnable || e.OldLine is null)
+            if (!_subtitleSettings.IsRereadingModeEnable || e.OldLine is null || e.NewLine is null)
                 return;
 
             if (_readingTimes < _subtitleSettings.RereadingTimes)

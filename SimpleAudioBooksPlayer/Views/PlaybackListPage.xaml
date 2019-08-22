@@ -105,7 +105,7 @@
                         <FontIcon Glyph="&#xE12C;"/>
                     </Button>
 
-                    <Button x:Name="RereadingMode_Button">
+                    <Button x:Name="RereadingMode_Button" x:Uid="/PlaybackListPage/RereadingMode_Button">
                         <Button.Flyout>
                             <Flyout>
                                 <StackPanel>

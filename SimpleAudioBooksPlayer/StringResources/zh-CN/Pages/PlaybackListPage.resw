@@ -141,6 +141,9 @@
   <data name="RereadingModeEnable_ToggleSwitch.Header" xml:space="preserve">
     <value>复读模式</value>
   </data>
+  <data name="RereadingMode_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>复读模式</value>
+  </data>
   <data name="RereadingTimes_BuyToolTip.FeatureName" xml:space="preserve">
     <value>复读次数设置</value>
   </data>
