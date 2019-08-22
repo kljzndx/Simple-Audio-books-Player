@@ -9,6 +9,7 @@ using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 using HappyStudio.Parsing.Subtitle.Interfaces;
+using HappyStudio.Subtitle.Control.Interface.Events;
 using HappyStudio.Subtitle.Control.UWP.Models;
 using SimpleAudioBooksPlayer.Models.Attributes;
 using SimpleAudioBooksPlayer.Models.DTO;
@@ -39,8 +40,6 @@ namespace SimpleAudioBooksPlayer.Views
         private bool _needReposition;
 
         private int _readingTimes;
-        private TimeSpan _currentLineTime;
-        private bool _needRereading;
         private List<string> _SubtitleStringList;
 
         public PlaybackListPage()
@@ -56,7 +55,6 @@ namespace SimpleAudioBooksPlayer.Views
                 PlayerNotifier_CurrentItemChanged(null, _vm.CurrentMusic);
 
             _settings.PropertyChanged += Settings_PropertyChanged;
-            _subtitleSettings.PropertyChanged += SubtitleSettings_PropertyChanged;
             PlayerNotifier.CurrentItemChanged += PlayerNotifier_CurrentItemChanged;
             PlayerNotifier.PositionChanged += PlayerNotifier_PositionChanged;
         }
@@ -66,7 +64,6 @@ namespace SimpleAudioBooksPlayer.Views
             base.OnNavigatedFrom(e);
 
             _settings.PropertyChanged -= Settings_PropertyChanged;
-            _subtitleSettings.PropertyChanged -= SubtitleSettings_PropertyChanged;
             PlayerNotifier.CurrentItemChanged -= PlayerNotifier_CurrentItemChanged;
             PlayerNotifier.PositionChanged -= PlayerNotifier_PositionChanged;
         }
@@ -97,16 +94,6 @@ namespace SimpleAudioBooksPlayer.Views
             {
                 case nameof(_settings.ListWidth):
                     PlaybackList_Grid.Width = _settings.ListWidth;
-                    break;
-            }
-        }
-
-        private void SubtitleSettings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            switch (e.PropertyName)
-            {
-                case nameof(_subtitleSettings.IsRereadingModeEnable):
-                    _needRereading = false;
                     break;
             }
         }
@@ -168,7 +155,6 @@ namespace SimpleAudioBooksPlayer.Views
             if (e.IsUser || _needReposition)
             {
                 _needReposition = false;
-                _needRereading = false;
                 My_ScrollSubtitlePreview.Reposition(e.Position);
             }
             else
@@ -178,7 +164,6 @@ namespace SimpleAudioBooksPlayer.Views
         private void My_ScrollSubtitlePreview_OnSourceChanged(object sender, List<SubtitleLineUi> e)
         {
             _needReposition = true;
-            _needRereading = false;
 
             _SubtitleStringList = My_ScrollSubtitlePreview.Source.Select(l => l.Content).ToList();
 
@@ -192,7 +177,6 @@ namespace SimpleAudioBooksPlayer.Views
             if (item is null)
                 return;
 
-            _needRereading = false;
             PlayerNotifier.RequestChangePosition(item.StartTime);
         }
 
@@ -221,21 +205,19 @@ namespace SimpleAudioBooksPlayer.Views
             AutoSplit();
         }
 
-        private void My_ScrollSubtitlePreview_OnRefreshed(object sender, ISubtitleLine e)
+        private void My_ScrollSubtitlePreview_OnRefreshed(object sender, SubtitlePreviewRefreshedEventArgs e)
         {
-            if (!_subtitleSettings.IsRereadingModeEnable || e is null)
+            if (!_subtitleSettings.IsRereadingModeEnable || e.OldLine is null)
                 return;
 
-            if (_needRereading && _readingTimes < _subtitleSettings.RereadingTimes)
+            if (_readingTimes < _subtitleSettings.RereadingTimes)
             {
                 _readingTimes++;
-                PlayerNotifier.RequestChangePosition(_currentLineTime);
+                PlayerNotifier.RequestChangePosition(e.OldLine.StartTime);
             }
-            else if (e.StartTime != _currentLineTime)
+            else
             {
                 _readingTimes = 0;
-                _currentLineTime = e.StartTime;
-                _needRereading = true;
             }
         }
     }

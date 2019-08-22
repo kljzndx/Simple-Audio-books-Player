@@ -4,6 +4,7 @@ using Windows.Foundation;
 using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
 using HappyStudio.Parsing.Subtitle.Interfaces;
+using HappyStudio.Subtitle.Control.Interface.Events;
 using HappyStudio.Subtitle.Control.UWP;
 using HappyStudio.Subtitle.Control.UWP.Models;
 using SimpleAudioBooksPlayer.Views.ItemTemplates;
@@ -37,11 +38,11 @@ namespace SimpleAudioBooksPlayer.Views.Controls.SubtitlePreview
             return result > 0 ? result : 0;
         }
 
-        private async void ScrollLyricsPreview_Refreshed(object sender, ISubtitleLine args)
+        private async void ScrollLyricsPreview_Refreshed(object sender, SubtitlePreviewRefreshedEventArgs args)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                var theLine = args as SubtitleLineUi;
+                var theLine = args.NewLine as SubtitleLineUi;
 
                 foreach (var line in Source.Where(l => l.IsSelected))
                     line.IsSelected = false;
