@@ -130,7 +130,7 @@
     <value>Add class</value>
   </data>
   <data name="ShowPicker_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Setup background color</value>
+    <value>Setup color</value>
   </data>
   <data name="Submit_Button.Content" xml:space="preserve">
     <value>OK</value>

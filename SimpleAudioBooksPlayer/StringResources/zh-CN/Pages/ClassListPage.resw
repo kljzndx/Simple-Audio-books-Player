@@ -130,7 +130,7 @@
     <value>添加分类</value>
   </data>
   <data name="ShowPicker_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>设置背景色</value>
+    <value>设置颜色</value>
   </data>
   <data name="Submit_Button.Content" xml:space="preserve">
     <value>确定</value>
