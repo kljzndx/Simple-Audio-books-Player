@@ -281,8 +281,7 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
                     }
                 }
 
-
-                NowPlaybackItemChanged?.Invoke(this, new PlayerNowPlaybackItemChangeEventArgs(_currentItem, args.NewItem));
+                var oldItem = _currentItem;
                 _currentItem = args.NewItem;
 
                 if (TryGetSession(out var session))
@@ -300,6 +299,9 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
                             MyTransportControls.CoverSource = await fileDto.Group.GetCover();
                             break;
                         }
+
+                await PlaybackListDataServer.Current.PlaybackList_CurrentItemChanged(sender, args);
+                NowPlaybackItemChanged?.Invoke(this, new PlayerNowPlaybackItemChangeEventArgs(oldItem, args.NewItem));
             });
         }
 

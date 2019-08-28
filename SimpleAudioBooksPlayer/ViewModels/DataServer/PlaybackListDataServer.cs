@@ -71,7 +71,6 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             DataLoaded?.Invoke(this, Data.ToList());
 
             _musicServer.DataRemoved += MusicServer_DataRemoved;
-            _playbackList.CurrentItemChanged += PlaybackList_CurrentItemChanged;
         }
 
         public async Task PreviousClip()
@@ -283,7 +282,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             DataRemoved?.Invoke(this, list);
         }
 
-        private async void PlaybackList_CurrentItemChanged(MediaPlaybackList sender, CurrentMediaPlaybackItemChangedEventArgs args)
+        public async Task PlaybackList_CurrentItemChanged(MediaPlaybackList sender, CurrentMediaPlaybackItemChangedEventArgs args)
         {
             var cw = CoreApplication.MainView.CoreWindow;
             await cw.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
@@ -303,7 +302,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
                     currentId = args.NewItem != null ? sender.Items.IndexOf(args.NewItem) : 0;
                 }
 
-                if (!_isPreLoadClip && itemCount >= 10 && currentId == itemCount - 1)
+                if (!_isPreLoadClip && itemCount == 10 && currentId == 9)
                 {
                     this.LogByObject("开始预加载播放项数据");
                     var cid = _clipId < _clipList.Count - 1 ? _clipId + 1 : 0;
