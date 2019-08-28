@@ -30,13 +30,13 @@ namespace SimpleAudioBooksPlayer.Log
         public static void LogByType(this Type type, Exception exception, [CallerMemberName] string methodName = null)
         {
             var logger = AllLoggers[GetAssembly(type)];
-            logger.Info(exception, $" | {type.Name}.{methodName}");
+            logger.Error(exception, $" | {type.Name}.{methodName}");
         }
 
         public static void LogByType(this Type type, Exception exception, string extraMessage, [CallerMemberName] string methodName = null)
         {
             var logger = AllLoggers[GetAssembly(type)];
-            logger.Info(exception, $"{extraMessage} | {type.Name}.{methodName}");
+            logger.Error(exception, $"{extraMessage} | {type.Name}.{methodName}");
         }
 
         private static Assembly GetAssembly(Type type)

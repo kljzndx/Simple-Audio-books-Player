@@ -22,6 +22,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.Extensions
         private static readonly string ErrorMessage;
         private static readonly string LoggingInfo;
         private static readonly string SystemVersion;
+        private static readonly string ErrorInfo;
 
         static ExceptionExtension()
         {
@@ -39,6 +40,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.Extensions
 
             LoggingInfo = errorTable_StringResource.GetString("LoggingInfo");
             SystemVersion = errorTable_StringResource.GetString("SystemVersion");
+            ErrorInfo = errorTable_StringResource.GetString("ErrorInfo");
         }
 
         public static async Task ShowErrorDialog(this Exception exception, Logger logger = null)
@@ -57,7 +59,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.Extensions
             if (needSendEmail)
             {
                 string title = $"{AppInfo.Name} {AppInfo.Version} {EmailTitle}";
-                string body = $"{SystemVersion} {SystemInfo.BuildVersion}\r\n{LoggingInfo}\r\n{await LoggerService.ReadLogs(20)}";
+                string body = $"{SystemVersion} {SystemInfo.BuildVersion}\r\n{ErrorCode} 0x{exception.HResult:x8}\r\n{ErrorMessage} {exception.Message}\r\n{ErrorInfo}\r\n{exception.ToString()}\r\n{LoggingInfo}\r\n{await LoggerService.ReadLogs(20)}";
 
                 await EmailEx.SendAsync(Email, title, body);
             }
