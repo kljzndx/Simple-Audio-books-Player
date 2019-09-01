@@ -40,7 +40,7 @@ namespace SimpleAudioBooksPlayer.Views
             if (itemsPanelRoot == null)
                 return;
 
-            int temp = (int) Math.Ceiling(this.ActualWidth / 300);
+            int temp = (int) this.ActualWidth / 300;
             itemsPanelRoot.ItemWidth = this.ActualWidth / (temp > 0 ? temp : 1);
         }
 

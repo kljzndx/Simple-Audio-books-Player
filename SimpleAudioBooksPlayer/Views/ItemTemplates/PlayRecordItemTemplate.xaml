@@ -24,7 +24,12 @@
 
         <StackPanel Grid.Column="1">
             <TextBlock x:Name="Title_TextBlock" Text="{x:Bind Source.Group.Name, Mode=OneWay}" FontWeight="Bold" TextWrapping="NoWrap" Style="{ThemeResource BodyTextBlockStyle}" ToolTipService.ToolTip="{x:Bind Source.Group.Name, Mode=OneWay}"/>
-            <TextBlock x:Name="RecordTitle_TextBlock" Text="{x:Bind Source.CurrentTitle, Mode=OneWay}" Margin="0,3" Opacity="0.6" Style="{ThemeResource CaptionTextBlockStyle}" ToolTipService.ToolTip="{x:Bind Source.CurrentTitle, Mode=OneWay}"/>
+            <TextBlock x:Name="RecordTitle_TextBlock" Text="{x:Bind Source.CurrentTitle, Mode=OneWay}" Margin="0,3" Opacity="0.6" TextWrapping="Wrap" ToolTipService.ToolTip="{x:Bind Source.CurrentTitle, Mode=OneWay}"/>
         </StackPanel>
+
+        <TextBlock Grid.Column="1" Grid.Row="1">
+            <Run x:Uid="/PlayRecordPage/LastPlayedTo_Run"/>
+            <Run Text="{x:Bind Source.PlayedTime, Mode=OneWay, Converter={StaticResource TimeSpanToSongTimeString}}"/>
+        </TextBlock>
     </Grid>
 </UserControl>
