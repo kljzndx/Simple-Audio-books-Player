@@ -11,7 +11,7 @@ namespace SimpleAudioBooksPlayer.Models.DTO
     {
         private string _currentTitle;
         private DateTime _playDate;
-        private TimeSpan _playedTime;
+        private TimeSpan _playedTime = TimeSpan.Zero;
 
         public PlaybackRecordDTO(string currentTitle, FileGroupDTO @group, uint trackId, MusicListSortMembers sortMethod, bool isReverse, TimeSpan playedTime)
         {
@@ -21,7 +21,7 @@ namespace SimpleAudioBooksPlayer.Models.DTO
             SortMethod = sortMethod;
             IsReverse = isReverse;
             _playDate = DateTime.Now;
-            PlayedTime = playedTime;
+            _playedTime = playedTime;
         }
 
         public PlaybackRecordDTO(string currentTitle, FileGroupDTO @group, uint trackId, MusicListSortMembers sortMethod, bool isReverse) : this(currentTitle, group, trackId, sortMethod, isReverse, TimeSpan.Zero)
@@ -36,7 +36,7 @@ namespace SimpleAudioBooksPlayer.Models.DTO
             SortMethod = Enum.Parse<MusicListSortMembers>(source.SortMethod);
             IsReverse = source.IsReverse;
             _playDate = source.PlayDate;
-            PlayedTime = source.PlayedTime;
+            _playedTime = source.PlayedTime;
         }
 
         public FileGroupDTO Group { get; set; }
@@ -60,7 +60,11 @@ namespace SimpleAudioBooksPlayer.Models.DTO
         public TimeSpan PlayedTime
         {
             get => _playedTime;
-            set => Set(ref _playedTime, value);
+            set
+            {
+                if (value != TimeSpan.Zero)
+                    Set(ref _playedTime, value);
+            }
         }
 
         public PlaybackRecord ToTableObject()
