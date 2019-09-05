@@ -23,7 +23,6 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
     {
         private MediaPlayer _player;
         private MediaPlaybackItem _currentItem;
-        private int _loopingTimes;
 
         public event TypedEventHandler<CustomMediaPlayerElement, PlayerPositionChangeEventArgs> PositionChanged;
         public event TypedEventHandler<CustomMediaPlayerElement, PlayerNowPlaybackItemChangeEventArgs> NowPlaybackItemChanged;
@@ -180,6 +179,8 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
                     else
                         await _dataServer.PreviousClip();
                 }
+
+                _settings.CurrentLoopingTimes = 0;
             }
             else
                 _player.Play();
@@ -236,14 +237,14 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
                 {
                     if (_settings.LoopingTimes >= 1)
                     {
-                        if (_loopingTimes < _settings.LoopingTimes)
+                        if (_settings.CurrentLoopingTimes < _settings.LoopingTimes)
                         {
-                            _loopingTimes++;
+                            _settings.CurrentLoopingTimes++;
                             Play();
                             return;
                         }
                         else
-                            _loopingTimes = 0;
+                            _settings.CurrentLoopingTimes = 0;
                     }
                     else
                     {
@@ -265,14 +266,14 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
                 {
                     if (_settings.LoopingTimes >= 1)
                     {
-                        if (_loopingTimes < _settings.LoopingTimes)
+                        if (_settings.CurrentLoopingTimes < _settings.LoopingTimes)
                         {
-                            _loopingTimes++;
+                            _settings.CurrentLoopingTimes++;
                             sender.MovePrevious();
                             return;
                         }
                         else
-                            _loopingTimes = 0;
+                            _settings.CurrentLoopingTimes = 0;
                     }
                     else
                     {

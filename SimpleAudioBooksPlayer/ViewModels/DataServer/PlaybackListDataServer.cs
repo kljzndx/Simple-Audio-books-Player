@@ -245,6 +245,8 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
         private void BeginToPlay()
         {
+            PlayerSettingProperties.Current.CurrentLoopingTimes = 0;
+
             if (_player.PlaybackSession != null &&
                 _player.PlaybackSession.PlaybackState != MediaPlaybackState.Playing)
             {

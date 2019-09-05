@@ -41,5 +41,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.SettingProperties
             get => _loopingTimes;
             set => SetSetting(ref _loopingTimes, value);
         }
+
+        public int CurrentLoopingTimes { get; set; }
     }
 }
