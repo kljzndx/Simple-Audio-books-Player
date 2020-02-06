@@ -78,6 +78,20 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             ClassSeted?.Invoke(this, new[] {groupDto});
         }
 
+        public async Task SetClass(IList<FileGroupDTO> groupDtoList, ClassItemDTO classItem)
+        {
+            if (classItem == ClassListDataServer.All_ClassItem)
+                return;
+            
+            this.LogByObject("正在批量设置分类");
+
+            foreach (var fileGroupDto in groupDtoList)
+                fileGroupDto.ClassItem = classItem;
+
+            await _service.SetClass(groupDtoList.Select(g => g.Index), classItem.Index);
+            ClassSeted?.Invoke(this, groupDtoList);
+        }
+
         public async Task Rename(FileGroupDTO groupDto, string newName)
         {
             this.LogByObject("正在重命名 组数据");
