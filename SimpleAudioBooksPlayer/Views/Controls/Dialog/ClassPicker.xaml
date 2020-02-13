@@ -9,8 +9,8 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <ContentDialog x:Name="Root_ContentDialog" x:Uid="/ClassPicker/Root_ContentDialog" Width="300" Height="400" SecondaryButtonText="OK" SecondaryButtonClick="Main_ContentDialog_OnSecondaryButtonClick">
-        <Grid>
+    <ContentDialog x:Name="Root_ContentDialog" x:Uid="/ClassPicker/Root_ContentDialog" SecondaryButtonText="OK" Opened="Root_ContentDialog_OnOpened" Closed="Root_ContentDialog_OnClosed" SecondaryButtonClick="Main_ContentDialog_OnSecondaryButtonClick">
+        <Grid Width="250">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition/>
@@ -26,7 +26,7 @@
                 <Button x:Name="AddClass_Button" x:Uid="/ClassPicker/AddClass_Button" Grid.Column="1" Content="创建" Click="AddClass_Button_OnClick"/>
             </Grid>
 
-            <ListView x:Name="Main_ListView" Grid.Row="1" ItemsSource="{x:Bind _server.Data, Mode=OneWay}" Margin="0,4" BorderThickness="1" BorderBrush="{ThemeResource SystemControlBackgroundBaseHighBrush}">
+            <ListView x:Name="Main_ListView" Grid.Row="1" MinHeight="100" Margin="0,4" BorderThickness="1" BorderBrush="{ThemeResource SystemControlBackgroundBaseHighBrush}">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="model:ClassItemDTO">
                         <TextBlock Text="{x:Bind Name, Mode=OneWay}"/>
