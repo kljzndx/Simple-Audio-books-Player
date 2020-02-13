@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Linq;
 
 namespace SimpleAudioBooksPlayer.DAL
@@ -30,7 +29,7 @@ namespace SimpleAudioBooksPlayer.DAL
         public static string TakeParentFolderPath(this string path)
         {
             var pathParagraphs = path.Split('\\').ToList();
-            pathParagraphs.Remove(pathParagraphs.LastOrDefault());
+            pathParagraphs.Remove(pathParagraphs.Last());
             return String.Join("\\", pathParagraphs);
         }
     }
