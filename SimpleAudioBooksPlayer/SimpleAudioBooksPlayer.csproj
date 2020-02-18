@@ -21,11 +21,12 @@
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
     <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
-    <PackageCertificateThumbprint>CC499E210F4301CD46463BA1D294D57652C0BAC7</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>2EE3681A1F347A397CD1D4DFA28275969F60B89C</PackageCertificateThumbprint>
     <AppInstallerUpdateFrequency>0</AppInstallerUpdateFrequency>
     <AppInstallerCheckForUpdateFrequency>OnApplicationRun</AppInstallerCheckForUpdateFrequency>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
+    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -37,6 +38,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
+    <WarningLevel>3</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -129,6 +131,7 @@
     </Compile>
     <Compile Include="Models\Attributes\PageTitleAttribute.cs" />
     <Compile Include="Models\Attributes\PageTitleGetter.cs" />
+    <Compile Include="Models\FileGroupBox.cs" />
     <Compile Include="Models\DTO\ClassItemDTO.cs" />
     <Compile Include="Models\DTO\PlaybackRecordDTO.cs" />
     <Compile Include="Models\DTO\SubtitleFileDTO.cs" />
@@ -137,6 +140,7 @@
     <Compile Include="Models\Sorters\SystemStringSorter.cs" />
     <Compile Include="Models\StringResources.cs" />
     <Compile Include="ViewModels\ClassListViewModel.cs" />
+    <Compile Include="ViewModels\DataServer\FileGroupBoxDataServer.cs" />
     <Compile Include="ViewModels\DataServer\ClassListDataServer.cs" />
     <Compile Include="ViewModels\DataServer\FileGroupDataServer.cs" />
     <Compile Include="ViewModels\DataServer\IDataServer.cs" />
@@ -423,7 +427,7 @@
       <Version>1.0.3</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.2.8</Version>
+      <Version>6.2.9</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed">
       <Version>2.0.1</Version>
