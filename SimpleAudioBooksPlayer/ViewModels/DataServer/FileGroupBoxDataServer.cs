@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using SimpleAudioBooksPlayer.DAL;
+using SimpleAudioBooksPlayer.Log;
 using SimpleAudioBooksPlayer.Models;
 using SimpleAudioBooksPlayer.Models.DTO;
 
@@ -48,6 +49,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
         private void AutoGroup(IList<FileGroupDTO> groups)
         {
+            this.LogByObject("分析书籍");
             var cls = groups.GroupBy(g => g.FolderPath.TakeParentFolderPath());
             bool hasAny = Data.Any();
 
@@ -61,11 +63,13 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
                 if (classGroupItem == null)
                 {
+                    this.LogByObject("创建书籍盒");
                     classGroupItem = new FileGroupBox(cl.Key, cl);
                     Data.Add(classGroupItem);
                     additionList.Add(classGroupItem);
                 }
 
+                this.LogByObject("给盒子里添加书籍");
                 foreach (var groupDto in cl)
                     if (!classGroupItem.Groups.Contains(groupDto))
                         classGroupItem.Groups.Add(groupDto);
