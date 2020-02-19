@@ -14,6 +14,7 @@
 
     <Page.Resources>
         <MenuFlyout x:Name="RightTap_MenuFlyout">
+            <MenuFlyoutItem x:Name="AddItem_MenuFlyoutItem" x:Uid="/ClassListPage/AddItem_MenuFlyoutItem" Click="AddItem_MenuFlyoutItem_Click"/>
             <MenuFlyoutItem x:Name="Rename_MenuFlyoutItem" x:Uid="/ClassListPage/Rename_MenuFlyoutItem" Click="Rename_MenuFlyoutItem_OnClick"/>
             <MenuFlyoutItem x:Name="Remove_MenuFlyoutItem" x:Uid="/ClassListPage/Remove_MenuFlyoutItem" Click="Remove_MenuFlyoutItem_OnClick"/>
         </MenuFlyout>
@@ -60,7 +61,8 @@
                 </ListView.ItemContainerStyle>
             </ListView>
 
-            <dialog:RenameDialog x:Name="RenameClass_Dialog" Grid.Row="3" Submitted="RenameClass_Dialog_OnSubmitted"/>
+            <dialog:RenameDialog x:Name="RenameClass_Dialog" Submitted="RenameClass_Dialog_OnSubmitted"/>
+            <dialog:GroupsPicker x:Name="MyGroupsPicker" Picked="MyGroupsPicker_Picked"/>
         </Grid>
 
         <Rectangle x:Name="Separator_Rectangle" Grid.Column="1" Width="12" Fill="{ThemeResource SystemControlBackgroundChromeMediumBrush}" ManipulationMode="TranslateX" ManipulationDelta="Separator_Rectangle_OnManipulationDelta" PointerEntered="Separator_Rectangle_OnPointerEntered" PointerExited="Separator_Rectangle_OnPointerExited"/>

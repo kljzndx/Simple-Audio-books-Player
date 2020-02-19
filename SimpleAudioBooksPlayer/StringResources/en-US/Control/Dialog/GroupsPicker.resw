@@ -117,25 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddItem_MenuFlyoutItem.Text" xml:space="preserve">
-    <value>添加书籍</value>
+  <data name="Root_ContentDialog.PrimaryButtonText" xml:space="preserve">
+    <value>OK</value>
   </data>
-  <data name="Clear_Button.Content" xml:space="preserve">
-    <value>清除颜色</value>
+  <data name="Root_ContentDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Cancel</value>
   </data>
-  <data name="Remove_MenuFlyoutItem.Text" xml:space="preserve">
-    <value>移除</value>
-  </data>
-  <data name="Rename_MenuFlyoutItem.Text" xml:space="preserve">
-    <value>重命名</value>
-  </data>
-  <data name="RequestAddClass_Button.Content" xml:space="preserve">
-    <value>添加分类</value>
-  </data>
-  <data name="ShowPicker_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>设置颜色</value>
-  </data>
-  <data name="Submit_Button.Content" xml:space="preserve">
-    <value>确定</value>
+  <data name="SelectAll_Button.Content" xml:space="preserve">
+    <value>Select all</value>
   </data>
 </root>

@@ -194,10 +194,12 @@ namespace SimpleAudioBooksPlayer.Views
             if (e.OriginalSource is FrameworkElement element && element.DataContext is ClassItemDTO classItem)
             {
                 _tempClass = classItem;
+                bool b = classItem != ClassListDataServer.All_ClassItem && 
+                         classItem != ClassListDataServer.Unspecified_ClassItem;
+
                 RightTap_MenuFlyout.ShowAt(ClassList_ListView, e.GetPosition(ClassList_ListView));
-                Remove_MenuFlyoutItem.IsEnabled =
-                    classItem != ClassListDataServer.All_ClassItem &&
-                    classItem != ClassListDataServer.Unspecified_ClassItem;
+                Remove_MenuFlyoutItem.IsEnabled = b;
+                AddItem_MenuFlyoutItem.IsEnabled = b;
             }
         }
 
@@ -237,6 +239,16 @@ namespace SimpleAudioBooksPlayer.Views
             await FileGroupDataServer.Current.SetClass(FileGroupDataServer.Current.Data.First(g => g.Index == groupId), ci);
 
             deferral.Complete();
+        }
+
+        private async void AddItem_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+        {
+            await MyGroupsPicker.Show();
+        }
+
+        private async void MyGroupsPicker_Picked(GroupsPicker sender, IList<FileGroupDTO> args)
+        {
+            await FileGroupDataServer.Current.SetClass(args, _tempClass);
         }
     }
 }

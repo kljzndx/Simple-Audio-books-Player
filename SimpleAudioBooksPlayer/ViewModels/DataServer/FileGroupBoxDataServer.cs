@@ -32,6 +32,9 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             if (_fileGroupDataServer.IsInit)
                 await _fileGroupDataServer.Init();
 
+            if (IsInit)
+                return;
+
             IsInit = true;
             AutoGroup(_fileGroupDataServer.GetGroups(ClassListDataServer.Unspecified_ClassItem));
 
@@ -62,7 +65,9 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
                     Data.Add(classGroupItem);
                     additionList.Add(classGroupItem);
                 }
-                else foreach (var groupDto in cl)
+
+                foreach (var groupDto in cl)
+                    if (!classGroupItem.Groups.Contains(groupDto))
                         classGroupItem.Groups.Add(groupDto);
             }
 

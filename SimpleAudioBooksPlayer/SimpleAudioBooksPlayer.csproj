@@ -188,6 +188,9 @@
     <Compile Include="Views\Controls\BuyToolTip.xaml.cs">
       <DependentUpon>BuyToolTip.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Controls\Dialog\GroupsPicker.xaml.cs">
+      <DependentUpon>GroupsPicker.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Controls\Dialog\RenameDialog.xaml.cs">
       <DependentUpon>RenameDialog.xaml</DependentUpon>
     </Compile>
@@ -299,6 +302,8 @@
     <Content Include="Assets\Square44x44Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.altform-unplated_targetsize-24.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+    <PRIResource Include="StringResources\zh-CN\Control\Dialog\GroupsPicker.resw" />
+    <PRIResource Include="StringResources\en-US\Control\Dialog\GroupsPicker.resw" />
     <PRIResource Include="StringResources\en-US\Pages\PlayRecordPage.resw" />
     <PRIResource Include="StringResources\zh-CN\Pages\PlayRecordPage.resw" />
     <PRIResource Include="StringResources\en-US\Control\BuyToolTip.resw" />
@@ -346,6 +351,10 @@
     <Page Include="Views\Controls\BuyToolTip.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Controls\Dialog\GroupsPicker.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Controls\Dialog\RenameDialog.xaml">
       <SubType>Designer</SubType>
