@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
+
 using SimpleAudioBooksPlayer.Log;
 using SimpleAudioBooksPlayer.Service;
 using SimpleAudioBooksPlayer.ViewModels.Events;
@@ -31,6 +33,11 @@ namespace SimpleAudioBooksPlayer.Views.Controls.Dialog
         public LibraryManageDialog()
         {
             this.InitializeComponent();
+        }
+
+        public async Task ShowAsync()
+        {
+            await ManageLocationOfScan_ContentDialog.ShowAsync();
         }
 
         private async void ManageLocationOfScan_ContentDialog_OnOpened(ContentDialog sender, ContentDialogOpenedEventArgs args)
