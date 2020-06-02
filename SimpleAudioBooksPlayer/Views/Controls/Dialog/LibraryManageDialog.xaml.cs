@@ -40,13 +40,14 @@ namespace SimpleAudioBooksPlayer.Views.Controls.Dialog
             await ManageLocationOfScan_ContentDialog.ShowAsync();
         }
 
-        private async void ManageLocationOfScan_ContentDialog_OnOpened(ContentDialog sender, ContentDialogOpenedEventArgs args)
+        private async void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             if (_musicLibrary != null)
                 return;
 
             this.LogByObject("获取音乐库数据");
             _musicLibrary = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Music);
+            Locations_ListView.ItemsSource = _musicLibrary.Folders;
             _musicLibrary.DefinitionChanged += MusicLibrary_DefinitionChanged;
         }
 
