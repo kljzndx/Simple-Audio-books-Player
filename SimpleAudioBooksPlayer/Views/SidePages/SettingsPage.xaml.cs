@@ -30,7 +30,6 @@ namespace SimpleAudioBooksPlayer.Views.SidePages
     {
         public const string timedExitTaskName = "TimedExitTask";
 
-        private readonly ResourceLoader _notificationStrings = ResourceLoader.GetForCurrentView("Notifications");
         private readonly SettingsViewModel _viewModel;
         private readonly OtherSettingProperties _settings = OtherSettingProperties.Current;
 
@@ -44,41 +43,7 @@ namespace SimpleAudioBooksPlayer.Views.SidePages
 
         private async void ManageLocationOfScan_Button_OnClick(object sender, RoutedEventArgs e)
         {
-            await ManageLocationOfScan_ContentDialog.ShowAsync();
-        }
-
-        private async void ManageLocationOfScan_ContentDialog_OnOpened(ContentDialog sender, ContentDialogOpenedEventArgs args)
-        {
-            if (_viewModel.MusicLibrary != null)
-                return;
-
-            this.LogByObject("获取音乐库数据");
-            _viewModel.MusicLibrary = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Music);
-            _viewModel.MusicLibrary.DefinitionChanged += MusicLibrary_DefinitionChanged;
-        }
-
-        private async void AddLocation_Button_OnClick(object sender, RoutedEventArgs e)
-        {
-            await _viewModel.MusicLibrary.RequestAddFolderAsync();
-        }
-
-        private async void Locations_ListView_OnItemClick(object sender, ItemClickEventArgs e)
-        {
-            var folder = e.ClickedItem as StorageFolder;
-            if (folder is null)
-                return;
-
-            await _viewModel.MusicLibrary.RequestRemoveFolderAsync(folder);
-        }
-
-        private async void MusicLibrary_DefinitionChanged(StorageLibrary sender, object args)
-        {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-            {
-                NotificationNotifier.RequestShow(_notificationStrings.GetString("ScanningFiles"));
-                await MusicLibraryDataServiceManager.Current.ScanFiles();
-                NotificationNotifier.RequestHide();
-            });
+            // await ManageLocationOfScan_ContentDialog.ShowAsync();
         }
 
         #endregion

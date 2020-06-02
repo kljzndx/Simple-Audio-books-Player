@@ -21,13 +21,14 @@
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
     <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
-    <PackageCertificateThumbprint>2EE3681A1F347A397CD1D4DFA28275969F60B89C</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>EB73EE6F2A4277C2179FB12B51B527A89F937BB5</PackageCertificateThumbprint>
     <AppInstallerUpdateFrequency>0</AppInstallerUpdateFrequency>
     <AppInstallerCheckForUpdateFrequency>OnApplicationRun</AppInstallerCheckForUpdateFrequency>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
+    <PackageCertificateKeyFile>SimpleAudioBooksPlayer_TemporaryKey.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -192,6 +193,9 @@
     <Compile Include="Views\Controls\Dialog\GroupsPicker.xaml.cs">
       <DependentUpon>GroupsPicker.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Controls\Dialog\LibraryManageDialog.xaml.cs">
+      <DependentUpon>LibraryManageDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Controls\Dialog\RenameDialog.xaml.cs">
       <DependentUpon>RenameDialog.xaml</DependentUpon>
     </Compile>
@@ -303,6 +307,7 @@
     <Content Include="Assets\Square44x44Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.altform-unplated_targetsize-24.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+    <None Include="SimpleAudioBooksPlayer_TemporaryKey.pfx" />
     <PRIResource Include="StringResources\zh-CN\Control\Dialog\GroupsPicker.resw" />
     <PRIResource Include="StringResources\en-US\Control\Dialog\GroupsPicker.resw" />
     <PRIResource Include="StringResources\en-US\Pages\PlayRecordPage.resw" />
@@ -356,6 +361,10 @@
     <Page Include="Views\Controls\Dialog\GroupsPicker.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Controls\Dialog\LibraryManageDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Controls\Dialog\RenameDialog.xaml">
       <SubType>Designer</SubType>
