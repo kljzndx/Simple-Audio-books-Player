@@ -190,6 +190,9 @@
     <Compile Include="Views\Controls\BuyToolTip.xaml.cs">
       <DependentUpon>BuyToolTip.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Controls\Dialog\GlobalDialogs.xaml.cs">
+      <DependentUpon>GlobalDialogs.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Controls\Dialog\GroupsPicker.xaml.cs">
       <DependentUpon>GroupsPicker.xaml</DependentUpon>
     </Compile>
@@ -357,6 +360,10 @@
     <Page Include="Views\Controls\BuyToolTip.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Controls\Dialog\GlobalDialogs.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Controls\Dialog\GroupsPicker.xaml">
       <Generator>MSBuild:Compile</Generator>

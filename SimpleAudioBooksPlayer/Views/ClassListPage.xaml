@@ -60,9 +60,6 @@
                     </Style>
                 </ListView.ItemContainerStyle>
             </ListView>
-
-            <dialog:RenameDialog x:Name="RenameClass_Dialog" Submitted="RenameClass_Dialog_OnSubmitted"/>
-            <dialog:GroupsPicker x:Name="MyGroupsPicker" Picked="MyGroupsPicker_Picked"/>
         </Grid>
 
         <Rectangle x:Name="Separator_Rectangle" Grid.Column="1" Width="12" Fill="{ThemeResource SystemControlBackgroundChromeMediumBrush}" ManipulationMode="TranslateX" ManipulationDelta="Separator_Rectangle_OnManipulationDelta" PointerEntered="Separator_Rectangle_OnPointerEntered" PointerExited="Separator_Rectangle_OnPointerExited"/>

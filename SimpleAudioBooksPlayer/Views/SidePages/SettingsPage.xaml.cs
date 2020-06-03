@@ -17,6 +17,7 @@ using SimpleAudioBooksPlayer.Service;
 using SimpleAudioBooksPlayer.ViewModels.Events;
 using SimpleAudioBooksPlayer.ViewModels.SettingProperties;
 using SimpleAudioBooksPlayer.ViewModels.SidePages;
+using SimpleAudioBooksPlayer.Views.Controls.Dialog;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -43,7 +44,7 @@ namespace SimpleAudioBooksPlayer.Views.SidePages
 
         private async void ManageLocationOfScan_Button_OnClick(object sender, RoutedEventArgs e)
         {
-            // await ManageLocationOfScan_ContentDialog.ShowAsync();
+            await GlobalDialogs.Current.ShowLibraryManageDialog();
         }
 
         #endregion

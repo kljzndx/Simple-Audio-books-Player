@@ -50,6 +50,9 @@ namespace SimpleAudioBooksPlayer.Views
             _vm.Server.DataLoaded += Server_DataLoaded;
 
             _settings.PropertyChanged += Settings_PropertyChanged;
+
+            GlobalDialogs.RenameDialogSubmitted += RenameClass_Dialog_OnSubmitted;
+            GlobalDialogs.GroupsPicked += MyGroupsPicker_Picked;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -205,7 +208,7 @@ namespace SimpleAudioBooksPlayer.Views
 
         private async void Rename_MenuFlyoutItem_OnClick(object sender, RoutedEventArgs e)
         {
-            await RenameClass_Dialog.Show(_tempClass.Name);
+            await GlobalDialogs.Current.ShowRenameDialog(_tempClass.Name);
         }
 
         private async void Remove_MenuFlyoutItem_OnClick(object sender, RoutedEventArgs e)
@@ -243,7 +246,7 @@ namespace SimpleAudioBooksPlayer.Views
 
         private async void AddItem_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
         {
-            await MyGroupsPicker.Show();
+            await GlobalDialogs.Current.ShowGroupsPickerDialog();
         }
 
         private async void MyGroupsPicker_Picked(GroupsPicker sender, IList<FileGroupDTO> args)

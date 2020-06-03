@@ -44,6 +44,11 @@
                 <StackPanel.Resources>
                     <Style TargetType="Button" BasedOn="{StaticResource IconButton_Style}"/>
                 </StackPanel.Resources>
+
+                <Button x:Name="Import_Button">
+                    <FontIcon Glyph="&#xE13F;"/>
+                </Button>
+
                 <TextBlock x:Uid="/MusicView/Sort_TextBlock" VerticalAlignment="Center"/>
 
                 <Button x:Name="Reverse_Button" x:Uid="/MusicView/Reverse_Button" Click="{x:Bind _vm.Reverse}">
@@ -75,22 +80,44 @@
             </StackPanel>
         </Grid>
 
-        <GridView x:Name="Main_GridView" Grid.Row="1" CanDragItems="True" IsItemClickEnabled="True" DragItemsStarting="Main_GridView_OnDragItemsStarting" ItemClick="Main_GridView_OnItemClick" RightTapped="Main_GridView_OnRightTapped">
-            <GridView.ItemContainerStyle>
-                <Style TargetType="GridViewItem">
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                </Style>
-            </GridView.ItemContainerStyle>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-            <GridView.ItemTemplate>
-                <DataTemplate x:DataType="model:FileGroupDTO">
-                    <temp:FileGroupItemTemplate Source="{x:Bind}"/>
-                </DataTemplate>
-            </GridView.ItemTemplate>
-        </GridView>
+            <StackPanel x:Name="WelcomeTip_StackPanel">
+                <StackPanel.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Margin" Value="8,0"/>
+                    </Style>
+                </StackPanel.Resources>
+            </StackPanel>
 
-        <dialog:RenameDialog x:Name="RenameGroup_Dialog" Submitted="RenameGroup_Dialog_OnSubmitted"/>
+            <GridView x:Name="Main_GridView" Grid.Row="1" CanDragItems="True" IsItemClickEnabled="True" DragItemsStarting="Main_GridView_OnDragItemsStarting" ItemClick="Main_GridView_OnItemClick" RightTapped="Main_GridView_OnRightTapped">
+                <GridView.ItemContainerStyle>
+                    <Style TargetType="GridViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    </Style>
+                </GridView.ItemContainerStyle>
 
-        <dialog:ClassPicker x:Name="MyClassPicker" Grid.Row="1" Picked="MyClassPicker_OnPicked"/>
+                <GridView.ItemTemplate>
+                    <DataTemplate x:DataType="model:FileGroupDTO">
+                        <temp:FileGroupItemTemplate Source="{x:Bind}"/>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+
+            <Grid x:Name="ErrorTips_Grid" Grid.Row="1">
+                <StackPanel x:Name="LibraryEmpty_ErrorTip_StackPanel">
+
+                </StackPanel>
+
+                <StackPanel x:Name="GroupsEmpty_ErrorTip_StackPanel">
+
+                </StackPanel>
+            </Grid>
+
+        </Grid>
     </Grid>
 </Page>

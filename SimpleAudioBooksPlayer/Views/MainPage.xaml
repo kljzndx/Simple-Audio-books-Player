@@ -5,6 +5,7 @@
     xmlns:local="using:SimpleAudioBooksPlayer.Views"
     xmlns:ap="using:SimpleAudioBooksPlayer.Views.Controls.AudioPlayer"
     xmlns:ctol="using:SimpleAudioBooksPlayer.Views.Controls"
+    xmlns:dialog="using:SimpleAudioBooksPlayer.Views.Controls.Dialog"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
@@ -33,5 +34,7 @@
         <ctol:NotificationBar x:Name="My_NotificationBar" Grid.Row="1" Margin="0,84,0,0"/>
 
         <ap:CustomMediaPlayerElement x:Name="CustomMediaPlayerElement" Grid.Row="2" CoverButton_Click="CustomMediaPlayerElement_OnCoverButton_Click"/>
+
+        <dialog:GlobalDialogs/>
     </Grid>
 </Page>

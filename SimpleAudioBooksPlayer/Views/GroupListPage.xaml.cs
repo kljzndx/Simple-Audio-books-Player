@@ -42,6 +42,9 @@ namespace SimpleAudioBooksPlayer.Views
             Main_GridView.ItemsSource = _vm.Data;
 
             GroupListMoreMenuNotifier.ShowMoreMenuRequested += GroupListMoreMenuNotifier_ShowMoreMenuRequested;
+
+            GlobalDialogs.RenameDialogSubmitted += RenameGroup_Dialog_OnSubmitted;
+            GlobalDialogs.ClassPicked += MyClassPicker_OnPicked;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -82,7 +85,7 @@ namespace SimpleAudioBooksPlayer.Views
 
         private async void Rename_MenuFlyoutItem_OnClick(object sender, RoutedEventArgs e)
         {
-            await RenameGroup_Dialog.Show(_tempGroup.Name);
+            await GlobalDialogs.Current.ShowRenameDialog(_tempGroup.Name);
         }
 
         private async void SetCover_MenuFlyoutItem_OnClick(object sender, RoutedEventArgs e)
@@ -123,7 +126,7 @@ namespace SimpleAudioBooksPlayer.Views
 
         private async void SetClass_MenuFlyoutItem_OnClick(object sender, RoutedEventArgs e)
         {
-            await MyClassPicker.Show();
+            await GlobalDialogs.Current.ShowClassPickerDialog();
         }
 
         private async void MyClassPicker_OnPicked(ClassPicker sender, ClassItemDTO args)
