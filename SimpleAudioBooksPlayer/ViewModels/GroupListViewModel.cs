@@ -47,6 +47,7 @@ namespace SimpleAudioBooksPlayer.ViewModels
 
         public ObservableCollection<FileGroupDTO> Data { get; }
         public List<MusicSorterUi<FileGroupDTO>> SorterMembers { get; }
+        public ClassItemDTO CurrentClass => _currentClass;
 
         public void RefreshData(ClassItemDTO classItem)
         {

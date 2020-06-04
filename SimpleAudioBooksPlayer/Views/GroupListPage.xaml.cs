@@ -45,6 +45,7 @@ namespace SimpleAudioBooksPlayer.Views
 
             GlobalDialogs.RenameDialogSubmitted += RenameGroup_Dialog_OnSubmitted;
             GlobalDialogs.ClassPicked += MyClassPicker_OnPicked;
+            GlobalDialogs.GroupsPicked += GlobalDialogs_GroupsPicked;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -151,6 +152,14 @@ namespace SimpleAudioBooksPlayer.Views
         private async void Import_Button_Click(object sender, RoutedEventArgs e)
         {
             await GlobalDialogs.Current.ShowGroupsPickerDialog(this);
+        }
+
+        private async void GlobalDialogs_GroupsPicked(object sender, IList<FileGroupDTO> args)
+        {
+            if (sender != this)
+                return;
+
+            await FileGroupDataServer.Current.SetClass(args, _vm.CurrentClass);
         }
     }
 }
