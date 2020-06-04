@@ -45,7 +45,7 @@
                     <Style TargetType="Button" BasedOn="{StaticResource IconButton_Style}"/>
                 </StackPanel.Resources>
 
-                <Button x:Name="Import_Button">
+                <Button x:Name="Import_Button" Click="Import_Button_Click">
                     <FontIcon Glyph="&#xE13F;"/>
                 </Button>
 

@@ -24,9 +24,11 @@ namespace SimpleAudioBooksPlayer.Views.Controls.Dialog
     {
         public static GlobalDialogs Current;
 
-        public static event TypedEventHandler<ClassPicker, ClassItemDTO> ClassPicked;
-        public static event TypedEventHandler<GroupsPicker, IList<FileGroupDTO>> GroupsPicked;
-        public static event TypedEventHandler<RenameDialog, string> RenameDialogSubmitted;
+        public static event EventHandler<ClassItemDTO> ClassPicked;
+        public static event EventHandler<IList<FileGroupDTO>> GroupsPicked;
+        public static event EventHandler<string> RenameDialogSubmitted;
+
+        private object _tempSender;
 
         public GlobalDialogs()
         {
@@ -51,43 +53,46 @@ namespace SimpleAudioBooksPlayer.Views.Controls.Dialog
             });
         }
 
-        public async Task ShowRenameDialog(string oldName)
+        public async Task ShowRenameDialog(object sender, string oldName)
         {
+            _tempSender = sender;
             await RunInUiProcess(async () =>
             {
                 await _RenameDialog.Show(oldName);
             });
         }
 
-        public async Task ShowGroupsPickerDialog()
+        public async Task ShowGroupsPickerDialog(object sender)
         {
+            _tempSender = sender;
             await RunInUiProcess(async () =>
             {
                 await _GroupsPicker.Show();
             });
         }
 
-        public async Task ShowClassPickerDialog()
+        public async Task ShowClassPickerDialog(object sender)
         {
+            _tempSender = sender;
             await RunInUiProcess(async () =>
             {
                 await _ClassPicker.Show();
             });
         }
 
-        private void ClassPicker_Picked(ClassPicker sender, Models.DTO.ClassItemDTO args)
+        private void ClassPicker_Picked(ClassPicker sender, ClassItemDTO args)
         {
-            ClassPicked?.Invoke(sender, args);
+            ClassPicked?.Invoke(_tempSender, args);
         }
 
-        private void GroupsPicker_Picked(GroupsPicker sender, IList<Models.DTO.FileGroupDTO> args)
+        private void GroupsPicker_Picked(GroupsPicker sender, IList<FileGroupDTO> args)
         {
-            GroupsPicked?.Invoke(sender, args);
+            GroupsPicked?.Invoke(_tempSender, args);
         }
 
         private void RenameDialog_Submitted(RenameDialog sender, string args)
         {
-            RenameDialogSubmitted?.Invoke(sender, args);
+            RenameDialogSubmitted?.Invoke(_tempSender, args);
         }
     }
 }

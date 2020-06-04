@@ -85,7 +85,7 @@ namespace SimpleAudioBooksPlayer.Views
 
         private async void Rename_MenuFlyoutItem_OnClick(object sender, RoutedEventArgs e)
         {
-            await GlobalDialogs.Current.ShowRenameDialog(_tempGroup.Name);
+            await GlobalDialogs.Current.ShowRenameDialog(this, _tempGroup.Name);
         }
 
         private async void SetCover_MenuFlyoutItem_OnClick(object sender, RoutedEventArgs e)
@@ -94,8 +94,11 @@ namespace SimpleAudioBooksPlayer.Views
             _tempGroup = null;
         }
 
-        private async void RenameGroup_Dialog_OnSubmitted(RenameDialog sender, string args)
+        private async void RenameGroup_Dialog_OnSubmitted(object sender, string args)
         {
+            if (sender != this)
+                return;
+
             if (!String.IsNullOrWhiteSpace(args))
                 await FileGroupDataServer.Current.Rename(_tempGroup, args);
 
@@ -126,11 +129,14 @@ namespace SimpleAudioBooksPlayer.Views
 
         private async void SetClass_MenuFlyoutItem_OnClick(object sender, RoutedEventArgs e)
         {
-            await GlobalDialogs.Current.ShowClassPickerDialog();
+            await GlobalDialogs.Current.ShowClassPickerDialog(this);
         }
 
-        private async void MyClassPicker_OnPicked(ClassPicker sender, ClassItemDTO args)
+        private async void MyClassPicker_OnPicked(object sender, ClassItemDTO args)
         {
+            if (sender != this)
+                return;
+
             if (args != null)
                 await FileGroupDataServer.Current.SetClass(_tempGroup, args);
             _tempGroup = null;
@@ -140,6 +146,11 @@ namespace SimpleAudioBooksPlayer.Views
         {
             var data = (FileGroupDTO) e.Items.First();
             e.Data.SetText(data.Index.ToString());
+        }
+
+        private async void Import_Button_Click(object sender, RoutedEventArgs e)
+        {
+            await GlobalDialogs.Current.ShowGroupsPickerDialog(this);
         }
     }
 }
