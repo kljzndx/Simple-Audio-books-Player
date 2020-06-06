@@ -11,6 +11,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.SettingProperties
         [SettingFieldByNormal(nameof(IsCreatedCoverFolder), false)] private bool _isCreatedCoverFolder;
         [SettingFieldByNormal(nameof(IsPaid), false)] private bool _isPaid;
         [SettingFieldByNormal(nameof(PaymentChecked), false)] private bool _paymentChecked;
+        [SettingFieldByNormal(nameof(IsShowWelcomeTip), true)] private bool _isShowWelcomeTip;
 
         private OtherSettingProperties() : base("Other")
         {
@@ -34,6 +35,12 @@ namespace SimpleAudioBooksPlayer.ViewModels.SettingProperties
         {
             get => _paymentChecked;
             set => SetSetting(ref _paymentChecked, value);
+        }
+
+        public bool IsShowWelcomeTip
+        {
+            get => _isShowWelcomeTip;
+            set => SetSetting(ref _isShowWelcomeTip, value);
         }
     }
 }

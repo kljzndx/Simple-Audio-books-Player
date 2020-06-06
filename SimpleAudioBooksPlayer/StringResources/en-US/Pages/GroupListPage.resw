@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CloseTip_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Close</value>
+  </data>
   <data name="Import_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>import books</value>
   </data>
@@ -134,5 +137,8 @@
   </data>
   <data name="Title" xml:space="preserve">
     <value>Book list</value>
+  </data>
+  <data name="WelcomeTip_TextBlock.Text" xml:space="preserve">
+    <value>Welcome to this app, do you need to setup scan locations?</value>
   </data>
 </root>

@@ -19,6 +19,7 @@ using SimpleAudioBooksPlayer.ViewModels;
 using SimpleAudioBooksPlayer.ViewModels.DataServer;
 using SimpleAudioBooksPlayer.ViewModels.Events;
 using SimpleAudioBooksPlayer.Views.Controls.Dialog;
+using SimpleAudioBooksPlayer.ViewModels.SettingProperties;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -32,6 +33,7 @@ namespace SimpleAudioBooksPlayer.Views
     {
         private readonly GroupListViewModel _vm;
         private FileGroupDTO _tempGroup;
+        private readonly OtherSettingProperties _otherSettings = OtherSettingProperties.Current;
 
         public GroupListPage()
         {
@@ -164,6 +166,16 @@ namespace SimpleAudioBooksPlayer.Views
                 return;
 
             await FileGroupDataServer.Current.SetClass(args, _vm.CurrentClass);
+        }
+
+        private async void ManageLocationOfScan_Button_Click(object sender, RoutedEventArgs e)
+        {
+            await GlobalDialogs.Current.ShowLibraryManageDialog();
+        }
+
+        private void CloseTip_Button_Click(object sender, RoutedEventArgs e)
+        {
+            _otherSettings.IsShowWelcomeTip = false;
         }
     }
 }

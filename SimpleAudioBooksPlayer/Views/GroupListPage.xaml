@@ -86,13 +86,21 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <StackPanel x:Name="WelcomeTip_StackPanel">
-                <StackPanel.Resources>
-                    <Style TargetType="TextBlock">
-                        <Setter Property="Margin" Value="8,0"/>
-                    </Style>
-                </StackPanel.Resources>
-            </StackPanel>
+            <Grid x:Name="WelcomeTip_Grid" Padding="8" Margin="0,8" Visibility="{x:Bind _otherSettings.IsShowWelcomeTip, Mode=OneWay}" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                
+                <TextBlock x:Uid="/GroupListPage/WelcomeTip_TextBlock" Margin="4,0" VerticalAlignment="Center"/>
+                
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button x:Name="ManageLocationOfScan_Button" x:Uid="/SettingsPage/ManageLocationOfScan_Button" Margin="4,0" Click="ManageLocationOfScan_Button_Click"/>
+                    <Button x:Name="CloseTip_Button" x:Uid="/GroupListPage/CloseTip_Button" Padding="4" Margin="4,0" Click="CloseTip_Button_Click">
+                        <SymbolIcon Symbol="Cancel"/>
+                    </Button>
+                </StackPanel>
+            </Grid>
 
             <GridView x:Name="Main_GridView" Grid.Row="1" CanDragItems="True" IsItemClickEnabled="True" DragItemsStarting="Main_GridView_OnDragItemsStarting" ItemClick="Main_GridView_OnItemClick" RightTapped="Main_GridView_OnRightTapped">
                 <GridView.ItemContainerStyle>
