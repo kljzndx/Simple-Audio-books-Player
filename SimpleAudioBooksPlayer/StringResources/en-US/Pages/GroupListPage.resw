@@ -120,8 +120,17 @@
   <data name="CloseTip_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Close</value>
   </data>
+  <data name="ErrorTip_Import_Button.Content" xml:space="preserve">
+    <value>import books</value>
+  </data>
+  <data name="GroupsEmpty_ErrorTip_TextBlock.Text" xml:space="preserve">
+    <value>The class is empty</value>
+  </data>
   <data name="Import_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>import books</value>
+  </data>
+  <data name="LibraryEmpty_ErrorTip_TextBlock.Text" xml:space="preserve">
+    <value>There is no books in scan locations</value>
   </data>
   <data name="Rename_MenuFlyoutItem.Text" xml:space="preserve">
     <value>Rename</value>

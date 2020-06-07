@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage.Pickers;
@@ -43,11 +44,29 @@ namespace SimpleAudioBooksPlayer.ViewModels
             _server.DataUpdated += Server_DataUpdated;
             _server.ClassSeted += Server_ClassSeted;
             _server.DataRemoved += Server_DataRemoved;
+
+            Data.CollectionChanged += Data_CollectionChanged;
         }
 
         public ObservableCollection<FileGroupDTO> Data { get; }
         public List<MusicSorterUi<FileGroupDTO>> SorterMembers { get; }
         public ClassItemDTO CurrentClass => _currentClass;
+
+        private bool _isLibraryEmpty;
+
+        public bool IsLibraryEmpty
+        {
+            get => _isLibraryEmpty;
+            set => Set(ref _isLibraryEmpty, value);
+        }
+
+        private bool _isGroupEmpty;
+
+        public bool IsGroupEmpty
+        {
+            get => _isGroupEmpty;
+            set => Set(ref _isGroupEmpty, value);
+        }
 
         public void RefreshData(ClassItemDTO classItem)
         {
@@ -98,12 +117,31 @@ namespace SimpleAudioBooksPlayer.ViewModels
             await _server.SetCover(groupDto, file);
         }
 
+        public void CheckEmpty()
+        {
+            IsLibraryEmpty = false;
+            IsGroupEmpty = false;
+
+            if (!_server.Data.Any())
+            {
+                IsLibraryEmpty = true;
+                return;
+            }
+
+            if (!Data.Any())
+            {
+                IsGroupEmpty = true;
+            }
+        }
+
         private void Server_DataLoaded(object sender, IEnumerable<FileGroupDTO> e)
         {
             if (_currentClass is null)
                 return;
 
             RefreshData(_currentClass);
+
+            CheckEmpty();
         }
 
         private void Server_DataAdded(object sender, IEnumerable<FileGroupDTO> e)
@@ -149,6 +187,11 @@ namespace SimpleAudioBooksPlayer.ViewModels
         {
             foreach (var fileGroupDto in Data.Where(e.Contains).ToList())
                 Data.Remove(fileGroupDto);
+        }
+
+        private void Data_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            CheckEmpty();
         }
     }
 }

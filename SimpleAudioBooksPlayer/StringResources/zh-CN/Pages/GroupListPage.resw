@@ -120,8 +120,17 @@
   <data name="CloseTip_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>关闭</value>
   </data>
+  <data name="ErrorTip_Import_Button.Content" xml:space="preserve">
+    <value>导入书籍</value>
+  </data>
+  <data name="GroupsEmpty_ErrorTip_TextBlock.Text" xml:space="preserve">
+    <value>当前分类没有任何书籍</value>
+  </data>
   <data name="Import_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>导入书籍</value>
+  </data>
+  <data name="LibraryEmpty_ErrorTip_TextBlock.Text" xml:space="preserve">
+    <value>没有扫描到任何书籍</value>
   </data>
   <data name="Rename_MenuFlyoutItem.Text" xml:space="preserve">
     <value>重命名</value>

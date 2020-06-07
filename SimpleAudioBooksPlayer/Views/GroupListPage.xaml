@@ -116,16 +116,17 @@
                 </GridView.ItemTemplate>
             </GridView>
 
-            <Grid x:Name="ErrorTips_Grid" Grid.Row="1">
-                <StackPanel x:Name="LibraryEmpty_ErrorTip_StackPanel">
-
+            <Grid x:Name="ErrorTips_Grid" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel x:Name="LibraryEmpty_ErrorTip_StackPanel" Visibility="{Binding IsLibraryEmpty, Mode=OneWay}">
+                    <TextBlock x:Uid="/GroupListPage/LibraryEmpty_ErrorTip_TextBlock"/>
+                    <Button x:Uid="/SettingsPage/ManageLocationOfScan_Button" HorizontalAlignment="Center" Click="ManageLocationOfScan_Button_Click"/>
                 </StackPanel>
 
-                <StackPanel x:Name="GroupsEmpty_ErrorTip_StackPanel">
-
+                <StackPanel x:Name="GroupsEmpty_ErrorTip_StackPanel" Visibility="{Binding IsGroupEmpty, Mode=OneWay}">
+                    <TextBlock x:Uid="/GroupListPage/GroupsEmpty_ErrorTip_TextBlock"/>
+                    <Button x:Uid="/GroupListPage/ErrorTip_Import_Button" HorizontalAlignment="Center" Click="Import_Button_Click"/>
                 </StackPanel>
             </Grid>
-
         </Grid>
     </Grid>
 </Page>
