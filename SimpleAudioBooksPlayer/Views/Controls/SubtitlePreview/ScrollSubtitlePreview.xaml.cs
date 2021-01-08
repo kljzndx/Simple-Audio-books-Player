@@ -44,7 +44,7 @@ namespace SimpleAudioBooksPlayer.Views.Controls.SubtitlePreview
             {
                 var theLine = args.NewLine as SubtitleLineUi;
 
-                foreach (var line in Source.Where(l => l.IsSelected))
+                foreach (var line in Source.Cast<SubtitleLineUi>().Where(l => l.IsSelected))
                     line.IsSelected = false;
 
                 if (theLine == null)

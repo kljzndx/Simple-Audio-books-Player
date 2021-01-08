@@ -71,19 +71,19 @@ namespace SimpleAudioBooksPlayer.Views
         private void AutoSplit()
         {
             bool b = String.IsNullOrEmpty(SplitSymbols_TextBox.Text);
-
-            for (int i = 0; i < My_ScrollSubtitlePreview.Source.Count; i++)
+            var list = My_ScrollSubtitlePreview.Source.ToList();
+            for (int i = 0; i < list.Count; i++)
             {
-                var lineUi = My_ScrollSubtitlePreview.Source[i];
+                var line = list[i];
                 var str = _SubtitleStringList[i];
                 if (b)
                 {
-                    lineUi.Content = str;
+                    line.Content = str;
                 }
                 else
                 {
                     var contents = str.Split(SplitSymbols_TextBox.Text.ToArray());
-                    lineUi.Content = String.Join("\r\n", contents);
+                    line.Content = String.Join("\r\n", contents);
                 }
             }
         }
@@ -146,7 +146,7 @@ namespace SimpleAudioBooksPlayer.Views
                 My_ScrollSubtitlePreview.Visibility = Visibility.Visible;
                 CannotFindSubtitle_TextBlock.Visibility = Visibility.Collapsed;
 
-                My_ScrollSubtitlePreview.SetSubtitle(lines);
+                My_ScrollSubtitlePreview.Source = lines;
             }
         }
 
@@ -161,7 +161,7 @@ namespace SimpleAudioBooksPlayer.Views
                 My_ScrollSubtitlePreview.Refresh(e.Position);
         }
 
-        private void My_ScrollSubtitlePreview_OnSourceChanged(object sender, List<SubtitleLineUi> e)
+        private void My_ScrollSubtitlePreview_OnSourceChanged(object sender, IEnumerable<ISubtitleLine> e)
         {
             _needReposition = true;
 
@@ -173,7 +173,7 @@ namespace SimpleAudioBooksPlayer.Views
 
         private void My_ScrollSubtitlePreview_OnItemClick(object sender, ItemClickEventArgs e)
         {
-            var item = e.ClickedItem as SubtitleLineUi;
+            var item = e.ClickedItem as ISubtitleLine;
             if (item is null)
                 return;
 
