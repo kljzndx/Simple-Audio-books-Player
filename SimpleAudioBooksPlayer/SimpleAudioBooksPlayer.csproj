@@ -209,9 +209,6 @@
     <Compile Include="Views\Controls\Dialog\ClassPicker.xaml.cs">
       <DependentUpon>ClassPicker.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Controls\SubtitlePreview\ScrollSubtitlePreview.xaml.cs">
-      <DependentUpon>ScrollSubtitlePreview.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\GroupListPage.xaml.cs">
       <DependentUpon>GroupListPage.xaml</DependentUpon>
     </Compile>
@@ -386,10 +383,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Controls\SubtitlePreview\ScrollSubtitlePreview.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Views\GroupListPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -448,7 +441,7 @@
       <Version>1.5.1</Version>
     </PackageReference>
     <PackageReference Include="HappyStudio.Subtitle.Control.UWP">
-      <Version>1.6.4</Version>
+      <Version>1.7.2</Version>
     </PackageReference>
     <PackageReference Include="HappyStudio.UwpToolsLibrary.Control">
       <Version>1.7.2</Version>

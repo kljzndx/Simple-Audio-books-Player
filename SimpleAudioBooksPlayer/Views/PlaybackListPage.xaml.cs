@@ -9,8 +9,8 @@ using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 using HappyStudio.Parsing.Subtitle.Interfaces;
+using HappyStudio.Subtitle.Control.Interface.Models.Extensions;
 using HappyStudio.Subtitle.Control.Interface.Events;
-using HappyStudio.Subtitle.Control.UWP.Models;
 using SimpleAudioBooksPlayer.Models.Attributes;
 using SimpleAudioBooksPlayer.Models.DTO;
 using SimpleAudioBooksPlayer.ViewModels;
@@ -146,7 +146,7 @@ namespace SimpleAudioBooksPlayer.Views
                 My_ScrollSubtitlePreview.Visibility = Visibility.Visible;
                 CannotFindSubtitle_TextBlock.Visibility = Visibility.Collapsed;
 
-                My_ScrollSubtitlePreview.Source = lines;
+                My_ScrollSubtitlePreview.Source = lines.ToLineUiList();
             }
         }
 
