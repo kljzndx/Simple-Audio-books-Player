@@ -9,6 +9,7 @@ using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 using HappyStudio.Parsing.Subtitle.Interfaces;
+using HappyStudio.Subtitle.Control.Interface;
 using HappyStudio.Subtitle.Control.Interface.Models.Extensions;
 using HappyStudio.Subtitle.Control.Interface.Events;
 using SimpleAudioBooksPlayer.Models.Attributes;
@@ -207,8 +208,10 @@ namespace SimpleAudioBooksPlayer.Views
 
         private void My_ScrollSubtitlePreview_OnRefreshed(object sender, SubtitlePreviewRefreshedEventArgs e)
         {
-            if (!_subtitleSettings.IsRereadingModeEnable || e.OldLine is null || e.NewLine is null)
-                return;
+            if (!_subtitleSettings.IsRereadingModeEnable || e.OldLine is null || e.NewLine is null ||
+                // 判断NewLine是不是OldLine的下一句歌词，如不做判断将会导致死循环
+                My_ScrollSubtitlePreview.Source.SkipWhile(l => l != e.OldLine).Skip(1).FirstOrDefault() != e.NewLine)
+                return; 
 
             if (_readingTimes < _subtitleSettings.RereadingTimes)
             {
