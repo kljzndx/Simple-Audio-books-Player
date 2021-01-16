@@ -174,8 +174,15 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
                 var list = source.ToList();
                 SplitList(list);
 
+
+
                 if (hasData)
+                {
+                    foreach (var fileDto in Data.Where(m => m.IsPlaying))
+                        fileDto.IsPlaying = false;
+                    
                     DataRemoved?.Invoke(this, Data.ToList());
+                }
 
                 this.LogByObject("添加数据");
                 _playbackList.Items.Clear();
@@ -323,13 +330,18 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
                 _playingId = (uint) id;
 
-                this.LogByObject("创建播放记录");
+                this.LogByObject("更新音频信息");
                 var mfd = Data[id];
+                if (CurrentMusic != null)
+                    CurrentMusic.IsPlaying = false;
+                
+                CurrentMusic = mfd;
+                CurrentMusic.IsPlaying = true;
+                PlayerNotifier.RaiseItem(mfd);
+                
+                this.LogByObject("创建播放记录");
                 _currentRecordDto = new PlaybackRecordDTO(mfd.Title, mfd.Group, (uint) id, _currentSortMethod, _musicListSettings.IsReverse);
                 await _recordServer.SetRecord(_currentRecordDto);
-
-                CurrentMusic = mfd;
-                PlayerNotifier.RaiseItem(mfd);
             });
         }
 

@@ -288,20 +288,13 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
                 if (TryGetSession(out var session))
                     session.PlaybackRate = _settings.PlaybackRate;
 
-                foreach (var fileDto in MusicFileDataServer.Current.Data.Where(m => m.IsPlaying).ToList())
-                    fileDto.IsPlaying = false;
+                if (args.NewItem != null && args.Reason == MediaPlaybackItemChangedReason.AppRequested)
+                {
+                    var fileDto = _dataServer.Data.First();
+                    MyTransportControls.CoverSource = await fileDto.Group.GetCover();
+                }
 
-                if (args.NewItem != null)
-                    foreach (var fileDto in PlaybackListDataServer.Current.Data.Where(m => m.HasRead))
-                        if (await fileDto.GetPlaybackItem() == args.NewItem)
-                        {
-                            this.LogByObject("正在设置封面显示");
-                            fileDto.IsPlaying = true;
-                            MyTransportControls.CoverSource = await fileDto.Group.GetCover();
-                            break;
-                        }
-
-                await PlaybackListDataServer.Current.PlaybackList_CurrentItemChanged(sender, args);
+                await _dataServer.PlaybackList_CurrentItemChanged(sender, args);
                 NowPlaybackItemChanged?.Invoke(this, new PlayerNowPlaybackItemChangeEventArgs(oldItem, args.NewItem));
             });
         }
