@@ -30,7 +30,6 @@ namespace SimpleAudioBooksPlayer.ViewModels
 
             this.LogByObject("初始化封面选取器");
             _coverPicker = new FileOpenPicker();
-            _coverPicker.FileTypeFilter.Add(".jpg");
             _coverPicker.FileTypeFilter.Add(".png");
             _coverPicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
 

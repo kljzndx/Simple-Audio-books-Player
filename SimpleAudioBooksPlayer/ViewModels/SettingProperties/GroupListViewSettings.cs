@@ -15,6 +15,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.SettingProperties
 
         [SettingFieldByEnum(nameof(SortMethod), typeof(GroupListSorterMember), nameof(GroupListSorterMember.Name))] private GroupListSorterMember _sortMethod;
         [SettingFieldByNormal(nameof(IsReverse), false)] private bool _isReverse;
+        [SettingFieldByNormal(nameof(IsCheckCover), false)] private bool _isCheckCover;
 
         private GroupListViewSettings() : base("GroupView")
         {
@@ -30,6 +31,12 @@ namespace SimpleAudioBooksPlayer.ViewModels.SettingProperties
         {
             get => _isReverse;
             set => SetSetting(ref _isReverse, value);
+        }
+
+        public bool IsCheckCover
+        {
+            get => _isCheckCover;
+            set => SetSetting(ref _isCheckCover, value);
         }
     }
 }

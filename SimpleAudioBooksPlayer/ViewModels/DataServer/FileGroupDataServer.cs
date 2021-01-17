@@ -18,7 +18,6 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
         public static readonly FileGroupDataServer Current = new FileGroupDataServer();
 
         private FileGroupDataService _service;
-        private StorageFolder _coverFolder;
 
         public FileGroupDataServer()
         {
@@ -48,6 +47,9 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             this.LogByObject("初始化文件组服务器");
             var source = await _service.GetData();
             var data = source.Select(g => new FileGroupDTO(g)).ToList();
+
+            await CheckoutCover(data);
+            
             foreach (var item in data)
                 Data.Add(item);
 
@@ -57,6 +59,33 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             _service.DataUpdated += Service_DataUpdated;
 
             ClassListDataServer.Current.DataRemoved += ClassDataServer_DataRemoved;
+        }
+
+        public async Task CheckoutCover(List<FileGroupDTO> source)
+        {
+            if (GroupListViewSettings.Current.IsCheckCover)
+                return;
+            
+            List<FileGroupDTO> list = source.Where(g => g.HasCover).ToList();
+            bool notFoundCover = false;
+            
+            foreach (var groupDto in list.Take(5))
+            {
+                notFoundCover = await groupDto.GetCoverFile() == null;
+                if (notFoundCover)
+                    break;
+            }
+            
+            if (notFoundCover)
+            {
+                foreach (var groupDto in list)
+                {
+                    groupDto.HasCover = false;
+                    _service.SetCover(groupDto.Index, false);
+                }
+            }
+
+            GroupListViewSettings.Current.IsCheckCover = true;
         }
 
         public List<FileGroupDTO> GetGroups(ClassItemDTO classItem)
@@ -102,18 +131,9 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
         public async Task SetCover(FileGroupDTO groupDto, StorageFile file)
         {
-            if (_coverFolder is null)
-                if (!OtherSettingProperties.Current.IsCreatedCoverFolder)
-                {
-                    this.LogByObject("正在创建封面文件夹");
-                    _coverFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("cover");
-                    OtherSettingProperties.Current.IsCreatedCoverFolder = true;
-                }
-                else
-                    _coverFolder = await ApplicationData.Current.LocalFolder.GetFolderAsync("cover");
-
             this.LogByObject("正在设置分类");
-            var bitmapFile = await file.CopyAsync(_coverFolder, $"{groupDto.Index}.image", NameCollisionOption.ReplaceExisting);
+            var folder = await StorageFolder.GetFolderFromPathAsync(groupDto.FolderPath);
+            var bitmapFile = await file.CopyAsync(folder, $"cover.png", NameCollisionOption.ReplaceExisting);
 
             var bi = new BitmapImage();
             bi.SetSource(await bitmapFile.OpenAsync(FileAccessMode.Read));

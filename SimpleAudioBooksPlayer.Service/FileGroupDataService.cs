@@ -57,13 +57,13 @@ namespace SimpleAudioBooksPlayer.Service
             DataUpdated?.Invoke(this, new[] {group});
         }
 
-        public async Task SetCover(int groupId)
+        public async Task SetCover(int groupId, bool hasCover = true)
         {
             var group = _source.FirstOrDefault(src => src.Index == groupId);
             if (@group == null)
                 return;
 
-            group.HasCover = true;
+            group.HasCover = hasCover;
 
             await _helper.Update(group);
             DataUpdated?.Invoke(this, new[] {group});

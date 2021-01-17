@@ -110,7 +110,7 @@ namespace SimpleAudioBooksPlayer.Views.ItemTemplates
             var deferral = e.GetDeferral();
             var items = await e.DataView.GetStorageItemsAsync();
             var file = items.FirstOrDefault(si => si.IsOfType(StorageItemTypes.File)) as StorageFile;
-            if (file is null || (file.FileType.ToLower() != ".jpg" && file.FileType.ToLower() != ".png"))
+            if (file is null || file.FileType.ToLower() != ".png")
                 return;
 
             await FileGroupDataServer.Current.SetCover(Source, file);

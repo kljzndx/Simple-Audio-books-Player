@@ -20,8 +20,6 @@ namespace SimpleAudioBooksPlayer.Models.DTO
         private static BitmapImage defaultImage;
         private static ApplicationTheme currentTheme;
 
-        private const string CustomCoverUri = "ms-appdata:///local/cover/";
-
         private WeakReference<BitmapImage> _cover;
 
         private string _name;
@@ -56,25 +54,30 @@ namespace SimpleAudioBooksPlayer.Models.DTO
         }
         public DateTime CreateTime { get; set; }
 
+        public async Task<StorageFile> GetCoverFile()
+        {
+            var folder = await StorageFolder.GetFolderFromPathAsync(FolderPath);
+            return (await folder.TryGetItemAsync("cover.png")) as StorageFile;
+        }
+        
         public async Task<BitmapImage> GetCover()
         {
             BitmapImage cover = null;
             _cover?.TryGetTarget(out cover);
-            if (cover is null)
+            
+            if (cover is null && HasCover)
             {
-                if (HasCover)
+                if (await GetCoverFile() is StorageFile file)
                 {
-                    var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(CustomCoverUri + $"{Index}.image"));
                     cover = new BitmapImage();
                     cover.SetSource(await file.OpenAsync(FileAccessMode.Read));
                     _cover = new WeakReference<BitmapImage>(cover);
-                }
-                else
-                {
-                    cover = defaultImage;
-                    _cover = new WeakReference<BitmapImage>(cover);
+                    return cover;
                 }
             }
+            
+            cover = defaultImage;
+            _cover = new WeakReference<BitmapImage>(cover);
             return cover;
         }
 
