@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
-using HappyStudio.UwpToolsLibrary.Auxiliarys;
+using HappyStudio.UwpToolsLibrary.Auxiliarys.Files.Scanners;
 using SimpleAudioBooksPlayer.DAL;
 using SimpleAudioBooksPlayer.DAL.Factory;
 using SimpleAudioBooksPlayer.Log;
@@ -92,7 +92,7 @@ namespace SimpleAudioBooksPlayer.Service
 
             var allFilePath = new List<string>();
 
-            await _scanner.ScanByFolder(async files =>
+            await _scanner.ScanByFileQuery(async files =>
             {
                 this.LogByObject("提取出所有文件路径");
                 var fileList = files.ToList();
