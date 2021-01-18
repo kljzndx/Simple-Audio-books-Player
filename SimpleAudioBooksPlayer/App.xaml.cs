@@ -148,13 +148,8 @@ namespace SimpleAudioBooksPlayer
                     NotificationNotifier.RequestShow(_notificationStrings.GetString("LoadingData"));
                     await ClassListDataServer.Current.Init();
                     await FileGroupDataServer.Current.Init();
-                    await MusicFileDataServer.Current.Init();
-                    await SubtitleFileDataServer.Current.Init();
                     await PlaybackRecordDataServer.Current.Init();
                     await PlaybackListDataServer.Current.Init();
-
-                    NotificationNotifier.RequestShow(_notificationStrings.GetString("ScanningFiles"));
-                    await MusicLibraryDataServiceManager.Current.ScanFiles();
                     NotificationNotifier.RequestHide();
                 });
 
