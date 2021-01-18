@@ -131,7 +131,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
         public async Task SetCover(FileGroupDTO groupDto, StorageFile file)
         {
-            this.LogByObject("正在设置分类");
+            this.LogByObject("正在设置封面");
             var folder = await StorageFolder.GetFolderFromPathAsync(groupDto.FolderPath);
             var bitmapFile = await file.CopyAsync(folder, $"cover.png", NameCollisionOption.ReplaceExisting);
 
