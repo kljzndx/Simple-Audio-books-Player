@@ -174,8 +174,6 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
                 var list = source.ToList();
                 SplitList(list);
 
-
-
                 if (hasData)
                 {
                     foreach (var fileDto in Data.Where(m => m.IsPlaying))
