@@ -5,6 +5,7 @@ using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
 using GalaSoft.MvvmLight;
+using HappyStudio.UwpToolsLibrary.Auxiliarys;
 using SimpleAudioBooksPlayer.DAL;
 using SimpleAudioBooksPlayer.Models.Sorters;
 using SimpleAudioBooksPlayer.ViewModels.DataServer;
@@ -73,6 +74,10 @@ namespace SimpleAudioBooksPlayer.Models.DTO
                     cover.SetSource(await file.OpenAsync(FileAccessMode.Read));
                     _cover = new WeakReference<BitmapImage>(cover);
                     return cover;
+                }
+                else
+                {
+                    MessageBox.ShowAsync($"Cannot find cover file of \"{Name}\" book", $"找不到 \"{Name}\" 书籍的封面文件", "Done");
                 }
             }
             
