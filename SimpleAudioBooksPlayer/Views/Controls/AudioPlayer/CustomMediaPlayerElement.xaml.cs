@@ -199,9 +199,6 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
                     this.LogByObject("重置播放源");
                     NowPlaybackItemChanged?.Invoke(this, new PlayerNowPlaybackItemChangeEventArgs(_currentItem, null));
                     _currentItem = null;
-
-                    foreach (var fileDto in MusicFileDataServer.Current.Data.Where(m => m.IsPlaying).ToList())
-                        fileDto.IsPlaying = false;
                 }
 
                 this.LogByObject("初始化播放器");
