@@ -14,6 +14,7 @@ using HappyStudio.Subtitle.Control.Interface.Models.Extensions;
 using HappyStudio.Subtitle.Control.Interface.Events;
 using SimpleAudioBooksPlayer.Models.Attributes;
 using SimpleAudioBooksPlayer.Models.DTO;
+using SimpleAudioBooksPlayer.Models.FileModels;
 using SimpleAudioBooksPlayer.ViewModels;
 using SimpleAudioBooksPlayer.ViewModels.DataServer;
 using SimpleAudioBooksPlayer.ViewModels.Events;
@@ -118,7 +119,7 @@ namespace SimpleAudioBooksPlayer.Views
 
         private async void PlaybackList_ListView_OnItemClick(object sender, ItemClickEventArgs e)
         {
-            await _listServer.PlayTo(_vm.PlaybackListSource.IndexOf((MusicFileDTO) e.ClickedItem));
+            await _listServer.PlayTo(_vm.PlaybackListSource.IndexOf((MusicFile) e.ClickedItem));
         }
 
         private void PlaybackList_ListView_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -129,7 +130,7 @@ namespace SimpleAudioBooksPlayer.Views
             PlaybackList_ListView.ScrollIntoView(e.AddedItems.First());
         }
 
-        private async void PlayerNotifier_CurrentItemChanged(object sender, MusicFileDTO e)
+        private async void PlayerNotifier_CurrentItemChanged(object sender, MusicFile e)
         {
             if (e is null)
                 return;

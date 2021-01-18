@@ -2,7 +2,7 @@
     x:Class="SimpleAudioBooksPlayer.Views.MusicListPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:model="using:SimpleAudioBooksPlayer.Models.DTO"
+    xmlns:model="using:SimpleAudioBooksPlayer.Models.FileModels"
     xmlns:ctor="using:SimpleAudioBooksPlayer.Views.ItemTemplates"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -83,7 +83,7 @@
             </ListView.ItemContainerStyle>
 
             <ListView.ItemTemplate>
-                <DataTemplate x:DataType="model:MusicFileDTO">
+                <DataTemplate x:DataType="model:MusicFile">
                     <ctor:MusicListItemTemplate Source="{x:Bind}"/>
                 </DataTemplate>
             </ListView.ItemTemplate>

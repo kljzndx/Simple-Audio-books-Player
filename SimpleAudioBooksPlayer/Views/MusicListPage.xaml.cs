@@ -7,6 +7,7 @@ using Windows.UI.Xaml.Navigation;
 using SimpleAudioBooksPlayer.Log;
 using SimpleAudioBooksPlayer.Models.Attributes;
 using SimpleAudioBooksPlayer.Models.DTO;
+using SimpleAudioBooksPlayer.Models.FileModels;
 using SimpleAudioBooksPlayer.ViewModels;
 using SimpleAudioBooksPlayer.ViewModels.DataServer;
 using SimpleAudioBooksPlayer.ViewModels.SettingProperties;
@@ -60,7 +61,7 @@ namespace SimpleAudioBooksPlayer.Views
 
         private async void Main_ListView_OnItemClick(object sender, ItemClickEventArgs e)
         {
-            var theItem = e.ClickedItem as MusicFileDTO;
+            var theItem = e.ClickedItem as MusicFile;
             if (theItem == null)
                 return;
 

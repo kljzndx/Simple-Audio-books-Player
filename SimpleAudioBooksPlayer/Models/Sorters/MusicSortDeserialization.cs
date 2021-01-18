@@ -1,13 +1,14 @@
 ﻿using SimpleAudioBooksPlayer.Models.DTO;
+using SimpleAudioBooksPlayer.Models.FileModels;
 using SimpleAudioBooksPlayer.ViewModels.SettingProperties;
 
 namespace SimpleAudioBooksPlayer.Models.Sorters
 {
     public static class MusicSortDeserialization
     {
-        public static MusicListSortSelector<MusicFileDTO> Deserialize(MusicListSortMembers member)
+        public static MusicListSortSelector<MusicFile> Deserialize(MusicListSortMembers member)
         {
-            MusicListSortSelector<MusicFileDTO> keySelector = null;
+            MusicListSortSelector<MusicFile> keySelector = null;
 
             switch (member)
             {
