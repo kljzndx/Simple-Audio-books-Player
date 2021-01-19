@@ -88,5 +88,16 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+
+        <Border Grid.Row="1" Visibility="{Binding IsRefreshing, Mode=OneWay}">
+            <Border.Background>
+                <SolidColorBrush Color="{ThemeResource SystemBaseHighColor}" Opacity="0.2"/>
+            </Border.Background>
+            
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <ProgressRing Width="100" Height="100" HorizontalAlignment="Center" IsActive="True"/>
+                <TextBlock x:Uid="/MusicListPage/ScanningFile_TextBlock" HorizontalAlignment="Center"/>
+            </StackPanel>
+        </Border>
     </Grid>
 </Page>

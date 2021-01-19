@@ -15,6 +15,8 @@ namespace SimpleAudioBooksPlayer.ViewModels
     {
         private readonly MusicFileDataServer _server = MusicFileDataServer.Current;
 
+        private bool _isRefreshing;
+
         public MusicListViewModel()
         {
             this.LogByObject("初始化排序方法列表");
@@ -26,11 +28,21 @@ namespace SimpleAudioBooksPlayer.ViewModels
 
         public List<MusicSorterUi<MusicFile>> SorterMembers { get; }
 
+        public bool IsRefreshing
+        {
+            get => _isRefreshing;
+            set => Set(ref _isRefreshing, value);
+        }
+
         public ObservableCollection<MusicFile> Data => _server.Data;
 
         public async Task RefreshData(int groupId)
         {
+            IsRefreshing = true;
+
             await _server.RefreshData(groupId);
+
+            IsRefreshing = false;
         }
 
         public void SortData(MusicListSortMembers method)
