@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using HappyStudio.Parsing.Subtitle;
-using HappyStudio.Subtitle.Control.Interface;
-using HappyStudio.Subtitle.Control.Interface.Models.Extensions;
+using HappyStudio.Parsing.Subtitle.Interfaces;
 using HappyStudio.UwpToolsLibrary.Auxiliarys;
 using SimpleAudioBooksPlayer.Models.DTO;
 
@@ -14,10 +14,10 @@ namespace SimpleAudioBooksPlayer.Models.FileModels
         {
         }
 
-        public async Task<IEnumerable<ISubtitleLineUi>> GetSubtitleLines()
+        public async Task<List<ISubtitleLine>> GetSubtitleLines()
         {
             string content = await FileReader.ReadText(await base.GetFileAsync(), "GBK");
-            var lineUiList = SubtitleParser.Parse(content).Lines.ToLineUiList();
+            var lineUiList = SubtitleParser.Parse(content).Lines.ToList();
 
             return lineUiList;
         }
