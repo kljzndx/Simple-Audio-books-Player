@@ -21,15 +21,10 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
         private readonly MusicListSettingProperties _settings = MusicListSettingProperties.Current;
         private int _groupId;
-        private FileScanner _scanner = new FileScanner("mp3", "aac", "flac", "alac", "m4a", "wav");
-        private MusicFileFactory _factory = new MusicFileFactory();
-
-        public MusicFileDataServer()
-        {
-            _scanner.Options.FolderDepth = Windows.Storage.Search.FolderDepth.Shallow;
-        }
 
         public ObservableCollection<MusicFile> Data { get; } = new ObservableCollection<MusicFile>();
+
+        public FileGroupDTO CurrentGroup { get; private set; }
 
         public async Task RefreshData(int groupId)
         {
@@ -39,24 +34,23 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             this.LogByObject("加载并排序数据");
             _groupId = groupId;
             Data.Clear();
+            FileGroupDTO groupDto;
 
             if (PlaybackListDataServer.Current.CurrentGroup != null && groupId == PlaybackListDataServer.Current.CurrentGroup.Index)
             {
+                groupDto = PlaybackListDataServer.Current.CurrentGroup;
                 foreach (var item in PlaybackListDataServer.Current.Data)
                     Data.Add(item);
             }
             else
             {
-                var group = FileGroupDataServer.Current.Data.First(g => g.Index == groupId);
+                groupDto = FileGroupDataServer.Current.Data.First(g => g.Index == groupId);
 
-                await _scanner.ScanByFileQuery(await StorageFolder.GetFolderFromPathAsync(group.FolderPath), async files =>
-                {
-                    foreach (var file in files)
-                        Data.Add(await _factory.CreateByFile(file, group));
-                });
+                await MusicFileScanner.Scan(groupDto, () => Data);
             }
             
             SortData(_settings.SortMethod);
+            CurrentGroup = groupDto;
         }
 
         public void SortData(MusicListSortMembers method)

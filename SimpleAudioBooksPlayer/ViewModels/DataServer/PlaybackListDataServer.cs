@@ -10,6 +10,7 @@ using Windows.Media.Playback;
 using Windows.UI.Core;
 using SimpleAudioBooksPlayer.Log;
 using SimpleAudioBooksPlayer.Models.DTO;
+using SimpleAudioBooksPlayer.Models.FileFactories;
 using SimpleAudioBooksPlayer.Models.FileModels;
 using SimpleAudioBooksPlayer.Models.Sorters;
 using SimpleAudioBooksPlayer.ViewModels.Events;
@@ -163,15 +164,21 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             if (!isGroupEquals || _currentSortMethod != method)
             {
                 this.LogByObject("筛选数据源并排序数据");
+
+                var data = new List<MusicFile>();
                 
                 if (!isGroupEquals)
                 {
-                    await _musicServer.RefreshData(groupDto.Index);
+                    if (_musicServer.CurrentGroup != null && groupDto.Equals(_musicServer.CurrentGroup))
+                        data = _musicServer.Data.ToList();
+                    else
+                        await MusicFileScanner.Scan(groupDto, () => data);
+                    
                     await SubtitleFileDataServer.Current.Scan(groupDto);
                 }
                 
                 var sortSelector = MusicSortDeserialization.Deserialize(method);
-                IEnumerable<MusicFile> source = _musicServer.Data.OrderBy(sortSelector.Invoke);
+                IEnumerable<MusicFile> source = data.OrderBy(sortSelector.Invoke);
 
                 CurrentGroup = groupDto;
 
