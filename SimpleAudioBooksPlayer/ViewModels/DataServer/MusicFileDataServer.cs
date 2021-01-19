@@ -1,89 +1,89 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using SimpleAudioBooksPlayer.DAL;
-using SimpleAudioBooksPlayer.DAL.Factory;
+using Windows.Storage;
+using HappyStudio.UwpToolsLibrary.Auxiliarys.Files.Scanners;
 using SimpleAudioBooksPlayer.Log;
 using SimpleAudioBooksPlayer.Models.DTO;
-using SimpleAudioBooksPlayer.Service;
+using SimpleAudioBooksPlayer.Models.FileFactories;
+using SimpleAudioBooksPlayer.Models.FileModels;
+using SimpleAudioBooksPlayer.Models.Sorters;
+using SimpleAudioBooksPlayer.ViewModels.SettingProperties;
 
 namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 {
-    public class MusicFileDataServer : IFileDataServer<MusicFileDTO>
+    public class MusicFileDataServer
     {
         public static readonly MusicFileDataServer Current = new MusicFileDataServer();
 
-        private IObservableDataService<MusicFile> _service;
+        private readonly MusicListSettingProperties _settings = MusicListSettingProperties.Current;
+        private int _groupId;
+        private FileScanner _scanner = new FileScanner("mp3", "aac", "flac", "alac", "m4a", "wav");
+        private MusicFileFactory _factory = new MusicFileFactory();
 
-        public bool IsInit { get; private set; }
-        public ObservableCollection<MusicFileDTO> Data { get; } = new ObservableCollection<MusicFileDTO>();
-
-        public event EventHandler<IEnumerable<MusicFileDTO>> DataLoaded;
-        public event EventHandler<IEnumerable<MusicFileDTO>> DataAdded;
-        public event EventHandler<IEnumerable<MusicFileDTO>> DataRemoved;
-        public event EventHandler<IEnumerable<MusicFileDTO>> DataUpdated;
-
-        public async Task Init()
+        public MusicFileDataServer()
         {
-            if (IsInit)
+            _scanner.Options.FolderDepth = Windows.Storage.Search.FolderDepth.Shallow;
+        }
+
+        public ObservableCollection<MusicFile> Data { get; } = new ObservableCollection<MusicFile>();
+
+        public async Task RefreshData(int groupId)
+        {
+            if (groupId == _groupId)
                 return;
 
-            IsInit = true;
-            _service = await MusicLibraryDataServiceManager.Current.GetMusicService();
+            this.LogByObject("加载并排序数据");
+            _groupId = groupId;
+            Data.Clear();
 
-            this.LogByObject("初始化音乐文件服务器");
-            var source = await _service.GetData();
-            var data = source.Select(f => new MusicFileDTO(f)).ToList();
-            foreach (var fileDto in data)
-                Data.Add(fileDto);
-
-            DataLoaded?.Invoke(this, data);
-            _service.DataAdded += Service_DataAdded;
-            _service.DataRemoved += Service_DataRemoved;
-            _service.DataUpdated += Service_DataUpdated;
-        }
-
-        private void Service_DataAdded(object sender, IEnumerable<MusicFile> e)
-        {
-            this.LogByObject("正在添加文件");
-            var mfdList = e.Select(f => new MusicFileDTO(f)).ToList();
-            foreach (var mfd in mfdList)
-                Data.Add(mfd);
-
-            if (mfdList.Any())
-                DataAdded?.Invoke(this, mfdList);
-        }
-
-        private void Service_DataRemoved(object sender, IEnumerable<MusicFile> e)
-        {
-            this.LogByObject("正在移除文件");
-            var needRemove = Data.Where(d => e.Any(f => f.FilePath == d.FilePath)).ToList();
-            foreach (var fileDto in needRemove)
-                Data.Remove(fileDto);
-
-            if (needRemove.Any())
-                DataRemoved?.Invoke(this, needRemove);
-        }
-
-        private void Service_DataUpdated(object sender, IEnumerable<MusicFile> e)
-        {
-            this.LogByObject("正在更新文件");
-            var list = new List<MusicFileDTO>();
-
-            foreach (var musicFile in e)
+            if (PlaybackListDataServer.Current.CurrentGroup != null && groupId == PlaybackListDataServer.Current.CurrentGroup.Index)
             {
-                var fileDto = Data.FirstOrDefault(d => d.FilePath == musicFile.FilePath);
-                if (fileDto is null)
-                    continue;
+                foreach (var item in PlaybackListDataServer.Current.Data)
+                    Data.Add(item);
 
-                fileDto.Update(musicFile);
-                list.Add(fileDto);
+                return;
             }
+            
+            var group = FileGroupDataServer.Current.Data.First(g => g.Index == groupId);
 
-            if (list.Any())
-                DataUpdated?.Invoke(this, list);
+            await _scanner.ScanByFileQuery(await StorageFolder.GetFolderFromPathAsync(group.FolderPath), async files =>
+            {
+                foreach (var file in files)
+                    Data.Add(await _factory.CreateByFile(file, group));
+            });
+
+            SortData(_settings.SortMethod);
+        }
+
+        public void SortData(MusicListSortMembers method)
+        {
+            this.LogByObject($"按 {method} 排序数据");
+            _settings.SortMethod = method;
+
+            IEnumerable<MusicFile> source = Data.OrderBy(MusicSortDeserialization.Deserialize(method).Invoke);
+
+            if (_settings.IsReverse)
+                source = source.Reverse();
+
+            var data = source.ToList();
+
+            for (var i = 0; i < data.Count; i++)
+                Data.Move(Data.IndexOf(data[i]), i);
+        }
+
+        public void Reverse()
+        {
+            this.LogByObject("倒序排序数据");
+            _settings.IsReverse = !_settings.IsReverse;
+
+            var data = Data.Reverse().ToList();
+            Data.Clear();
+            foreach (var file in data)
+                Data.Add(file);
         }
     }
 }

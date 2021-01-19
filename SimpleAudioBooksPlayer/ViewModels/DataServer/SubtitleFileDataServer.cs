@@ -1,78 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
+using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading.Tasks;
-using SimpleAudioBooksPlayer.DAL;
+using Windows.Storage;
+using HappyStudio.UwpToolsLibrary.Auxiliarys.Files.Scanners;
 using SimpleAudioBooksPlayer.Models.DTO;
-using SimpleAudioBooksPlayer.Service;
+using SimpleAudioBooksPlayer.Models.FileFactories;
+using SimpleAudioBooksPlayer.Models.FileModels;
 
 namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 {
-    public class SubtitleFileDataServer : IFileDataServer<SubtitleFileDTO>
+    public class SubtitleFileDataServer
     {
         public static readonly SubtitleFileDataServer Current = new SubtitleFileDataServer();
 
-        private IObservableDataService<SubtitleFile> _service;
+        private FileScanner _scanner = new FileScanner("lrc", "srt");
+        private SubtitleFileFactory _factory = new SubtitleFileFactory();
 
-        private SubtitleFileDataServer()
+        public SubtitleFileDataServer()
         {
-            Data = new ObservableCollection<SubtitleFileDTO>();
+            _scanner.Options.FolderDepth = Windows.Storage.Search.FolderDepth.Shallow;
         }
 
-        public bool IsInit { get; private set; }
-        public ObservableCollection<SubtitleFileDTO> Data { get; }
+        public ObservableCollection<SubtitleFile> Data { get; } = new ObservableCollection<SubtitleFile>();
 
-        public event EventHandler<IEnumerable<SubtitleFileDTO>> DataLoaded;
-        public event EventHandler<IEnumerable<SubtitleFileDTO>> DataAdded;
-        public event EventHandler<IEnumerable<SubtitleFileDTO>> DataRemoved;
-        public event EventHandler<IEnumerable<SubtitleFileDTO>> DataUpdated;
-
-        public async Task Init()
+        public async Task Scan(FileGroupDTO group)
         {
-            if (IsInit)
-                return;
-            IsInit = true;
+            Data.Clear();
 
-            _service = await MusicLibraryDataServiceManager.Current.GetLyricService();
-            var data = await _service.GetData();
-
-            foreach (var subtitleFile in data)
-                Data.Add(new SubtitleFileDTO(subtitleFile));
-
-            DataLoaded?.Invoke(this, Data.ToList());
-
-            _service.DataAdded += Service_DataAdded;
-            _service.DataRemoved += Service_DataRemoved;
-            _service.DataUpdated += Service_DataUpdated;
-        }
-
-        private void Service_DataAdded(object sender, IEnumerable<SubtitleFile> e)
-        {
-            var list = e.Select(s => new SubtitleFileDTO(s)).ToList();
-            foreach (var file in list)
-                Data.Add(file);
-
-            DataAdded?.Invoke(this, list);
-        }
-
-        private void Service_DataRemoved(object sender, IEnumerable<SubtitleFile> e)
-        {
-            var list = Data.Where(src => e.Any(s => s.FilePath == src.FilePath)).ToList();
-            foreach (var fileDto in list)
-                Data.Remove(fileDto);
-
-            DataRemoved?.Invoke(this, list);
-        }
-
-        private void Service_DataUpdated(object sender, IEnumerable<SubtitleFile> e)
-        {
-            var args = e.ToList();
-            var list = Data.Where(src => args.Any(s => s.FilePath == src.FilePath)).ToList();
-            foreach (var fileDto in list)
-                fileDto.Update(args.First(s => s.FilePath == fileDto.FilePath));
-
-            DataUpdated?.Invoke(this, list);
+            await _scanner.ScanByFileQuery(await StorageFolder.GetFolderFromPathAsync(group.FolderPath), async files =>
+            {
+                foreach (var file in files)
+                    Data.Add(await _factory.CreateByFile(file, group));
+            });
         }
     }
 }

@@ -10,17 +10,17 @@ using Windows.Media.Playback;
 using Windows.UI.Core;
 using SimpleAudioBooksPlayer.Log;
 using SimpleAudioBooksPlayer.Models.DTO;
+using SimpleAudioBooksPlayer.Models.FileModels;
 using SimpleAudioBooksPlayer.Models.Sorters;
 using SimpleAudioBooksPlayer.ViewModels.Events;
 using SimpleAudioBooksPlayer.ViewModels.SettingProperties;
 
 namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 {
-    public class PlaybackListDataServer : IDataServer<MusicFileDTO, MusicFileDTO>
+    public class PlaybackListDataServer : IDataServer<MusicFile, MusicFile>
     {
         public static PlaybackListDataServer Current = new PlaybackListDataServer();
 
-        private FileGroupDTO _currentGroup;
         private PlaybackRecordDTO _currentRecordDto;
         private MusicListSortMembers _currentSortMethod;
         private bool _isPreLoadClip;
@@ -28,7 +28,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
         private uint _playingId;
          
         private int _clipId = -1;
-        private readonly List<List<MusicFileDTO>> _clipList = new List<List<MusicFileDTO>>();
+        private readonly List<List<MusicFile>> _clipList = new List<List<MusicFile>>();
 
         private readonly MusicListSettingProperties _musicListSettings = MusicListSettingProperties.Current;
         private readonly MediaPlaybackList _playbackList = new MediaPlaybackList();
@@ -39,7 +39,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
         private PlaybackListDataServer()
         {
-            Data = new ObservableCollection<MusicFileDTO>();
+            Data = new ObservableCollection<MusicFile>();
 
             Data.CollectionChanged += Data_CollectionChanged;
             App.Current.Suspending += App_Suspending;
@@ -48,12 +48,14 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
         public bool IsInit { get; private set; }
 
-        public ObservableCollection<MusicFileDTO> Data { get; }
-        public MusicFileDTO CurrentMusic { get; private set; }
+        public ObservableCollection<MusicFile> Data { get; }
+        
+        public MusicFile CurrentMusic { get; private set; }
+        public FileGroupDTO CurrentGroup { get; private set; }
 
-        public event EventHandler<IEnumerable<MusicFileDTO>> DataLoaded;
-        public event EventHandler<IEnumerable<MusicFileDTO>> DataAdded;
-        public event EventHandler<IEnumerable<MusicFileDTO>> DataRemoved;
+        public event EventHandler<IEnumerable<MusicFile>> DataLoaded;
+        public event EventHandler<IEnumerable<MusicFile>> DataAdded;
+        public event EventHandler<IEnumerable<MusicFile>> DataRemoved;
 
         public async Task Init()
         {
@@ -69,8 +71,6 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
                 await SetSource(record);
 
             DataLoaded?.Invoke(this, Data.ToList());
-
-            _musicServer.DataRemoved += MusicServer_DataRemoved;
         }
 
         public async Task PreviousClip()
@@ -109,7 +109,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
             await SetPlayedTime();
 
-            InitData(record.Group, record.SortMethod, record.IsReverse);
+            await InitData(record.Group, record.SortMethod, record.IsReverse);
 
             await PlayTo(record.TrackId);
 
@@ -120,11 +120,11 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
                 BeginToPlay();
         }
 
-        public async Task SetSource(MusicFileDTO playTo)
+        public async Task SetSource(MusicFile playTo)
         {
             await SetPlayedTime();
 
-            InitData(playTo.Group, _musicListSettings.SortMethod);
+            await InitData(playTo.Group, _musicListSettings.SortMethod);
 
             uint trackId = (uint) Data.IndexOf(playTo);
             await PlayTo(trackId);
@@ -136,7 +136,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
         {
             await SetPlayedTime();
 
-            InitData(groupDto, _musicListSettings.SortMethod);
+            await InitData(groupDto, _musicListSettings.SortMethod);
 
             await PlayTo(0);
 
@@ -155,18 +155,25 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             }
         }
 
-        private void InitData(FileGroupDTO groupDto, MusicListSortMembers method, bool? isReverse = null)
+        private async Task InitData(FileGroupDTO groupDto, MusicListSortMembers method, bool? isReverse = null)
         {
             bool hasData = Data.Any();
+            bool isGroupEquals = groupDto.Equals(CurrentGroup);
 
-            if (!groupDto.Equals(_currentGroup) || _currentSortMethod != method)
+            if (!isGroupEquals || _currentSortMethod != method)
             {
                 this.LogByObject("筛选数据源并排序数据");
-
-                _currentGroup = groupDto;
-
+                
+                if (!isGroupEquals)
+                {
+                    await _musicServer.RefreshData(groupDto.Index);
+                    await SubtitleFileDataServer.Current.Scan(groupDto);
+                }
+                
                 var sortSelector = MusicSortDeserialization.Deserialize(method);
-                IEnumerable<MusicFileDTO> source = _musicServer.Data.Where(m => m.Group.Equals(groupDto)).OrderBy(sortSelector.Invoke);
+                IEnumerable<MusicFile> source = _musicServer.Data.OrderBy(sortSelector.Invoke);
+
+                CurrentGroup = groupDto;
 
                 if (isReverse ?? _musicListSettings.IsReverse)
                     source = source.Reverse();
@@ -196,15 +203,15 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             }
         }
 
-        private void SplitList(IEnumerable<MusicFileDTO> files)
+        private void SplitList(IEnumerable<MusicFile> files)
         {
             this.LogByObject("分割数据源");
             _clipList.Clear();
-            var queue = new Queue<MusicFileDTO>(files);
+            var queue = new Queue<MusicFile>(files);
 
             while (queue.Any())
             {
-                var temp = new List<MusicFileDTO>();
+                var temp = new List<MusicFile>();
 
                 for (int i = 0; i < 10; i++)
                     if (queue.Any())
@@ -268,25 +275,6 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
                 _player.Source = _playbackList;
                 Data.CollectionChanged -= Data_CollectionChanged;
             }
-        }
-
-        private async void MusicServer_DataRemoved(object sender, IEnumerable<MusicFileDTO> e)
-        {
-            var list = Data.Where(src => e.Any(f => f.FilePath == src.FilePath)).ToList();
-            if (!list.Any())
-                return;
-
-            this.LogByObject("移除无效播放项");
-            foreach (var fileDto in list)
-            {
-                var pb = await fileDto.GetPlaybackItem();
-                if (_playbackList.Items.Contains(pb))
-                    _playbackList.Items.Remove(pb);
-
-                Data.Remove(fileDto);
-            }
-
-            DataRemoved?.Invoke(this, list);
         }
 
         public async Task PlaybackList_CurrentItemChanged(MediaPlaybackList sender, CurrentMediaPlaybackItemChangedEventArgs args)
