@@ -81,7 +81,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
                 foreach (var groupDto in list)
                 {
                     groupDto.HasCover = false;
-                    _service.SetCover(groupDto.Index, false);
+                    await _service.SetCover(groupDto.Index, false);
                 }
             }
 
