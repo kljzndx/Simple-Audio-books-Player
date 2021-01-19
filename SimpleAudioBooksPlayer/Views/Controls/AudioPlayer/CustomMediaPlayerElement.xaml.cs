@@ -285,7 +285,7 @@ namespace SimpleAudioBooksPlayer.Views.Controls.AudioPlayer
                 if (TryGetSession(out var session))
                     session.PlaybackRate = _settings.PlaybackRate;
 
-                if (args.NewItem != null && args.Reason == MediaPlaybackItemChangedReason.AppRequested)
+                if (args.NewItem != null && args.Reason == MediaPlaybackItemChangedReason.AppRequested || args.Reason == MediaPlaybackItemChangedReason.InitialItem)
                 {
                     var fileDto = _dataServer.Data.First();
                     MyTransportControls.CoverSource = await fileDto.Group.GetCover();
