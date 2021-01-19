@@ -44,18 +44,18 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             {
                 foreach (var item in PlaybackListDataServer.Current.Data)
                     Data.Add(item);
+            }
+            else
+            {
+                var group = FileGroupDataServer.Current.Data.First(g => g.Index == groupId);
 
-                return;
+                await _scanner.ScanByFileQuery(await StorageFolder.GetFolderFromPathAsync(group.FolderPath), async files =>
+                {
+                    foreach (var file in files)
+                        Data.Add(await _factory.CreateByFile(file, group));
+                });
             }
             
-            var group = FileGroupDataServer.Current.Data.First(g => g.Index == groupId);
-
-            await _scanner.ScanByFileQuery(await StorageFolder.GetFolderFromPathAsync(group.FolderPath), async files =>
-            {
-                foreach (var file in files)
-                    Data.Add(await _factory.CreateByFile(file, group));
-            });
-
             SortData(_settings.SortMethod);
         }
 
