@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
 using HappyStudio.Parsing.Subtitle.Interfaces;
-using SimpleAudioBooksPlayer.Models.DTO;
+using SimpleAudioBooksPlayer.Models.FileModels;
 using SimpleAudioBooksPlayer.ViewModels.DataServer;
 
 namespace SimpleAudioBooksPlayer.ViewModels
@@ -13,9 +13,9 @@ namespace SimpleAudioBooksPlayer.ViewModels
     {
         private readonly SubtitleFileDataServer _subtitleFileServer = SubtitleFileDataServer.Current;
         
-        public ObservableCollection<MusicFileDTO> PlaybackListSource { get; } = PlaybackListDataServer.Current.Data;
+        public ObservableCollection<MusicFile> PlaybackListSource { get; } = PlaybackListDataServer.Current.Data;
 
-        public MusicFileDTO CurrentMusic => PlaybackListDataServer.Current.CurrentMusic;
+        public MusicFile CurrentMusic => PlaybackListDataServer.Current.CurrentMusic;
 
         public async Task<List<ISubtitleLine>> GetSubtitleLines()
         {
@@ -26,7 +26,7 @@ namespace SimpleAudioBooksPlayer.ViewModels
             if (file is null)
                 return null;
 
-            var subtitle = await file.GetLines();
+            var subtitle = await file.GetSubtitleLines();
             return subtitle;
         }
     }
