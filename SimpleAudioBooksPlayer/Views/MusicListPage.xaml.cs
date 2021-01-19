@@ -34,13 +34,13 @@ namespace SimpleAudioBooksPlayer.Views
             Sorter_ListView.SelectedIndex = (int) _settings.SortMethod;
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             if (e.Parameter is null)
                 return;
 
             var groupId = (int) e.Parameter;
-            _vm.RefreshData(groupId);
+            await _vm.RefreshData(groupId);
         }
 
         private void Goto()
