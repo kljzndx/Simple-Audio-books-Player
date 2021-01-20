@@ -69,7 +69,7 @@ namespace SimpleAudioBooksPlayer.Service
             DataUpdated?.Invoke(this, new[] {group});
         }
 
-        internal async Task AddRange(IEnumerable<string> folderPaths)
+        public async Task IntelligentAddRange(IEnumerable<string> folderPaths)
         {
             var list = folderPaths.Where(p => _source.All(src => src.FolderPath != p))
                 .Select(p => new FileGroup(p)).ToList();
@@ -82,9 +82,9 @@ namespace SimpleAudioBooksPlayer.Service
             DataAdded?.Invoke(this, list);
         }
 
-        internal async Task RemoveRange(IEnumerable<string> folderPaths)
+        public async Task IntelligentRemoveRange(IEnumerable<string> allFolderPaths)
         {
-            var list = _source.Where(src => folderPaths.Any(p => src.FolderPath == p)).ToList();
+            var list = _source.Where(src => allFolderPaths.All(p => p != src.FolderPath)).ToList();
 
             if (!list.Any())
                 return;
