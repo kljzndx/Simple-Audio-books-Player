@@ -4,9 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-
 using SimpleAudioBooksPlayer.Log;
 using SimpleAudioBooksPlayer.Service;
+using SimpleAudioBooksPlayer.ViewModels.DataServer;
 using SimpleAudioBooksPlayer.ViewModels.Events;
 using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
@@ -69,8 +69,8 @@ namespace SimpleAudioBooksPlayer.Views.Controls.Dialog
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                NotificationNotifier.RequestShow(_notificationStrings.GetString("ScanningFiles"));
-                await MusicLibraryDataServiceManager.Current.ScanFiles();
+                NotificationNotifier.RequestShow(_notificationStrings.GetString("ScanningFolders"));
+                await FileGroupDataServer.Current.ScanFolders();
                 NotificationNotifier.RequestHide();
             });
         }

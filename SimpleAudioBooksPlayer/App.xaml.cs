@@ -19,7 +19,6 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using NLog;
-using SimpleAudioBooksPlayer.DAL.Factory;
 using SimpleAudioBooksPlayer.Log;
 using SimpleAudioBooksPlayer.Log.Models;
 using SimpleAudioBooksPlayer.Service;
@@ -56,7 +55,6 @@ namespace SimpleAudioBooksPlayer
             this.UnhandledException += App_UnhandledException;
 
             _logger = LoggerService.GetLogger(LoggerMembers.App);
-            LogExtension.SetupLogger(typeof(MusicFileFactory).Assembly, LoggerMembers.Other);
             LogExtension.SetupLogger(typeof(ClassListDataService).Assembly, LoggerMembers.Service);
             LogExtension.SetupLogger(typeof(App).Assembly, LoggerMembers.Ui);
         }
@@ -149,7 +147,11 @@ namespace SimpleAudioBooksPlayer
                     await ClassListDataServer.Current.Init();
                     await FileGroupDataServer.Current.Init();
                     await PlaybackRecordDataServer.Current.Init();
+                    NotificationNotifier.RequestHide();
                     await PlaybackListDataServer.Current.Init();
+
+                    NotificationNotifier.RequestShow(_notificationStrings.GetString("ScanningFolders"));
+                    await FileGroupDataServer.Current.ScanFolders();
                     NotificationNotifier.RequestHide();
                 });
 
