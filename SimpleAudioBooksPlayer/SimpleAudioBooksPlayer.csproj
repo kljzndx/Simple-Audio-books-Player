@@ -472,10 +472,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SimpleAudioBooksPlayer.DAL.Factory\SimpleAudioBooksPlayer.DAL.Factory.csproj">
-      <Project>{c6b6df71-3303-42d0-b67a-069afc043c5e}</Project>
-      <Name>SimpleAudioBooksPlayer.DAL.Factory</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SimpleAudioBooksPlayer.DAL\SimpleAudioBooksPlayer.DAL.csproj">
       <Project>{1411da69-aec1-41c4-bd1e-8838897f0974}</Project>
       <Name>SimpleAudioBooksPlayer.DAL</Name>
