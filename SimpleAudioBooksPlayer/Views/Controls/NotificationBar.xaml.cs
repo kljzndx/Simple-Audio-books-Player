@@ -26,6 +26,7 @@ namespace SimpleAudioBooksPlayer.Views.Controls
 
         public void Show(string text)
         {
+            Fold_Storyboard.Stop();
             Root_Border.Visibility = Visibility.Visible;
             Main_TextBlock.Text = text ?? String.Empty;
             Extend_Storyboard.Begin();
