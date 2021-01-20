@@ -120,8 +120,14 @@
   <data name="LoadingData" xml:space="preserve">
     <value>Loading data</value>
   </data>
-  <data name="ScanningFiles" xml:space="preserve">
-    <value>Scanning files in music library</value>
+  <data name="ScanningFolders" xml:space="preserve">
+    <value>Scanning folders in music library</value>
+  </data>
+  <data name="ScanningMusicFiles" xml:space="preserve">
+    <value>Scanning music files in "$$" book</value>
+  </data>
+  <data name="ScanningSubtitleFiles" xml:space="preserve">
+    <value>Scanning subtitle files in "$$" book</value>
   </data>
   <data name="SwitchingTheme" xml:space="preserve">
     <value>Switching theme</value>

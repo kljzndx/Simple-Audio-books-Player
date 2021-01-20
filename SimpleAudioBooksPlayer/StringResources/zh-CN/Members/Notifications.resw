@@ -120,8 +120,14 @@
   <data name="LoadingData" xml:space="preserve">
     <value>正在加载数据</value>
   </data>
-  <data name="ScanningFiles" xml:space="preserve">
-    <value>正在扫描音乐库里的文件</value>
+  <data name="ScanningFolders" xml:space="preserve">
+    <value>正在扫描音乐库里的文件夹</value>
+  </data>
+  <data name="ScanningMusicFiles" xml:space="preserve">
+    <value>正在扫描 “$$” 书籍里的音乐文件</value>
+  </data>
+  <data name="ScanningSubtitleFiles" xml:space="preserve">
+    <value>正在扫描 “$$” 书籍里的字幕文件</value>
   </data>
   <data name="SwitchingTheme" xml:space="preserve">
     <value>正在切换主题</value>
