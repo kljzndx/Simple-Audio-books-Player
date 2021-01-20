@@ -4,12 +4,16 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.Storage.Search;
 using Windows.UI.Xaml.Media.Imaging;
+using HappyStudio.UwpToolsLibrary.Auxiliarys.Files.Scanners;
 using SimpleAudioBooksPlayer.DAL;
 using SimpleAudioBooksPlayer.Log;
 using SimpleAudioBooksPlayer.Models.DTO;
+using SimpleAudioBooksPlayer.Models.FileFactories;
 using SimpleAudioBooksPlayer.Service;
 using SimpleAudioBooksPlayer.ViewModels.SettingProperties;
+using Nito.AsyncEx;
 
 namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 {
@@ -18,6 +22,8 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
         public static readonly FileGroupDataServer Current = new FileGroupDataServer();
 
         private FileGroupDataService _service;
+        private LibraryFolderScanner _folderScanner;
+        private readonly AsyncLock _mutex = new AsyncLock();
 
         public FileGroupDataServer()
         {
@@ -40,6 +46,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
             IsInit = true;
             _service = FileGroupDataService.Current;
+            _folderScanner = new LibraryFolderScanner(await StorageLibrary.GetLibraryAsync(KnownLibraryId.Music));
 
             this.LogByObject("初始化组资源");
             await FileGroupDTO.InitAssets();
@@ -59,6 +66,38 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             _service.DataUpdated += Service_DataUpdated;
 
             ClassListDataServer.Current.DataRemoved += ClassDataServer_DataRemoved;
+        }
+
+        public async Task ScanFolders()
+        {
+            using (await _mutex.LockAsync())
+            {
+                var allPaths = new List<string>();
+
+                await _folderScanner.ScanByFolderQuery(async folders =>
+                {
+                    var list = new List<string>();
+                    foreach (var folder in folders)
+                    {
+                        var qo = new QueryOptions(CommonFileQuery.OrderByName, MusicFileScanner.ExtensionName.Split(' ').Select(s => "." + s).ToArray());
+                        qo.FolderDepth = FolderDepth.Shallow;
+
+                        var fileQueryResult = folder.CreateFileQueryWithOptions(qo);
+                        var count = await fileQueryResult.GetItemCountAsync();
+
+                        if (count > 0)
+                            list.Add(folder.Path);
+                    }
+
+                    if (list.Any())
+                    {
+                        await _service.IntelligentAddRange(list);
+                        allPaths.AddRange(list);
+                    }
+                });
+
+                await _service.IntelligentRemoveRange(allPaths);
+            }
         }
 
         public async Task CheckoutCover(List<FileGroupDTO> source)
