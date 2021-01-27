@@ -23,11 +23,15 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
         private FileGroupDataService _service;
         private LibraryFolderScanner _folderScanner;
+        private QueryOptions _queryOptions;
         private readonly AsyncLock _mutex = new AsyncLock();
 
         public FileGroupDataServer()
         {
             Data = new ObservableCollection<FileGroupDTO>();
+
+            _queryOptions = new QueryOptions(CommonFileQuery.OrderByName, MusicFileScanner.ExtensionName.Split(' ').Select(s => "." + s).ToArray());
+            _queryOptions.FolderDepth = FolderDepth.Shallow;
         }
 
         public bool IsInit { get; private set; }
@@ -79,10 +83,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
                     var list = new List<string>();
                     foreach (var folder in folders)
                     {
-                        var qo = new QueryOptions(CommonFileQuery.OrderByName, MusicFileScanner.ExtensionName.Split(' ').Select(s => "." + s).ToArray());
-                        qo.FolderDepth = FolderDepth.Shallow;
-
-                        var fileQueryResult = folder.CreateFileQueryWithOptions(qo);
+                        var fileQueryResult = folder.CreateFileQueryWithOptions(_queryOptions);
                         var count = await fileQueryResult.GetItemCountAsync();
 
                         if (count > 0)
