@@ -1,0 +1,22 @@
+﻿<UserControl
+    x:Class="SimpleAudioBooksPlayer.Views.Controls.Dialog.UpdateLogDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:SimpleAudioBooksPlayer.Views.Controls.Dialog"
+    xmlns:pctol="using:HappyStudio.UwpToolsLibrary.Control"
+    xmlns:msctol="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400"
+    Loaded="UpdateLogDialog_Loaded">
+
+    <pctol:ReelDialog x:Name="Main_ReelDialog" x:Uid="/UpdateLogDialog/Main_ReelDialog" Width="300" Height="300">
+        <pctol:ReelDialog.ContentTemplate>
+            <DataTemplate x:DataType="x:String">
+                <msctol:MarkdownTextBlock Text="{x:Bind}" IsTextSelectionEnabled="True"/>
+            </DataTemplate>
+        </pctol:ReelDialog.ContentTemplate>
+    </pctol:ReelDialog>
+</UserControl>

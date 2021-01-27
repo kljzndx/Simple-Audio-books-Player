@@ -8,7 +8,8 @@ namespace SimpleAudioBooksPlayer.ViewModels.SettingProperties
     {
         public static readonly OtherSettingProperties Current = new OtherSettingProperties();
 
-        [SettingFieldByNormal(nameof(IsCreatedCoverFolder), false)] private bool _isCreatedCoverFolder;
+        [SettingFieldByNormal(nameof(UpdateLogVersion), "")] private string _updateLogVersion;
+
         [SettingFieldByNormal(nameof(IsPaid), false)] private bool _isPaid;
         [SettingFieldByNormal(nameof(PaymentChecked), false)] private bool _paymentChecked;
         [SettingFieldByNormal(nameof(IsShowWelcomeTip), true)] private bool _isShowWelcomeTip;
@@ -17,13 +18,13 @@ namespace SimpleAudioBooksPlayer.ViewModels.SettingProperties
         {
         }
 
-        public bool IsCreatedCoverFolder
-        {
-            get => _isCreatedCoverFolder;
-            set => SetSetting(ref _isCreatedCoverFolder, value);
-        }
-
         public DateTime ExitTime { get; set; }
+
+        public string UpdateLogVersion
+        {
+            get => _updateLogVersion;
+            set => SetSetting(ref _updateLogVersion, value);
+        }
 
         public bool IsPaid
         {

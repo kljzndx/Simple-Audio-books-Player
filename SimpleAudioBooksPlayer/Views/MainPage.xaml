@@ -31,10 +31,13 @@
         </Grid>
 
         <Frame x:Name="Main_Frame" Grid.Row="1" SourcePageType="local:MusicViewFrameworkPage" Navigated="Main_Frame_OnNavigated"/>
-        <ctol:NotificationBar x:Name="My_NotificationBar" Grid.Row="1" Margin="0,84,0,0"/>
+
+        <StackPanel Grid.Row="1" Margin="0,84,0,0">
+            <ctol:NotificationBar x:Name="My_NotificationBar"/>
+            <dialog:UpdateLogDialog/>
+        </StackPanel>
 
         <ap:CustomMediaPlayerElement x:Name="CustomMediaPlayerElement" Grid.Row="2" CoverButton_Click="CustomMediaPlayerElement_OnCoverButton_Click"/>
-
         <dialog:GlobalDialogs/>
     </Grid>
 </Page>
