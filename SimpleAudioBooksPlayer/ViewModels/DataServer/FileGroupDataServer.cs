@@ -112,7 +112,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             List<FileGroupDTO> list = source.Where(g => g.HasCover).ToList();
             bool notFoundCover = false;
             
-            foreach (var groupDto in list.Take(5))
+            foreach (var groupDto in list.Take(3))
             {
                 notFoundCover = await groupDto.GetCoverFile() == null;
                 if (notFoundCover)
