@@ -83,6 +83,9 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
                     var list = new List<string>();
                     foreach (var folder in folders)
                     {
+                        if (folder.Name == ".bookinfo")
+                            continue;
+
                         var fileQueryResult = folder.CreateFileQueryWithOptions(_queryOptions);
                         var count = await fileQueryResult.GetItemCountAsync();
 
