@@ -22,6 +22,7 @@ namespace SimpleAudioBooksPlayer.Models.DTO
         private static ApplicationTheme currentTheme;
 
         private WeakReference<BitmapImage> _cover;
+        private WeakReference<StorageFolder> _infoFolder;
 
         private string _name;
         private bool _hasCover;
@@ -55,9 +56,32 @@ namespace SimpleAudioBooksPlayer.Models.DTO
         }
         public DateTime CreateTime { get; set; }
 
+        public async Task<StorageFolder> GetInfoFolder()
+        {
+            StorageFolder folder = null;
+            _infoFolder?.TryGetTarget(out folder);
+
+            if (folder == null)
+            {
+                try
+                {
+                    folder = await StorageFolder.GetFolderFromPathAsync(FolderPath + ".bookinfo");
+                }
+                catch (Exception)
+                {
+                    var root = await StorageFolder.GetFolderFromPathAsync(FolderPath);
+                    folder = await root.CreateFolderAsync(".bookinfo");
+                }
+
+                _infoFolder = new WeakReference<StorageFolder>(folder);
+            }
+
+            return folder;
+        }
+
         public async Task<StorageFile> GetCoverFile()
         {
-            var folder = await StorageFolder.GetFolderFromPathAsync(FolderPath);
+            var folder = await GetInfoFolder();
             return (await folder.TryGetItemAsync("cover.png")) as StorageFile;
         }
         
