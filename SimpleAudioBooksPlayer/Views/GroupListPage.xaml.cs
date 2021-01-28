@@ -55,7 +55,7 @@ namespace SimpleAudioBooksPlayer.Views
         {
             if (e.Parameter is ClassItemDTO classItem)
             {
-                Import_Button.IsEnabled = classItem != ClassListDataServer.All_ClassItem;
+                Import_Button.IsEnabled = classItem != ClassListDataServer.All_ClassItem && classItem != ClassListDataServer.Unspecified_ClassItem;
 
                 _vm.RefreshData(classItem);
             }
