@@ -45,7 +45,9 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             {
                 groupDto = FileGroupDataServer.Current.Data.First(g => g.Index == groupId);
 
-                await MusicFileScanner.Scan(groupDto, () => Data);
+                var fds = await FileDataScanner.ScanMusicData(groupDto);
+                foreach (var musicFile in fds)
+                    Data.Add(musicFile);
             }
             
             SortData(_settings.SortMethod);

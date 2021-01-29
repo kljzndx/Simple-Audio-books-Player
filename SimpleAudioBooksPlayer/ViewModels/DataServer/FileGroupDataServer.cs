@@ -30,7 +30,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
         {
             Data = new ObservableCollection<FileGroupDTO>();
 
-            _queryOptions = new QueryOptions(CommonFileQuery.OrderByName, MusicFileScanner.ExtensionName.Split(' ').Select(s => "." + s).ToArray());
+            _queryOptions = new QueryOptions(CommonFileQuery.OrderByName, FileDataScanner.MusicFileExtensionNames.Split(' ').Select(s => "." + s).ToArray());
             _queryOptions.FolderDepth = FolderDepth.Shallow;
         }
 

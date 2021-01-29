@@ -172,7 +172,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
                     if (_musicServer.CurrentGroup != null && groupDto.Equals(_musicServer.CurrentGroup))
                         data = _musicServer.Data.ToList();
                     else
-                        await MusicFileScanner.Scan(groupDto, () => data);
+                        data = await FileDataScanner.ScanMusicData(groupDto);
                     
                     await SubtitleFileDataServer.Current.Scan(groupDto);
                 }

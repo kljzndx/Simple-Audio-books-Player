@@ -136,7 +136,7 @@
     <Compile Include="Models\Attributes\PageTitleGetter.cs" />
     <Compile Include="Models\FileFactories\IFileFactory.cs" />
     <Compile Include="Models\FileFactories\MusicFileFactory.cs" />
-    <Compile Include="Models\FileFactories\MusicFileScanner.cs" />
+    <Compile Include="Models\FileFactories\FileDataScanner.cs" />
     <Compile Include="Models\FileFactories\SubtitleFileFactory.cs" />
     <Compile Include="Models\FileGroupBox.cs" />
     <Compile Include="Models\DTO\ClassItemDTO.cs" />
