@@ -65,7 +65,7 @@ namespace SimpleAudioBooksPlayer.Views
             if (theItem == null)
                 return;
 
-            await PlaybackListDataServer.Current.SetSource(theItem);
+            await PlaybackListDataServer.Current.SetSource(theItem, _vm.IsForceScan);
         }
 
         private void Sorter_ListView_OnSelectionChanged(object sender, SelectionChangedEventArgs e)

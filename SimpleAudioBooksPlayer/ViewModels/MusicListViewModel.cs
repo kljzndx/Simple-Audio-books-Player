@@ -27,6 +27,7 @@ namespace SimpleAudioBooksPlayer.ViewModels
         }
 
         public List<MusicSorterUi<MusicFile>> SorterMembers { get; }
+        public bool IsForceScan { get; private set; }
 
         public bool IsRefreshing
         {
@@ -36,11 +37,12 @@ namespace SimpleAudioBooksPlayer.ViewModels
 
         public ObservableCollection<MusicFile> Data => _server.Data;
 
-        public async Task RefreshData(int groupId)
+        public async Task RefreshData(int groupId, bool isForceScan = false)
         {
             IsRefreshing = true;
+            IsForceScan = isForceScan;
 
-            await _server.RefreshData(groupId);
+            await _server.RefreshData(groupId, isForceScan);
 
             IsRefreshing = false;
         }

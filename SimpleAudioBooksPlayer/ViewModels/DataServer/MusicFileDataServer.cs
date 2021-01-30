@@ -25,7 +25,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
         public FileGroupDTO CurrentGroup { get; private set; }
 
-        public async Task RefreshData(int groupId)
+        public async Task RefreshData(int groupId, bool isForceScan = false)
         {
             if (groupId == _groupId)
                 return;
@@ -35,7 +35,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             Data.Clear();
             FileGroupDTO groupDto;
 
-            if (PlaybackListDataServer.Current.CurrentGroup != null && groupId == PlaybackListDataServer.Current.CurrentGroup.Index)
+            if (!isForceScan && PlaybackListDataServer.Current.CurrentGroup != null && groupId == PlaybackListDataServer.Current.CurrentGroup.Index)
             {
                 groupDto = PlaybackListDataServer.Current.CurrentGroup;
                 foreach (var item in PlaybackListDataServer.Current.Data)
@@ -45,7 +45,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             {
                 groupDto = FileGroupDataServer.Current.Data.First(g => g.Index == groupId);
 
-                var fds = await FileDataScanner.ScanMusicData(groupDto);
+                var fds = await FileDataScanner.ScanMusicData(groupDto, isForceScan);
                 foreach (var musicFile in fds)
                     Data.Add(musicFile);
             }

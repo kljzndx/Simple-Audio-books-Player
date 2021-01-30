@@ -103,7 +103,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
         }
 
         #region Source setter
-        
+
         public async Task SetSource(PlaybackRecordDTO record)
         {
             bool hasData = Data.Any();
@@ -121,8 +121,12 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
                 BeginToPlay();
         }
 
-        public async Task SetSource(MusicFile playTo)
+        public async Task SetSource(MusicFile playTo, bool isRefresh = false)
         {
+            // 防止重新扫描文件后无法播放新的文件列表的问题
+            if (playTo.Group.Equals(CurrentGroup) && isRefresh)
+                CurrentGroup = null;
+
             await SetPlayedTime();
 
             await InitData(playTo.Group, _musicListSettings.SortMethod);

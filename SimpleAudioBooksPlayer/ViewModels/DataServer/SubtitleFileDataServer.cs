@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -24,15 +23,15 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
         public ObservableCollection<SubtitleFile> Data { get; } = new ObservableCollection<SubtitleFile>();
 
-        public async Task Scan(FileGroupDTO group)
+        public async Task Scan(FileGroupDTO group, bool isForceScan = false)
         {
-            if (group.Equals(_group))
+            if (group.Equals(_group) && !isForceScan)
                 return;
 
             _group = group;
             Data.Clear();
             
-            var fds = await FileDataScanner.ScanSubtitleData(group);
+            var fds = await FileDataScanner.ScanSubtitleData(group, isForceScan);
             foreach (var subtitleFile in fds)
                 Data.Add(subtitleFile);
         }
