@@ -177,8 +177,6 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
                         data = _musicServer.Data.ToList();
                     else
                         data = await FileDataScanner.ScanMusicData(groupDto);
-                    
-                    await SubtitleFileDataServer.Current.Scan(groupDto);
                 }
                 
                 var sortSelector = MusicSortDeserialization.Deserialize(method);

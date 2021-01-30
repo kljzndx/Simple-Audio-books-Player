@@ -17,11 +17,12 @@ namespace SimpleAudioBooksPlayer.ViewModels
 
         public MusicFile CurrentMusic => PlaybackListDataServer.Current.CurrentMusic;
 
-        public async Task<List<ISubtitleLine>> GetSubtitleLines()
+        public async Task<List<ISubtitleLine>> GetSubtitleLines(bool isForceScan = false)
         {
             if (CurrentMusic is null)
                 return null;
 
+            await SubtitleFileDataServer.Current.Scan(CurrentMusic.Group, isForceScan);
             var file = _subtitleFileServer.Data.FirstOrDefault(s => s.DisplayName == CurrentMusic.DisplayName);
             if (file is null)
                 return null;
