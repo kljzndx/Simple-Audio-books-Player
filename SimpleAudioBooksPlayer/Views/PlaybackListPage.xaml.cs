@@ -95,12 +95,12 @@ namespace SimpleAudioBooksPlayer.Views
             if (lines == null)
             {
                 My_ScrollSubtitlePreview.Visibility = Visibility.Collapsed;
-                CannotFindSubtitle_TextBlock.Visibility = Visibility.Visible;
+                SubtitleLoadError_StackPanel.Visibility = Visibility.Visible;
             }
             else
             {
                 My_ScrollSubtitlePreview.Visibility = Visibility.Visible;
-                CannotFindSubtitle_TextBlock.Visibility = Visibility.Collapsed;
+                SubtitleLoadError_StackPanel.Visibility = Visibility.Collapsed;
 
                 My_ScrollSubtitlePreview.Source = lines.ToLineUiList();
             }
@@ -228,6 +228,11 @@ namespace SimpleAudioBooksPlayer.Views
             {
                 _readingTimes = 0;
             }
+        }
+
+        private async void ReScan_Button_Click(object sender, RoutedEventArgs e)
+        {
+            SwitchSubtitleUi(await _vm.GetSubtitleLines(true));
         }
     }
 }

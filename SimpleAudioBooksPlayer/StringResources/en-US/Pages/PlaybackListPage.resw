@@ -150,6 +150,9 @@
   <data name="RereadingTimes_Slider.Header" xml:space="preserve">
     <value>Rereading times</value>
   </data>
+  <data name="ReScan_Button.Content" xml:space="preserve">
+    <value>Re-scan</value>
+  </data>
   <data name="ShowList_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Show playback list</value>
   </data>

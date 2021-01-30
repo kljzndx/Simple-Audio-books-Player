@@ -150,6 +150,9 @@
   <data name="RereadingTimes_Slider.Header" xml:space="preserve">
     <value>复读次数</value>
   </data>
+  <data name="ReScan_Button.Content" xml:space="preserve">
+    <value>重新扫描</value>
+  </data>
   <data name="ShowList_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>显示播放列表</value>
   </data>

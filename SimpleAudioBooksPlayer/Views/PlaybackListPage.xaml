@@ -132,7 +132,10 @@
             </Border>
 
             <Grid Grid.Row="1">
-                <TextBlock x:Name="CannotFindSubtitle_TextBlock" x:Uid="/PlaybackListPage/CannotFindSubtitle_TextBlock" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <StackPanel x:Name="SubtitleLoadError_StackPanel"  HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock x:Uid="/PlaybackListPage/CannotFindSubtitle_TextBlock"/>
+                    <Button x:Name="ReScan_Button" x:Uid="/PlaybackListPage/ReScan_Button" HorizontalAlignment="Center" Click="ReScan_Button_Click"/>
+                </StackPanel>
                 <ctrl:ScrollSubtitlePreview x:Name="My_ScrollSubtitlePreview" Visibility="Collapsed" SourceChanged="My_ScrollSubtitlePreview_OnSourceChanged" ItemClick="My_ScrollSubtitlePreview_OnItemClick" Refreshed="My_ScrollSubtitlePreview_OnRefreshed">
                     <ctrl:ScrollSubtitlePreview.ItemTemplate>
                         <DataTemplate>
