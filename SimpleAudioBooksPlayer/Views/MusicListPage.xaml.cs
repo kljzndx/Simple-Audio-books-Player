@@ -88,5 +88,10 @@ namespace SimpleAudioBooksPlayer.Views
                 Goto();
             }
         }
+
+        private async void ReScan_Button_Click(object sender, RoutedEventArgs e)
+        {
+            await _vm.RefreshData(_vm.Data[0].Group.Index, true);
+        }
     }
 }

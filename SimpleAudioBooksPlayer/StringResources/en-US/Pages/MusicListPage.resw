@@ -123,6 +123,9 @@
   <data name="Go_Button.Content" xml:space="preserve">
     <value>Go</value>
   </data>
+  <data name="ReScan_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Re-scan files</value>
+  </data>
   <data name="ScanningFile_TextBlock.Text" xml:space="preserve">
     <value>Scanning files</value>
   </data>

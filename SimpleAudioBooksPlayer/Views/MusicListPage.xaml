@@ -22,24 +22,30 @@
                 <ColumnDefinition/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
+            
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="Goto_Button" x:Uid="/MusicListPage/Goto_Button" Style="{StaticResource IconButton_Style}">
+                    <Button.Flyout>
+                        <Flyout>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
 
-            <Button x:Name="Goto_Button" x:Uid="/MusicListPage/Goto_Button" Style="{StaticResource IconButton_Style}">
-                <Button.Flyout>
-                    <Flyout>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
+                                <TextBox x:Name="ItemId_TextBox" KeyDown="ItemId_TextBox_OnKeyDown"/>
+                                <Button x:Name="Go_Button" x:Uid="/MusicListPage/Go_Button" Grid.Column="1" VerticalAlignment="Center" Click="Go_Button_OnClick"/>
+                            </Grid>
+                        </Flyout>
+                    </Button.Flyout>
+                    <FontIcon Glyph="&#xE122;"/>
+                </Button>
 
-                            <TextBox x:Name="ItemId_TextBox" KeyDown="ItemId_TextBox_OnKeyDown"/>
-                            <Button x:Name="Go_Button" x:Uid="/MusicListPage/Go_Button" Grid.Column="1" VerticalAlignment="Center" Click="Go_Button_OnClick"/>
-                        </Grid>
-                    </Flyout>
-                </Button.Flyout>
-                <FontIcon Glyph="&#xE122;"/>
-            </Button>
-
+                <Button x:Name="ReScan_Button" x:Uid="/MusicListPage/ReScan_Button" Style="{StaticResource IconButton_Style}" Click="ReScan_Button_Click">
+                    <FontIcon Glyph="&#xE117;"/>
+                </Button>
+            </StackPanel>
+            
             <StackPanel Grid.Column="2" Orientation="Horizontal">
                 <StackPanel.Resources>
                     <Style TargetType="Button" BasedOn="{StaticResource IconButton_Style}"/>

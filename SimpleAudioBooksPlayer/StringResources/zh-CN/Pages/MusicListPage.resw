@@ -123,6 +123,9 @@
   <data name="Go_Button.Content" xml:space="preserve">
     <value>跳转</value>
   </data>
+  <data name="ReScan_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>重新扫描文件</value>
+  </data>
   <data name="ScanningFile_TextBlock.Text" xml:space="preserve">
     <value>正在扫描文件</value>
   </data>
