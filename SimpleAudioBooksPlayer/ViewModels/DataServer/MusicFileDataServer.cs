@@ -27,7 +27,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
         public async Task RefreshData(int groupId, bool isForceScan = false)
         {
-            if (groupId == _groupId)
+            if (groupId == _groupId && !isForceScan)
                 return;
 
             this.LogByObject("加载并排序数据");
