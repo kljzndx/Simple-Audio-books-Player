@@ -65,7 +65,7 @@ namespace SimpleAudioBooksPlayer.Models.DTO
             {
                 try
                 {
-                    folder = await StorageFolder.GetFolderFromPathAsync(FolderPath + ".bookinfo");
+                    folder = await StorageFolder.GetFolderFromPathAsync(FolderPath + "\\.bookinfo");
                 }
                 catch (Exception)
                 {
