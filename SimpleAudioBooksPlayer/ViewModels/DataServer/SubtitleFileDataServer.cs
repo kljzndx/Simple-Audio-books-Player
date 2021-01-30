@@ -16,6 +16,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
     public class SubtitleFileDataServer
     {
         public static readonly SubtitleFileDataServer Current = new SubtitleFileDataServer();
+        private FileGroupDTO _group;
 
         public SubtitleFileDataServer()
         {
@@ -25,6 +26,10 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
         public async Task Scan(FileGroupDTO group)
         {
+            if (group.Equals(_group))
+                return;
+
+            _group = group;
             Data.Clear();
             
             var fds = await FileDataScanner.ScanSubtitleData(group);
