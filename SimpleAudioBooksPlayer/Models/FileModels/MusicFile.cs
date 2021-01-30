@@ -2,11 +2,13 @@
 using System.Threading.Tasks;
 using Windows.Media.Core;
 using Windows.Media.Playback;
+using Newtonsoft.Json;
 using SimpleAudioBooksPlayer.Models.DTO;
 using SimpleAudioBooksPlayer.Models.Sorters;
 
 namespace SimpleAudioBooksPlayer.Models.FileModels
 {
+    [JsonObject(MemberSerialization.OptIn)]
     public class MusicFile : LibraryFileBase, IComparable, IComparable<MusicFile>
     {
         private WeakReference<MediaPlaybackItem> _playbackItem;
@@ -23,17 +25,26 @@ namespace SimpleAudioBooksPlayer.Models.FileModels
                 Title = DisplayName;
         }
 
+        [JsonConstructor]
+        public MusicFile(string fileName, DateTime modifyTime, uint trackNumber, string title, TimeSpan duration) : this(null, fileName, modifyTime, trackNumber, title, duration)
+        {
+        }
+
         public bool IsPlaying
         {
             get => _isPlaying;
             set => Set(ref _isPlaying, value);
         }
 
+        [JsonProperty]
         public uint TrackNumber { get; }
+        [JsonProperty]
         public string Title { get; }
+        [JsonProperty]
         public TimeSpan Duration { get; }
+        [JsonProperty]
         public DateTime ModifyTime { get; }
-        
+
         public async Task<MediaPlaybackItem> GetPlaybackItem()
         {
             var file = await base.GetFileAsync();
