@@ -63,7 +63,7 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <Border Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+            <Border Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}" Visibility="{x:Bind My_ScrollSubtitlePreview.Visibility, Mode=OneWay}">
                 <StackPanel x:Name="SubtitleToolBar_StackPanel" Orientation="Horizontal" HorizontalAlignment="Center">
                     <StackPanel.Resources>
                         <Style TargetType="Button" BasedOn="{StaticResource IconButton_Style}">
