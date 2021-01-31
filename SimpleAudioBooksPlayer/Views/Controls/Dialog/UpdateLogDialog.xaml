@@ -15,7 +15,9 @@
     <pctol:ReelDialog x:Name="Main_ReelDialog" x:Uid="/UpdateLogDialog/Main_ReelDialog" Width="300" Height="300">
         <pctol:ReelDialog.ContentTemplate>
             <DataTemplate x:DataType="x:String">
-                <msctol:MarkdownTextBlock Text="{x:Bind}" IsTextSelectionEnabled="True"/>
+                <ScrollViewer Padding="8">
+                    <msctol:MarkdownTextBlock Text="{x:Bind}" IsTextSelectionEnabled="True"/>
+                </ScrollViewer>
             </DataTemplate>
         </pctol:ReelDialog.ContentTemplate>
     </pctol:ReelDialog>
