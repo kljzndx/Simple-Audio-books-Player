@@ -26,7 +26,6 @@ using SimpleAudioBooksPlayer.ViewModels.DataServer;
 using SimpleAudioBooksPlayer.ViewModels.Events;
 using SimpleAudioBooksPlayer.ViewModels.Extensions;
 using SimpleAudioBooksPlayer.ViewModels.SettingProperties;
-using SimpleAudioBooksPlayer.Views.SidePages;
 
 namespace SimpleAudioBooksPlayer
 {

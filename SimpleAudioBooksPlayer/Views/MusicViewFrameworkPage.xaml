@@ -7,45 +7,19 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
-    <SplitView x:Name="Root_SplitView" PanePlacement="Right">
-        <SplitView.Pane>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-
-                <Border Margin="8">
-                    <TextBlock x:Name="Title_TextBlock" Style="{ThemeResource TitleTextBlockStyle}"/>
-                </Border>
-
-                <ScrollViewer Grid.Row="1">
-                    <Frame x:Name="SidePage_Frame" Padding="4,4,4,0" Navigated="SidePage_Frame_OnNavigated"/>
-                </ScrollViewer>
-            </Grid>
-        </SplitView.Pane>
-
-        <Pivot x:Name="Main_Pivot">
-            <Pivot.RightHeader>
-                <Button Style="{StaticResource IconButton_Style}">
-                    <Button.Flyout>
-                        <MenuFlyout x:Name="More_MenuFlyout" Opened="More_MenuFlyout_OnOpened">
-                            <MenuFlyoutItem x:Name="Settings_MenuFlyoutItem" Tag="SettingsPage" Click="Settings_MenuFlyoutItem_OnClick"/>
-                            <MenuFlyoutItem x:Name="About_MenuFlyoutItem" Tag="AboutPage" Click="About_MenuFlyoutItem_OnClick"/>
-                        </MenuFlyout>
-                    </Button.Flyout>
-
-                    <FontIcon Glyph="&#xE10C;"/>
-                </Button>
-            </Pivot.RightHeader>
-
-            <PivotItem x:Uid="/FrameworkPage/Home_Pivot" Header="首页">
-                <Frame x:Name="GroupView_Frame" SourcePageType="local:ClassListPage" Navigating="Frame_OnNavigating"/>
-            </PivotItem>
-            <PivotItem x:Uid="/FrameworkPage/PlayRecords_Pivot" Header="播放记录">
-                <Frame x:Name="PlayRecordView_Frame" SourcePageType="local:PlayRecordPage" Navigating="Frame_OnNavigating"/>
-            </PivotItem>
-        </Pivot>
-    </SplitView>
+    
+    <Pivot x:Name="Main_Pivot">
+        <PivotItem x:Uid="/FrameworkPage/Home_Pivot">
+            <Frame SourcePageType="local:ClassListPage" Navigating="MusicViewFrame_OnNavigating"/>
+        </PivotItem>
+        <PivotItem x:Uid="/FrameworkPage/PlayRecords_Pivot">
+            <Frame SourcePageType="local:PlayRecordPage"/>
+        </PivotItem>
+        <PivotItem x:Uid="/FrameworkPage/Settings_Pivot">
+            <Frame SourcePageType="local:SettingsPage" Width="320" HorizontalAlignment="Left"/>
+        </PivotItem>
+        <PivotItem x:Uid="/FrameworkPage/About_Pivot">
+            <Frame SourcePageType="local:AboutPage" Width="320" HorizontalAlignment="Left"/>
+        </PivotItem>
+    </Pivot>
 </Page>

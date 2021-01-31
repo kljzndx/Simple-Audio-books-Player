@@ -117,10 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="About_Pivot.Header" xml:space="preserve">
+    <value>关于</value>
+  </data>
   <data name="Home_Pivot.Header" xml:space="preserve">
     <value>首页</value>
   </data>
   <data name="PlayRecords_Pivot.Header" xml:space="preserve">
     <value>播放记录</value>
+  </data>
+  <data name="Settings_Pivot.Header" xml:space="preserve">
+    <value>设置</value>
   </data>
 </root>

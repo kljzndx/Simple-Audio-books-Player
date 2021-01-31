@@ -3,25 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
-using Windows.ApplicationModel.Resources;
-using Windows.Storage;
 using Windows.System;
-using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using HappyStudio.UwpToolsLibrary.Auxiliarys;
 using SimpleAudioBooksPlayer.Log;
 using SimpleAudioBooksPlayer.Models.Attributes;
-using SimpleAudioBooksPlayer.Service;
-using SimpleAudioBooksPlayer.ViewModels.Events;
 using SimpleAudioBooksPlayer.ViewModels.SettingProperties;
 using SimpleAudioBooksPlayer.ViewModels.SidePages;
 using SimpleAudioBooksPlayer.Views.Controls.Dialog;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
-namespace SimpleAudioBooksPlayer.Views.SidePages
+namespace SimpleAudioBooksPlayer.Views
 {
     /// <summary>
     /// 可用于自身或导航至 Frame 内部的空白页。

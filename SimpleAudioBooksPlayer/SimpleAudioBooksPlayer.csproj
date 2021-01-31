@@ -254,10 +254,10 @@
     <Compile Include="Views\PlayRecordPage.xaml.cs">
       <DependentUpon>PlayRecordPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SidePages\AboutPage.xaml.cs">
+    <Compile Include="Views\AboutPage.xaml.cs">
       <DependentUpon>AboutPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SidePages\SettingsPage.xaml.cs">
+    <Compile Include="Views\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -443,11 +443,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SidePages\AboutPage.xaml">
+    <Page Include="Views\AboutPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SidePages\SettingsPage.xaml">
+    <Page Include="Views\SettingsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -535,16 +535,16 @@
     <PRIResource Include="StringResources\en-US\Pages\MusicListPage.resw" />
   </ItemGroup>
   <ItemGroup>
-    <PRIResource Include="StringResources\zh-CN\Pages\SidePages\SettingsPage.resw" />
+    <PRIResource Include="StringResources\zh-CN\Pages\SettingsPage.resw" />
   </ItemGroup>
   <ItemGroup>
-    <PRIResource Include="StringResources\en-US\Pages\SidePages\SettingsPage.resw" />
+    <PRIResource Include="StringResources\en-US\Pages\SettingsPage.resw" />
   </ItemGroup>
   <ItemGroup>
-    <PRIResource Include="StringResources\en-US\Pages\SidePages\AboutPage.resw" />
+    <PRIResource Include="StringResources\en-US\Pages\AboutPage.resw" />
   </ItemGroup>
   <ItemGroup>
-    <PRIResource Include="StringResources\zh-CN\Pages\SidePages\AboutPage.resw" />
+    <PRIResource Include="StringResources\zh-CN\Pages\AboutPage.resw" />
   </ItemGroup>
   <ItemGroup>
     <PRIResource Include="StringResources\zh-CN\Members\Notifications.resw" />

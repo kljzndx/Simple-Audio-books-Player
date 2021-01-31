@@ -1,9 +1,8 @@
 ﻿<Page
-    x:Class="SimpleAudioBooksPlayer.Views.SidePages.SettingsPage"
+    x:Class="SimpleAudioBooksPlayer.Views.SettingsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:SimpleAudioBooksPlayer.Views.SidePages"
-    
+
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:Interactions="using:Microsoft.Xaml.Interactions.Core"
 
