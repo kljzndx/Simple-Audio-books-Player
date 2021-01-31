@@ -33,12 +33,15 @@ namespace SimpleAudioBooksPlayer.Views.Controls.Dialog
             if (OtherSettingProperties.Current.UpdateLogVersion == AppInfo.Version)
                 return;
 
-            OtherSettingProperties.Current.UpdateLogVersion = AppInfo.Version;
-
             var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/UpdateLog.md"));
             var fileContent = await FileReader.ReadText(file, "GBK");
 
             Main_ReelDialog.Show(fileContent);
+        }
+
+        private void Main_ReelDialog_Closed(object sender, EventArgs e)
+        {
+            OtherSettingProperties.Current.UpdateLogVersion = AppInfo.Version;
         }
     }
 }
