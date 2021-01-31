@@ -30,11 +30,9 @@ namespace SimpleAudioBooksPlayer.Views.Controls.Dialog
 
         private async void UpdateLogDialog_Loaded(object sender, RoutedEventArgs e)
         {
-#if DEBUG
-#else
             if (OtherSettingProperties.Current.UpdateLogVersion == AppInfo.Version)
                 return;
-#endif
+
             OtherSettingProperties.Current.UpdateLogVersion = AppInfo.Version;
 
             var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/UpdateLog.md"));
