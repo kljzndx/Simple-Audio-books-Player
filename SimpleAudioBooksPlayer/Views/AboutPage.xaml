@@ -7,7 +7,7 @@
     mc:Ignorable="d">
 
     <StackPanel>
-        <Border Background="{ThemeResource SystemControlBackgroundAccentBrush}" Width="300" Height="300">
+        <Border Background="{ThemeResource SystemControlBackgroundAccentBrush}" Width="320" Height="320">
             <Image Source="/Assets/LargeTile.png" Stretch="Uniform"/>
         </Border>
 
