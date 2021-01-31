@@ -31,7 +31,7 @@ namespace SimpleAudioBooksPlayer.Views
             _vm = (MusicListViewModel) this.DataContext;
 
             this.LogByObject($"初始化排序方法");
-            Sorter_ListView.SelectedIndex = (int) _settings.SortMethod;
+            Sorter_ComboBox.SelectedIndex = (int) _settings.SortMethod;
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -68,9 +68,9 @@ namespace SimpleAudioBooksPlayer.Views
             await PlaybackListDataServer.Current.SetSource(theItem, _vm.IsForceScan);
         }
 
-        private void Sorter_ListView_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void Sorter_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var method = (MusicListSortMembers) Sorter_ListView.SelectedIndex;
+            var method = (MusicListSortMembers)Sorter_ComboBox.SelectedIndex;
 
             if (_settings.SortMethod != method)
                 _vm.SortData(method);

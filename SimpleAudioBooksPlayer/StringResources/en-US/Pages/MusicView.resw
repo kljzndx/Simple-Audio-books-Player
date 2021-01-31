@@ -120,9 +120,6 @@
   <data name="Reverse_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Reverse the items</value>
   </data>
-  <data name="SelectSorter_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Select sort method</value>
-  </data>
   <data name="Sort_TextBlock.Text" xml:space="preserve">
     <value>Sort： </value>
   </data>

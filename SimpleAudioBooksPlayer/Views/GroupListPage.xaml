@@ -51,31 +51,10 @@
 
                 <TextBlock x:Uid="/MusicView/Sort_TextBlock" VerticalAlignment="Center"/>
 
+                <ComboBox x:Name="Sorter_ComboBox" VerticalAlignment="Center" ItemsSource="{Binding SorterMembers}" DisplayMemberPath="Name" SelectionChanged="Sorter_ComboBox_SelectionChanged"/>
+
                 <Button x:Name="Reverse_Button" x:Uid="/MusicView/Reverse_Button" Click="{x:Bind _vm.Reverse}">
                     <SymbolIcon Symbol="Sort"/>
-                </Button>
-
-                <Button x:Name="SorterList_Button" x:Uid="/MusicView/SelectSorter_Button">
-                    <Button.Content>
-                        <FontIcon Glyph="&#xE011;"/>
-                    </Button.Content>
-
-                    <Button.Flyout>
-                        <Flyout>
-                            <ListView x:Name="Sorter_ListView" ItemsSource="{Binding SorterMembers}" SelectionChanged="Sorter_ListView_OnSelectionChanged">
-                                <ListView.ItemContainerStyle>
-                                    <Style TargetType="ListViewItem">
-                                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                                    </Style>
-                                </ListView.ItemContainerStyle>
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding Name}"/>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                            </ListView>
-                        </Flyout>
-                    </Button.Flyout>
                 </Button>
             </StackPanel>
         </Grid>

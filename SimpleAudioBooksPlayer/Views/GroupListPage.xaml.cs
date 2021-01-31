@@ -41,7 +41,7 @@ namespace SimpleAudioBooksPlayer.Views
             this.InitializeComponent();
             _vm = (GroupListViewModel) this.DataContext;
 
-            Sorter_ListView.SelectedIndex = (int) _vm.Settings.SortMethod;
+            Sorter_ComboBox.SelectedIndex = (int) _vm.Settings.SortMethod;
             Main_GridView.ItemsSource = _vm.Data;
 
             GroupListMoreMenuNotifier.ShowMoreMenuRequested += GroupListMoreMenuNotifier_ShowMoreMenuRequested;
@@ -113,12 +113,12 @@ namespace SimpleAudioBooksPlayer.Views
             _tempGroup = null;
         }
 
-        private void Sorter_ListView_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void Sorter_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (Sorter_ListView.SelectedIndex == (int) _vm.Settings.SortMethod)
+            if (Sorter_ComboBox.SelectedIndex == (int)_vm.Settings.SortMethod)
                 return;
 
-            var sortMethod = _vm.SorterMembers[Sorter_ListView.SelectedIndex];
+            var sortMethod = _vm.SorterMembers[Sorter_ComboBox.SelectedIndex];
 
             this.LogByObject($"切换排序方法到 {sortMethod.Name}");
             _vm.Sort(sortMethod);
