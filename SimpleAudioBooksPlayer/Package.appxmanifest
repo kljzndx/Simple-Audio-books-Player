@@ -10,7 +10,7 @@
   <Identity
     Name="22643.SimpleAudio-booksPlayer"
     Publisher="CN=7A99FA60-940D-46A9-B3FA-D93317D891AB"
-    Version="2.0.0.0" />
+    Version="2.0.1.0" />
 
   <mp:PhoneIdentity PhoneProductId="db58f7e0-41d7-40b0-926e-876c1100c0d8" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
