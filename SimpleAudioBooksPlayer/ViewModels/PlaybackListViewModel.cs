@@ -28,6 +28,12 @@ namespace SimpleAudioBooksPlayer.ViewModels
                 return null;
 
             var subtitle = await file.GetSubtitleLines();
+            if (subtitle == null)
+            {
+                await SubtitleFileDataServer.Current.RemoveItem(file);
+                return await GetSubtitleLines(false);
+            }
+
             return subtitle;
         }
     }
