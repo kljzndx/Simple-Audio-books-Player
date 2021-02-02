@@ -35,5 +35,11 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             foreach (var subtitleFile in fds)
                 Data.Add(subtitleFile);
         }
+
+        public async Task RemoveItem(SubtitleFile subtitleFile)
+        {
+            Data.Remove(subtitleFile);
+            await FileDataScanner.RefreshIndex(_group, Data);
+        }
     }
 }
