@@ -29,7 +29,6 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
         private uint _playingId;
          
         private int _clipId = -1;
-        private readonly List<List<MusicFile>> _clipList = new List<List<MusicFile>>();
 
         private readonly MusicListSettingProperties _musicListSettings = MusicListSettingProperties.Current;
         private readonly MediaPlaybackList _playbackList = new MediaPlaybackList();
@@ -53,6 +52,8 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
         
         public MusicFile CurrentMusic { get; private set; }
         public FileGroupDTO CurrentGroup { get; private set; }
+        private int ClipCount => (int)Math.Ceiling(Data.Count / 10D);
+
 
         public event EventHandler<IEnumerable<MusicFile>> DataLoaded;
         public event EventHandler<IEnumerable<MusicFile>> DataAdded;
@@ -188,7 +189,6 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
                     source = source.Reverse();
 
                 var list = source.ToList();
-                SplitList(list);
 
                 if (hasData)
                 {
@@ -212,31 +212,13 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             }
         }
 
-        private void SplitList(IEnumerable<MusicFile> files)
-        {
-            this.LogByObject("分割数据源");
-            _clipList.Clear();
-            var queue = new Queue<MusicFile>(files);
-
-            while (queue.Any())
-            {
-                var temp = new List<MusicFile>();
-
-                for (int i = 0; i < 10; i++)
-                    if (queue.Any())
-                        temp.Add(queue.Dequeue());
-                    else
-                        break;
-
-                _clipList.Add(temp);
-            }
-        }
-
-        private async Task AddRangeToPlaybackList(MediaPlaybackList target, List<MusicFile> clip)
+        private async Task AddRangeToPlaybackList(MediaPlaybackList target, int clipId)
         {
             this.LogByObject("加载播放项数据");
+            var clip = Data.Skip(clipId * 10).Take(20).ToList();
+
             int i = 0;
-            while (i < clip.Count)
+            while (i < 10 && i < clip.Count)
             {
                 var mf = clip[i];
                 MediaPlaybackItem playbackItem = await mf.GetPlaybackItem();
@@ -262,7 +244,6 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             _playingId = trackId;
             var clipId = (int) Math.Ceiling((trackId + 1) / 10D) - 1;
             
-            var clip = _clipList[clipId];
             var mfId = (uint) (trackId < 10 ? trackId : trackId - (10 * clipId));
 
             this.LogByObject($"计算结果： trackId = {trackId} clipId = {clipId} mfId = {mfId}");
@@ -273,7 +254,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
                 _clipId = clipId;
                 _playbackList.Items.Clear();
 
-                await AddRangeToPlaybackList(_playbackList, clip);
+                await AddRangeToPlaybackList(_playbackList, clipId);
             }
 
             this.LogByObject("移动播放头");
@@ -317,12 +298,13 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
                 var itemCount = sender.Items.Count;
                 var currentId = args.NewItem != null ? sender.Items.IndexOf(args.NewItem) : 0;
 
-                if (_isPreLoadClip && currentId == _clipList[_clipId].Count)
+                if (_isPreLoadClip && currentId >= 10)
                 {
                     this.LogByObject("开始清理播放项");
                     var oldCid = _clipId;
-                    _clipId = _clipId < _clipList.Count - 1 ? _clipId + 1 : 0;
-                    for (int i = 0; i < _clipList[oldCid].Count; i++)
+
+                    _clipId = _clipId < ClipCount - 1 ? _clipId + 1 : -1;
+                    for (int i = 0; i < 10; i++)
                         sender.Items.RemoveAt(0);
 
                     _isPreLoadClip = false;
@@ -330,15 +312,16 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
                     currentId = args.NewItem != null ? sender.Items.IndexOf(args.NewItem) : 0;
                 }
 
-                if (!_isPreLoadClip && _clipList.Count >= 2 && currentId == itemCount - 1)
+                if (!_isPreLoadClip && ClipCount >= 2 && currentId == itemCount - 1)
                 {
-                    var cid = _clipId < _clipList.Count - 1 ? _clipId + 1 : 0;
-                    var clip = _clipList[cid];
+                    var cid = _clipId < ClipCount - 1 ? _clipId + 1 : -1;
+                    if (cid != -1)
+                    {
+                        await AddRangeToPlaybackList(sender, cid);
 
-                    await AddRangeToPlaybackList(sender, clip);
-
-                    _isPreLoadClip = true;
-                    itemCount = sender.Items.Count;
+                        _isPreLoadClip = true;
+                        itemCount = sender.Items.Count;
+                    }
                 }
 
                 int id = _clipId * 10 + currentId;
