@@ -6,6 +6,7 @@ using GalaSoft.MvvmLight;
 using Newtonsoft.Json;
 using SimpleAudioBooksPlayer.Models.DTO;
 using System.IO;
+using HappyStudio.UwpToolsLibrary.Auxiliarys;
 
 namespace SimpleAudioBooksPlayer.Models.FileModels
 {
@@ -54,8 +55,9 @@ namespace SimpleAudioBooksPlayer.Models.FileModels
                     _weakFile = new WeakReference<StorageFile>(file);
 
                 }
-                catch (FileNotFoundException)
+                catch (FileNotFoundException ex)
                 {
+                    MessageBox.ShowAsync(ex.Message + Environment.NewLine + Environment.NewLine + FilePath, "Done");
                     return null;
                 }
             }
