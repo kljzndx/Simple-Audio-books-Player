@@ -47,13 +47,13 @@ namespace SimpleAudioBooksPlayer.Models.FileModels
 
         public async Task<MediaPlaybackItem> GetPlaybackItem()
         {
-            var file = await base.GetFileAsync();
             MediaPlaybackItem item = null;
 
             _playbackItem?.TryGetTarget(out item);
 
             if (item is null)
             {
+                var file = await base.GetFileAsync();
                 item = new MediaPlaybackItem(MediaSource.CreateFromStorageFile(file));
                 _playbackItem = new WeakReference<MediaPlaybackItem>(item);
             }
