@@ -22,7 +22,11 @@ namespace SimpleAudioBooksPlayer.Models.FileModels
 
         public async Task<List<ISubtitleLine>> GetSubtitleLines()
         {
-            string content = await FileReader.ReadText(await base.GetFileAsync(), "GBK");
+            var file = await base.GetFileAsync();
+            if (file == null)
+                return null;
+
+            string content = await FileReader.ReadText(file, "GBK");
             var lineUiList = SubtitleParser.Parse(content).Lines.ToList();
 
             return lineUiList;

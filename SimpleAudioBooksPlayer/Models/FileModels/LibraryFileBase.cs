@@ -5,6 +5,7 @@ using Windows.Storage;
 using GalaSoft.MvvmLight;
 using Newtonsoft.Json;
 using SimpleAudioBooksPlayer.Models.DTO;
+using System.IO;
 
 namespace SimpleAudioBooksPlayer.Models.FileModels
 {
@@ -47,8 +48,16 @@ namespace SimpleAudioBooksPlayer.Models.FileModels
 
             if (file is null)
             {
-                file = await StorageFile.GetFileFromPathAsync(FilePath);
-                _weakFile = new WeakReference<StorageFile>(file);
+                try
+                {
+                    file = await StorageFile.GetFileFromPathAsync(FilePath);
+                    _weakFile = new WeakReference<StorageFile>(file);
+
+                }
+                catch (FileNotFoundException)
+                {
+                    return null;
+                }
             }
 
             return file;

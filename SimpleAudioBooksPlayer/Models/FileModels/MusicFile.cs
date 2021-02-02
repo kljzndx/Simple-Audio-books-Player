@@ -54,6 +54,9 @@ namespace SimpleAudioBooksPlayer.Models.FileModels
             if (item is null)
             {
                 var file = await base.GetFileAsync();
+                if (file == null)
+                    return null;
+
                 item = new MediaPlaybackItem(MediaSource.CreateFromStorageFile(file));
                 _playbackItem = new WeakReference<MediaPlaybackItem>(item);
             }
