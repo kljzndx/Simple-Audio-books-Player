@@ -25,6 +25,8 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
 
         public FileGroupDTO CurrentGroup { get; private set; }
 
+        public bool RemoveItem(MusicFile musicFile) => Data.Remove(musicFile);
+
         public async Task RefreshData(int groupId, bool isForceScan = false)
         {
             if (groupId == _groupId && !isForceScan)
