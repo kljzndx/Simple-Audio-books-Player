@@ -83,7 +83,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             _isPreLoadClip = false;
 
             if (_playingId == 0)
-                await PlayTo((uint) Data.IndexOf(Data.Last()));
+                await PlayTo(Data.Count - 1);
             else
                 await PlayTo(_playingId - 1);
         }
@@ -97,7 +97,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
             _isPreLoadClip = false;
 
             if (_playingId == Data.Count - 1)
-                await PlayTo((uint) Data.IndexOf(Data.First()));
+                await PlayTo(0);
             else
                 await PlayTo(_playingId + 1);
         }
