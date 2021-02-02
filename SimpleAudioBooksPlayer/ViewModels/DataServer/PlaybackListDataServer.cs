@@ -231,7 +231,31 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
                 _clipList.Add(temp);
             }
         }
-        
+
+        private async Task AddRangeToPlaybackList(MediaPlaybackList target, List<MusicFile> clip)
+        {
+            this.LogByObject("加载播放项数据");
+            int i = 0;
+            while (i < clip.Count)
+            {
+                var mf = clip[i];
+                MediaPlaybackItem playbackItem = await mf.GetPlaybackItem();
+
+                if (playbackItem != null)
+                {
+                    target.Items.Add(playbackItem);
+                    i++;
+                }
+                else
+                {
+                    clip.Remove(mf);
+                    Data.Remove(mf);
+                    _musicServer.RemoveItem(mf);
+                    await FileDataScanner.RefreshIndex(CurrentGroup, Data);
+                }
+            }
+        }
+
         private async Task PlayTo(uint trackId)
         {
             this.LogByObject("计算各项数据");
@@ -249,8 +273,7 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
                 _clipId = clipId;
                 _playbackList.Items.Clear();
 
-                foreach (var fileDto in clip)
-                    _playbackList.Items.Add(await fileDto.GetPlaybackItem());
+                await AddRangeToPlaybackList(_playbackList, clip);
             }
 
             this.LogByObject("移动播放头");
@@ -294,11 +317,12 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
                 var itemCount = sender.Items.Count;
                 var currentId = args.NewItem != null ? sender.Items.IndexOf(args.NewItem) : 0;
 
-                if (_isPreLoadClip && currentId >= 10)
+                if (_isPreLoadClip && currentId == _clipList[_clipId].Count)
                 {
                     this.LogByObject("开始清理播放项");
+                    var oldCid = _clipId;
                     _clipId = _clipId < _clipList.Count - 1 ? _clipId + 1 : 0;
-                    for (int i = 0; i < 10; i++)
+                    for (int i = 0; i < _clipList[oldCid].Count; i++)
                         sender.Items.RemoveAt(0);
 
                     _isPreLoadClip = false;
@@ -306,12 +330,12 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
                     currentId = args.NewItem != null ? sender.Items.IndexOf(args.NewItem) : 0;
                 }
 
-                if (!_isPreLoadClip && itemCount == 10 && currentId == 9)
+                if (!_isPreLoadClip && _clipList.Count >= 2 && currentId == itemCount - 1)
                 {
-                    this.LogByObject("开始预加载播放项数据");
                     var cid = _clipId < _clipList.Count - 1 ? _clipId + 1 : 0;
-                    foreach (var fileDto in _clipList[cid])
-                        sender.Items.Add(await fileDto.GetPlaybackItem());
+                    var clip = _clipList[cid];
+
+                    await AddRangeToPlaybackList(sender, clip);
 
                     _isPreLoadClip = true;
                     itemCount = sender.Items.Count;
@@ -339,7 +363,6 @@ namespace SimpleAudioBooksPlayer.ViewModels.DataServer
                 await _recordServer.SetRecord(_currentRecordDto);
             });
         }
-
         private async void App_Suspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
