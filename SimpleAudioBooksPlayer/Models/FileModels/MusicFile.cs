@@ -45,12 +45,9 @@ namespace SimpleAudioBooksPlayer.Models.FileModels
         [JsonProperty]
         public DateTime ModifyTime { get; }
 
-        public async Task<MediaPlaybackItem> GetPlaybackItem(Action<IFile> notFoundErrorCallback = null)
+        public async Task<MediaPlaybackItem> GetPlaybackItem()
         {
-            var file = await base.GetFileAsync(notFoundErrorCallback);
-            if (file == null)
-                return null;
-
+            var file = await base.GetFileAsync();
             MediaPlaybackItem item = null;
 
             _playbackItem?.TryGetTarget(out item);

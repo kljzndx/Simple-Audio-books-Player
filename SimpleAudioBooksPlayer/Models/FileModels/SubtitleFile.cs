@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HappyStudio.Parsing.Subtitle;
@@ -21,13 +20,9 @@ namespace SimpleAudioBooksPlayer.Models.FileModels
         {
         }
 
-        public async Task<List<ISubtitleLine>> GetSubtitleLines(Action<IFile> notFoundErrorCallback = null)
+        public async Task<List<ISubtitleLine>> GetSubtitleLines()
         {
-            var file = await base.GetFileAsync(notFoundErrorCallback);
-            if (file == null)
-                return null;
-
-            string content = await FileReader.ReadText(file, "GBK");
+            string content = await FileReader.ReadText(await base.GetFileAsync(), "GBK");
             var lineUiList = SubtitleParser.Parse(content).Lines.ToList();
 
             return lineUiList;

@@ -5,7 +5,6 @@ using Windows.Storage;
 using GalaSoft.MvvmLight;
 using Newtonsoft.Json;
 using SimpleAudioBooksPlayer.Models.DTO;
-using System.IO;
 
 namespace SimpleAudioBooksPlayer.Models.FileModels
 {
@@ -41,20 +40,7 @@ namespace SimpleAudioBooksPlayer.Models.FileModels
         public string FilePath => Group.FolderPath + '\\' + FileName;
         public string DisplayName { get; }
         
-        public async Task<StorageFile> GetFileAsync(Action<IFile> notFoundErrorCallback)
-        {
-            try
-            {
-                return await GetFileAsync(); 
-            }
-            catch (FileNotFoundException)
-            {
-                notFoundErrorCallback?.Invoke(this);
-                return null;
-            }
-        }
-
-        private async Task<StorageFile> GetFileAsync()
+        public async Task<StorageFile> GetFileAsync()
         {
             StorageFile file = null;
             _weakFile?.TryGetTarget(out file);
